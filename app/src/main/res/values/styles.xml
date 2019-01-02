@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -31,7 +31,9 @@
     <style name="base_textView_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+
     </style>
+
 
     <style name="base_imageView_style">
         <item name="android:layout_width">wrap_content</item>
@@ -84,7 +86,7 @@
         <item name="android:textColor">@color/grad</item>
         <item name="android:textSize">@dimen/textSize_14</item>
     </style>
-    
+
     <style name="me_common_item_relativeLayout_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">50dp</item>
@@ -92,7 +94,7 @@
         <item name="android:clickable">true</item>
         <item name="android:paddingLeft">15dp</item>
     </style>
-    
+
     <style name="me_common_item_icon_imageView_style">
         <item name="android:layout_width">20dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -123,7 +125,7 @@
         <item name="android:textColor">@color/gray01</item>
         <item name="android:textSize">@dimen/textSize_12</item>
     </style>
-    
+
     <style name="common_left_back_imageView_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
@@ -223,6 +225,7 @@
     <style name="more_common_item_textView_style" parent="me_common_item_title_textView_style">
         <item name="android:textSize">@dimen/textSize_16</item>
     </style>
+
     <style name="more_common_checkBox_style">
         <item name="android:layout_width">47dp</item>
         <item name="android:layout_height">23dp</item>
@@ -232,8 +235,9 @@
         <item name="android:layout_centerInParent">true</item>
         <item name="android:background">@drawable/btn_switch</item>
     </style>
+
     <style name="more_common_desc_textView_style" parent="base_textView_style">
-        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_alignParentEnd" tools:targetApi="jelly_bean_mr1">true</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_marginRight">10dp</item>
         <item name="android:textSize">@dimen/textSize_15</item>
@@ -245,6 +249,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:textColor">@color/app_yellow</item>
     </style>
+
     <style name="city_category_textView_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/city_item_height</item>

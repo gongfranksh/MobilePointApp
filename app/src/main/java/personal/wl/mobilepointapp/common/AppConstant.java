@@ -8,12 +8,12 @@ public class AppConstant {
     /**
      * SharePreference存储路径
      */
-    public static final String SHARE_PATH = "CoolShopping";
+    public static final String SHARE_PATH = "MobilePointApp";
 
     /**
      * 百度地图LBS云检索服务器端AK
      */
-    public static final String BAIDUMAP_LBS_AK = "FPnC7avbxkcMMyn2stBHvsPGHdh9pKYY";
+    public static final String BAIDUMAP_LBS_AK = "E84ymUzHfE4SK03DUfpDEPTS4t8tGPzh";
     /**
      * 云检索数据表ID
      */
