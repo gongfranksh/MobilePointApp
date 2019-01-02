@@ -21,7 +21,8 @@ public class AllCityDbHelper extends SQLiteOpenHelper {
 
     private static final String TAG = AllCityDbHelper.class.getSimpleName();
 
-    private static String DB_PATH = "/data/data/personal.wl.mobilepointapp/databases";
+//    private static String DB_PATH = "/data/data/personal.wl.mobilepointapp/databases/";
+    private  String DB_PATH ;
     private static String DB_NAME = "all_cities.db";
     private static int DB_VERSION = 3;
     private Context mContext;
@@ -29,6 +30,10 @@ public class AllCityDbHelper extends SQLiteOpenHelper {
     public AllCityDbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
         this.mContext = context;
+        DB_PATH=context.getApplicationContext().getDatabasePath(DB_NAME).getAbsolutePath();
+
+        String dd = context.getFilesDir().getPath();
+
     }
 
     public AllCityDbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version, DatabaseErrorHandler errorHandler) {
@@ -36,7 +41,8 @@ public class AllCityDbHelper extends SQLiteOpenHelper {
     }
 
     public AllCityDbHelper(Context context) {
-        this(context, DB_PATH+DB_NAME, null, DB_VERSION);
+        this(context,DB_NAME, null, DB_VERSION);
+//        super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
@@ -57,11 +63,11 @@ public class AllCityDbHelper extends SQLiteOpenHelper {
         boolean isExist = checkDataBase();
         if (!isExist) {
             Log.e(TAG, "createDataBase: 创建数据库" );
-            File dir = new File(DB_PATH);
+            File dir = new File(mContext.getDatabasePath(DB_NAME).getPath());
             if (!dir.exists()) {
                 dir.mkdirs();
             }
-            File dbFile = new File(DB_PATH + DB_NAME);
+            File dbFile = new File(mContext.getDatabasePath(DB_NAME).getPath());
             if (dbFile.exists()) {
                 dbFile.delete();
             }
@@ -76,7 +82,7 @@ public class AllCityDbHelper extends SQLiteOpenHelper {
      */
     public boolean checkDataBase() {
         SQLiteDatabase checkDB = null;
-        String dbPath = DB_PATH + DB_NAME;
+        String dbPath = mContext.getDatabasePath(DB_NAME).getPath();
         try {
             checkDB = SQLiteDatabase.openDatabase(dbPath,null,SQLiteDatabase.OPEN_READONLY);
         } catch (SQLiteException e) {
@@ -89,13 +95,10 @@ public class AllCityDbHelper extends SQLiteOpenHelper {
         return checkDB!=null ? true : false;
     }
 
-    /**
-     * 复制数据库到/data/data/com.myxh.coolshopping/databases/
-     * @throws IOException
-     */
+
     private void copyDataBase() throws IOException {
         InputStream inputStream = mContext.getAssets().open("cities.db");
-        String filename = DB_PATH + DB_NAME;
+        String filename =  mContext.getDatabasePath(DB_NAME).getPath() ;
         OutputStream outputStream = new FileOutputStream(filename);
         byte[] buffer = new byte[1024];
         int length;

@@ -18,6 +18,8 @@
         android:background="@drawable/guide_btn_start_selector"
         android:textColor="@android:color/white"
         android:layout_gravity="bottom|center"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:paddingLeft="@dimen/guide_btn_paddingLeft"
+        android:paddingRight="@dimen/guide_btn_paddingRight" />
 
 </FrameLayout>

@@ -91,8 +91,22 @@ public class LocationActivity extends BaseActivity implements CloudListener {
         mLocationClient.registerLocationListener(mLocationListener);
         LocationClientOption option = new LocationClientOption();
         option.setOpenGps(true);//打开GPS
-        option.setCoorType("bd0911");//设置坐标类型
+        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+        option.setCoorType("bd09ll");
         option.setScanSpan(1000);
+        option.setIsNeedAddress(true);
+        option.setLocationNotify(true);
+        //可选，默认false，设置是否当GPS有效时按照1S/1次频率输出GPS结果
+        option.setIsNeedLocationDescribe(true);
+        //可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
+        option.setIsNeedLocationPoiList(true);
+        //可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
+        option.setIgnoreKillProcess(false);
+        //可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
+        option.SetIgnoreCacheException(false);
+        //可选，默认false，设置是否收集CRASH信息，默认收集
+        option.setEnableSimulateGps(false);
+        //可选，默认false，设置是否需要过滤GPS仿真结果，默认需要
         mLocationClient.setLocOption(option);
         mLocationClient.start();
     }
@@ -155,6 +169,17 @@ public class LocationActivity extends BaseActivity implements CloudListener {
                 mBaiduMap.setMapStatus(statusUpdate);
                 mBaiduMap.animateMapStatus(statusUpdate);
             }
+
+            Log.d(TAG, "SUCCESS: ");
+            Log.i(TAG, "城市代码--->" +
+                    bdLocation.getCityCode() + "\t经度--->" +
+                    bdLocation.getLatitude() + "\t纬度-->" +
+                    bdLocation.getLongitude() + "\t使用的定位类型-->" +
+                    bdLocation.getCoorType() + "\t国家-->" +
+                    bdLocation.getCountry() + "\t城市-->" +
+                    bdLocation.getCity() + "\t地址-->" +
+                    bdLocation.getAddrStr());
+
         }
 
         public void onReceivePoi(BDLocation poiLocation) {

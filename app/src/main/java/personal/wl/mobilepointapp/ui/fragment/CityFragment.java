@@ -19,7 +19,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,6 +27,7 @@ import java.util.List;
 
 import personal.wl.mobilepointapp.R;
 import personal.wl.mobilepointapp.common.AppConstant;
+import personal.wl.mobilepointapp.common.LocationService;
 import personal.wl.mobilepointapp.dao.AllCityDbHelper;
 import personal.wl.mobilepointapp.dao.CityDbHelper;
 import personal.wl.mobilepointapp.model.City;
@@ -95,7 +95,7 @@ public class CityFragment extends BaseFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.toString()==null || "".equals(s.toString().trim())) {
+                if (s.toString() == null || "".equals(s.toString().trim())) {
                     mSidebar.setVisibility(View.VISIBLE);
                     mRvCityList.setVisibility(View.VISIBLE);
                     mRvSearchResult.setVisibility(View.GONE);
@@ -131,8 +131,8 @@ public class CityFragment extends BaseFragment {
                 insertCity(cityName);
                 ((CityActivity) getActivity()).setTitle(cityName);
                 Intent data = new Intent();
-                data.putExtra(AppConstant.KEY_CITY,cityName);
-                getActivity().setResult(CityActivity.CITY_RESULT_CODE,data);
+                data.putExtra(AppConstant.KEY_CITY, cityName);
+                getActivity().setResult(CityActivity.CITY_RESULT_CODE, data);
                 getActivity().finish();
             }
         });
@@ -153,11 +153,11 @@ public class CityFragment extends BaseFragment {
 
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRvCityList.setLayoutManager(mLinearLayoutManager);
-        mCityListAdapter = new CityListAdapter(getActivity(),recentCityData,hotCityData,allCityData);
+        mCityListAdapter = new CityListAdapter(getActivity(), recentCityData, hotCityData, allCityData);
         mRvCityList.setAdapter(mCityListAdapter);
 
         mRvSearchResult.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mCityResultAdapter = new CityResultAdapter(getActivity(),searchCityData);
+        mCityResultAdapter = new CityResultAdapter(getActivity(), searchCityData);
         mRvSearchResult.setAdapter(mCityResultAdapter);
     }
 
@@ -171,11 +171,14 @@ public class CityFragment extends BaseFragment {
         mContentLayout = (RelativeLayout) view.findViewById(R.id.city_fra_content_layout);
 
         mSidebar.setShowText(mTvShow);
+//add by weiliang
+//        Intent local = new Intent(getActivity(), LocationService.class);
+//        getActivity().startService(local);
     }
 
     private void initRecentCityData() {
         SQLiteDatabase recentDb = mCityDbHelper.getReadableDatabase();
-        Cursor cursor = recentDb.rawQuery("select * from recentcity order by date desc limit 0, 4",null);
+        Cursor cursor = recentDb.rawQuery("select * from recentcity order by date desc limit 0, 4", null);
         while (cursor.moveToNext()) {
             String recentCityName = cursor.getString(cursor.getColumnIndex("name"));
             recentCityData.add(recentCityName);
@@ -194,7 +197,7 @@ public class CityFragment extends BaseFragment {
     private void initAllCityData() {
         String[] categories = getResources().getStringArray(R.array.city_categories);
         for (int i = 0; i < categories.length; i++) {
-            City city = new City(categories[i],i+"");
+            City city = new City(categories[i], i + "");
             allCityData.add(city);
         }
 
@@ -203,6 +206,7 @@ public class CityFragment extends BaseFragment {
 
     /**
      * 获取所有城市列表
+     *
      * @return
      */
     private ArrayList<City> getCityList() {
@@ -213,12 +217,12 @@ public class CityFragment extends BaseFragment {
         try {
             allCityDbHelper.createDataBase();
             database = allCityDbHelper.getWritableDatabase();
-            cursor = database.rawQuery("select * from city",null);
+            cursor = database.rawQuery("select * from city", null);
 
             while (cursor.moveToNext()) {
                 String cityName = cursor.getString(cursor.getColumnIndex("name"));
                 String cityPinyin = cursor.getString(cursor.getColumnIndex("pinyin"));
-                City city = new City(cityName,cityPinyin);
+                City city = new City(cityName, cityPinyin);
                 cityList.add(city);
             }
 
@@ -232,13 +236,14 @@ public class CityFragment extends BaseFragment {
                 database.close();
             }
         }
-        Collections.sort(cityList,mComparator);
+        Collections.sort(cityList, mComparator);
         return cityList;
     }
 
 
     /**
      * 插入最近浏览城市
+     *
      * @param name
      */
     private void insertCity(String name) {
@@ -246,7 +251,7 @@ public class CityFragment extends BaseFragment {
         Cursor cursor = database.rawQuery("select * from recentcity where name = '"
                 + name + "'", null);
         if (cursor.getCount() > 0) {
-            database.delete("recentcity","name = ?",new String[]{name});
+            database.delete("recentcity", "name = ?", new String[]{name});
         }
         database.execSQL("insert into recentcity(name, date) values('" + name + "', "
                 + System.currentTimeMillis() + ")");
@@ -255,6 +260,7 @@ public class CityFragment extends BaseFragment {
 
     /**
      * 查询结果列表
+     *
      * @param keyword
      */
     private void getResultCityList(String keyword) {
@@ -268,30 +274,31 @@ public class CityFragment extends BaseFragment {
             while (cursor.moveToNext()) {
                 String cityName = cursor.getString(cursor.getColumnIndex("name"));
                 String cityPinyin = cursor.getString(cursor.getColumnIndex("pinyin"));
-                city = new City(cityName,cityPinyin);
+                city = new City(cityName, cityPinyin);
                 searchCityData.add(city);
-                Log.i(TAG, "getResultCityList: "+cityName);
+                Log.i(TAG, "getResultCityList: " + cityName);
             }
             cursor.close();
             database.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Collections.sort(searchCityData,mComparator);
+        Collections.sort(searchCityData, mComparator);
     }
 
 
     Comparator<City> mComparator = new Comparator<City>() {
         @Override
         public int compare(City o1, City o2) {
-            String str1 = o1.getPinyin().substring(0,1);
-            String str2 = o2.getPinyin().substring(0,1);
+            String str1 = o1.getPinyin().substring(0, 1);
+            String str2 = o2.getPinyin().substring(0, 1);
             return str1.compareTo(str2);
         }
-    } ;
+    };
 
     /**
      * 滑动到指定位置
+     *
      * @param n
      */
     private void move(int n) {
@@ -302,20 +309,21 @@ public class CityFragment extends BaseFragment {
 
     /**
      * RecycleView滑动到指定位置
+     *
      * @param n
      */
     private void moveToPosition(int n) {
 
         int firstItem = mLinearLayoutManager.findFirstVisibleItemPosition();
         int lastItem = mLinearLayoutManager.findLastVisibleItemPosition();
-        if (n <= firstItem ){
+        if (n <= firstItem) {
             //当要置顶的项在当前显示的第一个项的前面时
             mRvCityList.scrollToPosition(n);
-        }else if ( n <= lastItem ){
+        } else if (n <= lastItem) {
             //当要置顶的项已经在屏幕上显示时
             int top = mRvCityList.getChildAt(n - firstItem).getTop();
             mRvCityList.scrollBy(0, top);
-        }else{
+        } else {
             //当要置顶的项在当前显示的最后一项的后面时
             mRvCityList.scrollToPosition(n);
             isMove = true;
@@ -335,7 +343,7 @@ public class CityFragment extends BaseFragment {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
-            if (isMove && newState==RecyclerView.SCROLL_STATE_IDLE) {
+            if (isMove && newState == RecyclerView.SCROLL_STATE_IDLE) {
                 isMove = false;
 
             }
@@ -345,11 +353,11 @@ public class CityFragment extends BaseFragment {
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
             //第二次滚动
-            if (isMove ){
+            if (isMove) {
                 isMove = false;
                 //获取要置顶的项在当前屏幕的位置，mIndex是记录的要置顶项在RecyclerView中的位置
                 int n = mIndex - mLinearLayoutManager.findFirstVisibleItemPosition();
-                if ( 0 <= n && n < mRvCityList.getChildCount()){
+                if (0 <= n && n < mRvCityList.getChildCount()) {
                     //获取要置顶的项顶部离RecyclerView顶部的距离
                     int top = mRvCityList.getChildAt(n).getTop();
                     //最后的移动

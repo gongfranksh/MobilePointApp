@@ -266,6 +266,7 @@ public class HomeFragment extends BaseFragment implements HttpListener<String> {
         String[] permissions = new String[]{Manifest.permission.CAMERA,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.VIBRATE,
                 Manifest.permission.INTERNET};
         int mRequestCode = 100;
         List<String> mPermissionList = new ArrayList<>();

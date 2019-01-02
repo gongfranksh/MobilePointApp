@@ -73,6 +73,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
+    <!--震动的权限-->
+    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
 
     <application
         android:name=".common.MobilePointApplication"
@@ -89,7 +91,39 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".ui.activity.GuideActivity"/>
+        <activity android:name=".ui.activity.LocationActivity">
+        </activity>
+        <activity android:name=".ui.activity.DetailActivity">
+        </activity>
+        <activity android:name=".ui.activity.ImageGalleryActivity">
+        </activity>
+        <activity android:name=".ui.activity.LoginActivity">
+        </activity>
+        <activity android:name=".ui.activity.RegisterActivity">
+        </activity>
+        <activity android:name=".ui.activity.CollectActivity">
+        </activity>
+        <activity android:name=".ui.activity.UserProfileActivity">
+        </activity>
+        <activity android:name=".ui.activity.CartActivity">
+        </activity>
+        <activity android:name=".ui.activity.HistoryActivity">
+        </activity>
+        <activity android:name=".ui.activity.UnpaidActivity">
+        </activity>
+        <activity android:name=".ui.activity.PaidActivity">
+        </activity>
+        <activity android:name=".ui.activity.LotteryActivity">
+        </activity>
+        <activity android:name=".ui.activity.TreasureActivity">
+        </activity>
+        <activity android:name=".ui.activity.CouponsActivity">
+        </activity>
+        <activity android:name=".ui.activity.CityActivity">
+        </activity>
+        <activity android:name=".ui.activity.MessageActivity">
+        </activity>
 
 
         <!-- 百度地图 开始 -->
@@ -103,6 +137,12 @@
             android:process=":remote">
         </service>
         <!-- 百度地图 结束 -->
+
+        <service
+            android:name=".common.LocationService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
     </application>
 
 </manifest>

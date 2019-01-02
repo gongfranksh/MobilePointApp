@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -13,10 +14,12 @@ import com.baidu.location.LocationClientOption;
 public class LocationService extends Service {
     private LocationClient mClient;
     private LocationClientOption mClientOpt;
+    private final static String  TAG="LocationService";
 
     @Override
     public void onCreate() {
         mClient = new LocationClient(getApplicationContext());
+        Log.i(TAG, "LocationService===>>>onCreate: ");
         initLocation();
         mClient.registerLocationListener(new BDLocationListener() {
             @Override
@@ -43,6 +46,7 @@ public class LocationService extends Service {
     }
 
     private void initLocation() {
+        Log.i(TAG, "LocationService===>>>initLocation: ");
         mClientOpt = new LocationClientOption();
         mClientOpt.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);//高精度
         mClientOpt.setCoorType("bd09ll");//设置返回的定位结果坐标系

@@ -27,6 +27,7 @@ import java.util.Map;
 
 import personal.wl.mobilepointapp.R;
 import personal.wl.mobilepointapp.network.HttpListener;
+import personal.wl.mobilepointapp.ui.activity.LocationActivity;
 import personal.wl.mobilepointapp.ui.base.BaseFragment;
 
 /**
@@ -60,13 +61,13 @@ public class AroundFragment extends BaseFragment implements HttpListener<String>
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        View view = inflater.inflate(R.layout.fragment_around, null);
-//
-//        initData();
-//        initView(view);
-//        initPopMenu();
-//        return view;
-        return null;
+        View view = inflater.inflate(R.layout.fragment_around, null);
+
+        initData();
+        initView(view);
+        initPopMenu();
+        return view;
+
     }
 
     private void initData() {
@@ -104,33 +105,33 @@ public class AroundFragment extends BaseFragment implements HttpListener<String>
     }
 
     private void initView(View view) {
-//        mToolbar = (Toolbar) view.findViewById(R.id.around_toolbar);
-//        mToolbar.inflateMenu(R.menu.around_title_menu);
-//        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-//                switch (item.getItemId()) {
-//                    case R.id.around_toolbar_menu_map:
-//                        openActivity(LocationActivity.class);
-//                        break;
-//                }
-//                return true;
-//            }
-//        });
-//
-//        mSupplierListTitleTv = (TextView) view.findViewById(R.id.around_supplier_list_title_tv);
-//        mSupplierListCartIv = (ImageView) view.findViewById(R.id.around_supplier_list_cart_iv);
-//        mTitleBarLayout = (FrameLayout) view.findViewById(R.id.around_titleBar_layout);
-//        mSupplierListTvProduct = (TextView) view.findViewById(R.id.around_supplier_list_tv_product);
-//        mSupplierListTvSort = (TextView) view.findViewById(R.id.around_supplier_list_tv_sort);
-//        mSupplierListTvActivity = (TextView) view.findViewById(R.id.around_supplier_list_tv_activity);
-//        mSupplierListProduct = (LinearLayout) view.findViewById(R.id.around_supplier_list_product);
-//        mSupplierListProduct.setOnClickListener(this);
-//        mSupplierListSort = (LinearLayout) view.findViewById(R.id.around_supplier_list_sort);
-//        mSupplierListSort.setOnClickListener(this);
-//        mSupplierListActivity = (LinearLayout) view.findViewById(R.id.around_supplier_list_activity);
-//        mSupplierListActivity.setOnClickListener(this);
-//        mListView = (ListView) view.findViewById(R.id.around_listView);
+        mToolbar = (Toolbar) view.findViewById(R.id.around_toolbar);
+        mToolbar.inflateMenu(R.menu.around_title_menu);
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.around_toolbar_menu_map:
+                        openActivity(LocationActivity.class);
+                        break;
+                }
+                return true;
+            }
+        });
+
+        mSupplierListTitleTv = (TextView) view.findViewById(R.id.around_supplier_list_title_tv);
+        mSupplierListCartIv = (ImageView) view.findViewById(R.id.around_supplier_list_cart_iv);
+        mTitleBarLayout = (FrameLayout) view.findViewById(R.id.around_titleBar_layout);
+        mSupplierListTvProduct = (TextView) view.findViewById(R.id.around_supplier_list_tv_product);
+        mSupplierListTvSort = (TextView) view.findViewById(R.id.around_supplier_list_tv_sort);
+        mSupplierListTvActivity = (TextView) view.findViewById(R.id.around_supplier_list_tv_activity);
+        mSupplierListProduct = (LinearLayout) view.findViewById(R.id.around_supplier_list_product);
+        mSupplierListProduct.setOnClickListener(this);
+        mSupplierListSort = (LinearLayout) view.findViewById(R.id.around_supplier_list_sort);
+        mSupplierListSort.setOnClickListener(this);
+        mSupplierListActivity = (LinearLayout) view.findViewById(R.id.around_supplier_list_activity);
+        mSupplierListActivity.setOnClickListener(this);
+        mListView = (ListView) view.findViewById(R.id.around_listView);
     }
 
     private void initPopMenu() {
@@ -157,58 +158,58 @@ public class AroundFragment extends BaseFragment implements HttpListener<String>
             }
         });
 
-//        mMenuAdapter1 = new SimpleAdapter(getActivity(), mMenuData1, R.layout.item_popwin_list,
-//                new String[]{"name"}, new int[]{R.id.item_popwin_tv});
-//        mMenuAdapter2 = new SimpleAdapter(getActivity(), mMenuData2, R.layout.item_popwin_list,
-//                new String[]{"name"}, new int[]{R.id.item_popwin_tv});
-//        mMenuAdapter3 = new SimpleAdapter(getActivity(), mMenuData3, R.layout.item_popwin_list,
-//                new String[]{"name"}, new int[]{R.id.item_popwin_tv});
-//        mPopListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                switch (supplierMenuIndex) {
-//                    case 0:
-//                        mSupplierListTvProduct.setText(mMenuData1.get(i).get(MENU_DATA_KEY));
-//                        mPopupWindow.dismiss();
-//                        break;
-//                    case 1:
-//                        mSupplierListTvSort.setText(mMenuData2.get(i).get(MENU_DATA_KEY));
-//                        mPopupWindow.dismiss();
-//                        break;
-//                    case 2:
-//                        mSupplierListTvActivity.setText(mMenuData3.get(i).get(MENU_DATA_KEY));
-//                        mPopupWindow.dismiss();
-//                        break;
-//                    default:
-//                        break;
-//                }
-//            }
-//        });
+        mMenuAdapter1 = new SimpleAdapter(getActivity(), mMenuData1, R.layout.item_popwin_list,
+                new String[]{"name"}, new int[]{R.id.item_popwin_tv});
+        mMenuAdapter2 = new SimpleAdapter(getActivity(), mMenuData2, R.layout.item_popwin_list,
+                new String[]{"name"}, new int[]{R.id.item_popwin_tv});
+        mMenuAdapter3 = new SimpleAdapter(getActivity(), mMenuData3, R.layout.item_popwin_list,
+                new String[]{"name"}, new int[]{R.id.item_popwin_tv});
+        mPopListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (supplierMenuIndex) {
+                    case 0:
+                        mSupplierListTvProduct.setText(mMenuData1.get(i).get(MENU_DATA_KEY));
+                        mPopupWindow.dismiss();
+                        break;
+                    case 1:
+                        mSupplierListTvSort.setText(mMenuData2.get(i).get(MENU_DATA_KEY));
+                        mPopupWindow.dismiss();
+                        break;
+                    case 2:
+                        mSupplierListTvActivity.setText(mMenuData3.get(i).get(MENU_DATA_KEY));
+                        mPopupWindow.dismiss();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
 
     @Override
     public void onClick(View view) {
-//        switch (view.getId()) {
-//            case R.id.around_supplier_list_product:
-//                mSupplierListTvProduct.setTextColor(getResources().getColor(R.color.around_supplier_title_selected_color));
-//                mPopListView.setAdapter(mMenuAdapter1);
-//                mPopupWindow.showAsDropDown(mSupplierListProduct, 0, 2);
-//                supplierMenuIndex = 0;
-//                break;
-//            case R.id.around_supplier_list_sort:
-//                mSupplierListTvSort.setTextColor(getResources().getColor(R.color.around_supplier_title_selected_color));
-//                mPopListView.setAdapter(mMenuAdapter2);
-//                mPopupWindow.showAsDropDown(mSupplierListSort, 0, 2);
-//                supplierMenuIndex = 1;
-//                break;
-//            case R.id.around_supplier_list_activity:
-//                mSupplierListTvActivity.setTextColor(getResources().getColor(R.color.around_supplier_title_selected_color));
-//                mPopListView.setAdapter(mMenuAdapter3);
-//                mPopupWindow.showAsDropDown(mSupplierListActivity, 0, 2);
-//                supplierMenuIndex = 2;
-//                break;
-//            default:
-//                break;
-//        }
+        switch (view.getId()) {
+            case R.id.around_supplier_list_product:
+                mSupplierListTvProduct.setTextColor(getResources().getColor(R.color.around_supplier_title_selected_color));
+                mPopListView.setAdapter(mMenuAdapter1);
+                mPopupWindow.showAsDropDown(mSupplierListProduct, 0, 2);
+                supplierMenuIndex = 0;
+                break;
+            case R.id.around_supplier_list_sort:
+                mSupplierListTvSort.setTextColor(getResources().getColor(R.color.around_supplier_title_selected_color));
+                mPopListView.setAdapter(mMenuAdapter2);
+                mPopupWindow.showAsDropDown(mSupplierListSort, 0, 2);
+                supplierMenuIndex = 1;
+                break;
+            case R.id.around_supplier_list_activity:
+                mSupplierListTvActivity.setTextColor(getResources().getColor(R.color.around_supplier_title_selected_color));
+                mPopListView.setAdapter(mMenuAdapter3);
+                mPopupWindow.showAsDropDown(mSupplierListActivity, 0, 2);
+                supplierMenuIndex = 2;
+                break;
+            default:
+                break;
+        }
     }
 }

@@ -8,6 +8,7 @@ import android.os.Environment;
 
 import com.alipay.euler.andfix.patch.PatchManager;
 import com.baidu.location.BDLocation;
+import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.uuzuche.lib_zxing.ZApplication;
@@ -45,6 +46,7 @@ public class MobilePointApplication extends ZApplication {
         Fresco.initialize(this);
         //百度地图初始化
         SDKInitializer.initialize(this);
+        SDKInitializer.setCoordType(CoordType.BD09LL);
         //Bmob初始化
         Bmob.initialize(this, AppConstant.BMOB_AppID);
         //热更新

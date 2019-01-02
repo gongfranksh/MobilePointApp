@@ -1,16 +1,24 @@
 package personal.wl.mobilepointapp.ui.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import personal.wl.mobilepointapp.R;
 import personal.wl.mobilepointapp.common.AppConstant;
+import personal.wl.mobilepointapp.common.LocationService;
 import personal.wl.mobilepointapp.ui.base.BaseActivity;
 import personal.wl.mobilepointapp.ui.fragment.CityFragment;
 
@@ -29,6 +37,13 @@ public class CityActivity extends BaseActivity {
     private FrameLayout mContentLayout;
     private TextView mErrorTv;
     private LinearLayout mErrorLayout;
+//    private Intent local;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        stopService(local);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,7 +73,17 @@ public class CityActivity extends BaseActivity {
             }
         });
         mErrorLayout.setVisibility(View.GONE);
+
+
+//
+//        checkpermission();
+//        local= new Intent(this,LocationService.class);
+//        startService(local);
+
     }
+
+    //--add by weiliang-gong
+
 
     public void setTitle(String cityName) {
         mTitleBarTvTitle.setText(getString(R.string.current_city)+"-"+cityName);

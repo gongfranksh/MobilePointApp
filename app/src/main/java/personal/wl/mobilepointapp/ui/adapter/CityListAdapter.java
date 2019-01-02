@@ -1,6 +1,7 @@
 package personal.wl.mobilepointapp.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import personal.wl.mobilepointapp.R;
+import personal.wl.mobilepointapp.common.LocationService;
 import personal.wl.mobilepointapp.common.MobilePointApplication;
 import personal.wl.mobilepointapp.model.City;
 import personal.wl.mobilepointapp.ui.widget.NoScrollGridView;
@@ -103,6 +105,8 @@ public class CityListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         switch (holder.getItemViewType()) {
             case 0:
                 ItemLocationCityHolder locationCityHolder = (ItemLocationCityHolder) holder;
+
+
                 final List<BDLocation> locations = MobilePointApplication.getAppContext().getLocations();
                 if (locations == null || locations.size() <= 0) {
 //                }
