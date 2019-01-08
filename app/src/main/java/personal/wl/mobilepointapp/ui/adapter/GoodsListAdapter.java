@@ -75,26 +75,26 @@ public class GoodsListAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.goodPhoto.setImageURI(Uri.parse(mGoodlist.get(i).getImages().get(0).getImage()));
+//        holder.goodPhoto.setImageURI(Uri.parse(mGoodlist.get(i).getImages().get(0).getImage()));
         holder.goodIcon.setVisibility(View.VISIBLE);
-        if (mGoodlist.get(i).getIs_appointment() == 1) {
-            holder.goodAppointmentImg.setVisibility(View.VISIBLE);
-        } else {
-            holder.goodAppointmentImg.setVisibility(View.GONE);
-        }
+//        if (mGoodlist.get(i).getIs_appointment() == 1) {
+//            holder.goodAppointmentImg.setVisibility(View.VISIBLE);
+//        } else {
+//            holder.goodAppointmentImg.setVisibility(View.GONE);
+//        }
         holder.goodLoading.setVisibility(View.GONE);
-        holder.goodDistance.setText(mGoodlist.get(i).getDistance());
-        holder.goodTitle.setText(mGoodlist.get(i).getProduct());
-        if (mGoodlist.get(i).getIs_new().equals("0")) {
-            holder.goodFreshOrderLayout.setVisibility(View.GONE);
-        } else {
-            holder.goodFreshOrderLayout.setVisibility(View.VISIBLE);
-        }
-        holder.goodDescription.setText(mGoodlist.get(i).getTitle());
+//        holder.goodDistance.setText(mGoodlist.get(i).getDistance());
+//        holder.goodTitle.setText(mGoodlist.get(i).getProduct());
+//        if (mGoodlist.get(i).getIs_new().equals("0")) {
+//            holder.goodFreshOrderLayout.setVisibility(View.GONE);
+//        } else {
+//            holder.goodFreshOrderLayout.setVisibility(View.VISIBLE);
+//        }
+//        holder.goodDescription.setText(mGoodlist.get(i).getTitle());
         holder.goodCommentScore.setVisibility(View.GONE);
-        holder.goodPrice.setText(mGoodlist.get(i).getPrice());
-        holder.goodValue.setText(mGoodlist.get(i).getValue());
-        holder.goodCount.setText("已售"+mGoodlist.get(i).getBought()+"份");
+//        holder.goodPrice.setText(mGoodlist.get(i).getPrice());
+//        holder.goodValue.setText(mGoodlist.get(i).getValue());
+//        holder.goodCount.setText("已售"+mGoodlist.get(i).getBought()+"份");
 //        holder.goodArea.setText();
         return convertView;
     }

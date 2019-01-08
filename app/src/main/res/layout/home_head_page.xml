@@ -6,9 +6,9 @@
               android:layout_height="match_parent"
               android:paddingBottom="@dimen/head_page_paddingTB">
 
-    <include
-        android:id="@+id/home_head_include_banner"
-        layout="@layout/home_banner"/>
+    <!--<include-->
+        <!--android:id="@+id/home_head_include_banner"-->
+        <!--layout="@layout/home_banner"/>-->
 
     <RelativeLayout
         android:layout_width="match_parent"

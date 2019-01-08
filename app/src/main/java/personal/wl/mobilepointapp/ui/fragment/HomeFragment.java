@@ -3,6 +3,7 @@ package personal.wl.mobilepointapp.ui.fragment;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -22,10 +23,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 
+import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
@@ -35,6 +38,17 @@ import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.Response;
 
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +71,8 @@ import personal.wl.mobilepointapp.ui.adapter.ViewPageAdapter;
 import personal.wl.mobilepointapp.ui.base.BaseFragment;
 import personal.wl.mobilepointapp.ui.widget.Indicator;
 import personal.wl.mobilepointapp.utils.ToastUtil;
+
+import static android.icu.lang.UScript.getCode;
 
 /**
  * Created by asus on 2016/8/27.
@@ -104,7 +120,9 @@ public class HomeFragment extends BaseFragment implements HttpListener<String> {
             mView = inflater.inflate(R.layout.fragment_home, null);
             initData();
             initViews(mView);
-            antoScroll();
+            //自动滚动播放关闭
+//            antoScroll();
+
         }
         return mView;
     }
@@ -143,26 +161,28 @@ public class HomeFragment extends BaseFragment implements HttpListener<String> {
         View titleView = view.findViewById(R.id.home_titlebar);
         initTitlebar(titleView);
         mRefreshListView = (PullToRefreshListView) view.findViewById(R.id.home_pull_to_refresh_listView);
-        tv_input_barcode= (TextView) view.findViewById(R.id.text_input_barcode);
+        tv_input_barcode = (TextView) view.findViewById(R.id.text_input_barcode);
 
 
         //header头部
         View headView = LayoutInflater.from(getActivity()).inflate(R.layout.home_head_page, null);
         //banner
-        View bannerView = headView.findViewById(R.id.home_head_include_banner);
-        bannerPager = (ViewPager) bannerView.findViewById(R.id.home_banner_pager);
-        bannerIndicator = (Indicator) bannerView.findViewById(R.id.home_banner_indicator);
-        bannerPager.setAdapter(new BannerPagerAdapter(getChildFragmentManager(), imgRes));
-        bannerPager.addOnPageChangeListener(new ViewPagerListener(bannerIndicator));
+//        View bannerView = headView.findViewById(R.id.home_head_include_banner);
+//        bannerPager = (ViewPager) bannerView.findViewById(R.id.home_banner_pager);
+//        bannerIndicator = (Indicator) bannerView.findViewById(R.id.home_banner_indicator);
+//        bannerPager.setAdapter(new BannerPagerAdapter(getChildFragmentManager(), imgRes));
+//        bannerPager.addOnPageChangeListener(new ViewPagerListener(bannerIndicator));
+
         ViewPager headPager = (ViewPager) headView.findViewById(R.id.home_head_pager);
         Indicator headIndicator = (Indicator) headView.findViewById(R.id.home_head_indicator);
-        //第一页
+//        //第一页
         View pageOne = LayoutInflater.from(getActivity()).inflate(R.layout.home_gridview, null);
         GridView gridView1 = (GridView) pageOne.findViewById(R.id.home_gridView);
         gridView1.setAdapter(new GridAdapter(getActivity(), pageOneData));
         gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ToastUtil.show(getActivity(), "page one" + String.valueOf(i));
 
             }
         });
@@ -173,6 +193,7 @@ public class HomeFragment extends BaseFragment implements HttpListener<String> {
         gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ToastUtil.show(getActivity(), "page two" + String.valueOf(i));
 
             }
         });
@@ -180,6 +201,7 @@ public class HomeFragment extends BaseFragment implements HttpListener<String> {
         mViewList.add(pageTwo);
         headPager.setAdapter(new ViewPageAdapter(mViewList));
         headPager.addOnPageChangeListener(new ViewPagerListener(headIndicator));
+
         //热门电影
         View filmView = headView.findViewById(R.id.home_head_include_film);
         mFilmLayout = (LinearLayout) filmView.findViewById(R.id.home_film_ll);
@@ -194,6 +216,7 @@ public class HomeFragment extends BaseFragment implements HttpListener<String> {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
                 Bundle bundle = new Bundle();
                 bundle.putString(GOODS_ID, mGoodlist.get(i - 2).getGoods_id());
                 bundle.putString(GOODS_SEVEN_REFUND, mGoodlist.get(i - 2).getSeven_refund());
@@ -237,10 +260,6 @@ public class HomeFragment extends BaseFragment implements HttpListener<String> {
 
                 choseHeadImageFromCameraCapture();
                 Intent intent = new Intent(getActivity(), CaptureActivity.class);
-                //modify by weiliang
-//                getActivity().startActivityForResult(intent, SCAN_QR_REQUEST);
-                //----
-
                 startActivityForResult(intent, SCAN_QR_REQUEST);
             }
         });
@@ -321,6 +340,8 @@ public class HomeFragment extends BaseFragment implements HttpListener<String> {
 
     @Override
     public void onSucceed(int what, Response<String> response) {
+        String jsonstr;
+        JSONArray jsobj;
         if (isRefreshing) {
             mRefreshListView.onRefreshComplete();
             isRefreshing = false;
@@ -328,19 +349,44 @@ public class HomeFragment extends BaseFragment implements HttpListener<String> {
         switch (what) {
             case GOOD_REQUEST:
                 Gson gson = new Gson();
-                GoodsInfo goodsInfo = gson.fromJson(response.get(), GoodsInfo.class);
+                jsonstr = response.get();
+                List<GoodsInfo.ResultBean.GoodlistBean> goodlistBeen;
+                goodlistBeen = gson.fromJson(jsonstr, new TypeToken<List<GoodsInfo.ResultBean>>(){}.getType());
+
+//                JSONArray jsobj = new JSONArray(goodlist);
+                try {
+                    jsobj = new JSONArray(jsonstr);
+                    Log.i(TAG,jsobj.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+//                GoodsInfo goodsInfo = gson.fromJson(response.get(), GoodsInfo.class);
 //                List<GoodsInfo.ResultBean.GoodlistBean> goodlistBeen = goodsInfo.getResult().getGoodlist();
+
                 mGoodlist.clear();
-//                mGoodlist.addAll(goodlistBeen);
-//                mGoodsListAdapter.notifyDataSetChanged();
+                mGoodlist.addAll(goodlistBeen);
+                mGoodsListAdapter.notifyDataSetChanged();
                 break;
             case FILM_REQUEST:
                 Gson filmGson = new Gson();
-                FilmInfo filmInfo = filmGson.fromJson(response.get(), FilmInfo.class);
+                jsonstr = response.get();
+                List<FilmInfo.ResultBean> filmList = null;
+                try {
+                    jsobj = new JSONArray(jsonstr);
+                    Log.i(TAG,jsobj.toString());
+                    filmList = filmGson.fromJson(jsonstr, new TypeToken<List<FilmInfo.ResultBean>>(){}.getType());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+//                FilmInfo filmInfo = filmGson.fromJson(response.get(), FilmInfo.class);
 //                List<FilmInfo.ResultBean> filmList = filmInfo.getResult();
                 mFilmList.clear();
-//                mFilmList.addAll(filmList);
-//                mFilmLayout.removeAllViews();
+                mFilmList.addAll(filmList);
+                mFilmLayout.removeAllViews();
 
                 for (int i = 0; i < mFilmList.size(); i++) {
                     View filmItemView = LayoutInflater.from(getActivity()).inflate(R.layout.item_film, null);
