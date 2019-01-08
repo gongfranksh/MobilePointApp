@@ -11,7 +11,7 @@ import java.sql.*;
     */ 
 
 
-public class Sale_paymode{
+public class SalePaymode {
 	private String BraId;
 	private Date SaleDate;
 	private String SaleId;

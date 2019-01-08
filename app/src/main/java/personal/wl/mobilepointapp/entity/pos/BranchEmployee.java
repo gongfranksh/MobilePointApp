@@ -11,7 +11,7 @@ import java.sql.*;
     */ 
 
 
-public class Branch_employee{
+public class BranchEmployee {
 	private String BraId;
 	private String EmpId;
 	private String EmpName;

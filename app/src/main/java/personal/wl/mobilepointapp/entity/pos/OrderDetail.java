@@ -11,7 +11,7 @@ import java.util.Date;
     */ 
 
 
-public class Order_detail{
+public class OrderDetail {
 	private String OrderId;
 	private String ProId;
 	private String Barcode;

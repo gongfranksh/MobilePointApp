@@ -11,7 +11,7 @@ import java.sql.*;
     */ 
 
 
-public class Order_head{
+public class OrderHead {
 	private String OrderId;
 	private Date InputDate;
 	private String BraId;

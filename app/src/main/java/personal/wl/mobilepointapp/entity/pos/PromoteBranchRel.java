@@ -10,7 +10,7 @@ import java.sql.*;
     */ 
 
 
-public class Promote_branch_rel{
+public class PromoteBranchRel {
 	private String Dmid;
 	private String BraId;
 	private String Operatorid;

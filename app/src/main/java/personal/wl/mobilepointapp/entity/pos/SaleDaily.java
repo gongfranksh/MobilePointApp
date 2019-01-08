@@ -11,7 +11,7 @@ import java.sql.*;
     */ 
 
 
-public class Sale_daily{
+public class SaleDaily {
 	private String BraId;
 	private Date SaleDate;
 	private String ProId;
