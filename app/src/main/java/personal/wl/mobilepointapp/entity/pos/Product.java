@@ -1,4 +1,4 @@
-package personal.wl.mobilepointapp.entity;
+package personal.wl.mobilepointapp.entity.pos;
 import java.sql.*;
 
    /**

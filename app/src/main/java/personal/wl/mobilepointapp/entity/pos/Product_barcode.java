@@ -1,17 +1,16 @@
-package personal.wl.mobilepointapp.entity;
+package personal.wl.mobilepointapp.entity.pos;
 import java.sql.*;
 
    /**
-    * @filename:product_barcode_branch_rel.java
-    * @create date:2019-01-08 14:38:39
+    * @filename:product_barcode.java
+    * @create date:2019-01-08 14:38:18
     * @creater:weiliang 
-    * @file desc:product_barcode_branch_rel entity
+    * @file desc:product_barcode entity
     * @file version:V0.01 
     */ 
 
 
-public class Product_barcode_branch_rel{
-	private String Braid;
+public class Product_barcode{
 	private String ProId;
 	private String BarCode;
 	private String Barmode;
@@ -24,12 +23,6 @@ public class Product_barcode_branch_rel{
 	private String Spec;
 	private String Operatorid;
 	private Integer timestamp;
-	public void setBraid(String Braid){
-	this.Braid=Braid;
-	}
-	public String getBraid(){
-		return Braid;
-	}
 	public void setProId(String ProId){
 	this.ProId=ProId;
 	}
