@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +14,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
-
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 
 import personal.wl.mobilepointapp.R;
-import personal.wl.mobilepointapp.auth.ldap.LdapSearchAsyn;
-import personal.wl.mobilepointapp.auth.ldap.LdapSearchListener;
 import personal.wl.mobilepointapp.model.User;
 import personal.wl.mobilepointapp.ui.activity.CartActivity;
 import personal.wl.mobilepointapp.ui.activity.CollectActivity;
@@ -38,7 +34,7 @@ import personal.wl.mobilepointapp.utils.ToastUtil;
 /**
  * Created by asus on 2016/8/27.
  */
-public class MeFragment extends BaseFragment implements View.OnClickListener {
+public class MeFragment_bmob extends BaseFragment implements View.OnClickListener {
     private static final int LOGIN_REQUEST_CODE = 100;
     private static final int PROFILE_REQUEST_CODE = 101;
     private static final int SCAN_QR_REQUEST = 3001;
@@ -76,15 +72,10 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_me, null);
-
-
-
         initView(view);
-//        initUserLayout();
+        initUserLayout();
         return view;
     }
-
-
 
     private void initUserLayout() {
         User user = User.getCurrentUser(User.class);
@@ -244,9 +235,6 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == LOGIN_REQUEST_CODE && resultCode == LoginActivity.LOGIN_RESULT_CODE) {
-            personal.wl.mobilepointapp.auth.ldap.User user = (personal.wl.mobilepointapp.auth.ldap.User) data.getSerializableExtra("login");
-//            Log.i("MeFragment", "onActivityResult: "+user.getDisplayName());
-
             initUserLayout();
         } else if (requestCode == PROFILE_REQUEST_CODE && resultCode == UserProfileActivity.PROFILE_RESULT_CODE) {
             initUserLayout();
@@ -255,6 +243,4 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
-
 }

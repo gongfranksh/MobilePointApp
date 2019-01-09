@@ -1,6 +1,8 @@
 package personal.wl.mobilepointapp.auth.ldap;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     public String getName() {
         return name;
     }
@@ -91,5 +93,33 @@ public class User {
     private String mobile;
     private String mail;
     private String systemaccount;
+    private String getUsername;
 
+
+    private String sex;
+    private float balance;
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public float getBalance() {
+        return balance;
+    }
+
+    public void setBalance(float balance) {
+        this.balance = balance;
+    }
+
+    public String getGetUsername() {
+        return getUsername;
+    }
+
+    public void setGetUsername(String getUsername) {
+        this.getUsername = getUsername;
+    }
 }

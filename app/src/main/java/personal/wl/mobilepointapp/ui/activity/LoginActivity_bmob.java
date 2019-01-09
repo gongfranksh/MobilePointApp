@@ -1,6 +1,5 @@
 package personal.wl.mobilepointapp.ui.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,8 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -31,9 +28,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import personal.wl.mobilepointapp.R;
-import personal.wl.mobilepointapp.auth.ldap.LdapSearchAsyn;
-import personal.wl.mobilepointapp.auth.ldap.LdapSearchListener;
-import personal.wl.mobilepointapp.auth.ldap.User;
 import personal.wl.mobilepointapp.common.BmobManager;
 import personal.wl.mobilepointapp.listener.BmobLoginCallback;
 import personal.wl.mobilepointapp.listener.BmobMsgSendCallback;
@@ -43,17 +37,15 @@ import personal.wl.mobilepointapp.utils.LoginHelperUtil;
 import personal.wl.mobilepointapp.utils.ToastUtil;
 
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener, Handler.Callback, LdapSearchListener {
+public class LoginActivity_bmob extends BaseActivity implements View.OnClickListener, Handler.Callback {
 
-    private static final String TAG = LoginActivity.class.getSimpleName();
+    private static final String TAG = LoginActivity_bmob.class.getSimpleName();
     public static final int LOGIN_RESULT_CODE = 1002;
 
-    /**
-     * 第三方登录回调标识
-     **/
+    /**第三方登录回调标识**/
     private static final int MSG_SMSSDK_CALLBACK = 1;
     private static final int MSG_AUTH_CANCEL = 2;
-    private static final int MSG_AUTH_ERROR = 3;
+    private static final int MSG_AUTH_ERROR= 3;
     private static final int MSG_AUTH_COMPLETE = 4;
     private static final int MSG_USERID_FOUND = 5;
 
@@ -95,14 +87,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private int mSelectedTextColor;
     private int mUnselectedTextColor;
 
-    /**
-     * 快速登陆界面
-     */
+    /**快速登陆界面*/
     private boolean isPhoneNumberNull = true;
     private boolean isCodeNull = true;
-    /**
-     * 账号登陆界面
-     */
+    /**账号登陆界面*/
     private boolean isUserNameNull = true;
     private boolean isPasswordNull = true;
 
@@ -112,9 +100,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private String mPhoneNumber;
 
     private Handler mHandler;
-    private LdapSearchListener ldapSearchListener;
-
-    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,7 +155,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 isPhoneNumberNull = TextUtils.isEmpty(mQuickLoginEtPhoneNumber.getText());
                 mQuickLoginIvClearPhoneNumber.setVisibility(isPhoneNumberNull ? View.GONE : View.VISIBLE);
                 mQuickLoginIvClearPhoneNumber.setEnabled(!isPhoneNumberNull);
-                mQuickLoginBtn.setEnabled((isPhoneNumberNull || isCodeNull) ? false : true);
+                mQuickLoginBtn.setEnabled((isPhoneNumberNull||isCodeNull) ? false : true);
             }
         });
 
@@ -180,7 +165,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 isCodeNull = TextUtils.isEmpty(mQuickLoginEtCode.getText());
                 mQuickLoginIvClearCode.setVisibility(isCodeNull ? View.GONE : View.VISIBLE);
                 mQuickLoginIvClearCode.setEnabled(!isCodeNull);
-                mQuickLoginBtn.setEnabled((isPhoneNumberNull || isCodeNull) ? false : true);
+                mQuickLoginBtn.setEnabled((isPhoneNumberNull||isCodeNull) ? false : true);
             }
         });
 
@@ -190,7 +175,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 isUserNameNull = TextUtils.isEmpty(mAccountLoginEtUsername.getText());
                 mAccountLoginIvClearUsername.setVisibility(isUserNameNull ? View.GONE : View.VISIBLE);
                 mAccountLoginIvClearUsername.setEnabled(!isUserNameNull);
-                mAccountLoginBtn.setEnabled((isUserNameNull || isPasswordNull) ? false : true);
+                mAccountLoginBtn.setEnabled((isUserNameNull||isPasswordNull) ? false : true);
             }
         });
 
@@ -200,7 +185,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 isPasswordNull = TextUtils.isEmpty(mAccountLoginEtPassword.getText());
                 mAccountLoginIvClearPassword.setVisibility(isPasswordNull ? View.GONE : View.VISIBLE);
                 mAccountLoginIvClearPassword.setEnabled(!isPasswordNull);
-                mAccountLoginBtn.setEnabled((isUserNameNull || isPasswordNull) ? false : true);
+                mAccountLoginBtn.setEnabled((isUserNameNull||isPasswordNull) ? false : true);
             }
         });
     }
@@ -208,7 +193,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private void initAnimation() {
         mSelectedTextColor = getResources().getColor(R.color.app_yellow);
         mUnselectedTextColor = getResources().getColor(R.color.content_color);
-        mLeftLineAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_line_move_right);
+        mLeftLineAnimation = AnimationUtils.loadAnimation(this,R.anim.anim_line_move_right);
         mLeftLineAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -230,7 +215,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
             }
         });
-        mRightLineAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_line_move_left);
+        mRightLineAnimation = AnimationUtils.loadAnimation(this,R.anim.anim_line_move_left);
         mRightLineAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -286,12 +271,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         mBottomIvWechat = (ImageView) findViewById(R.id.login_bottom_iv_wechat);
         mBottomIvWeibo = (ImageView) findViewById(R.id.login_bottom_iv_weibo);
         mBottomIvAlipay = (ImageView) findViewById(R.id.login_bottom_iv_alipay);
-
-        mAccountLoginEtUsername.setText("weiliang@buynow.com.cn");
-        mAccountLoginEtPassword.setText("qazwsx");
-        mAccountLoginBtn.setEnabled(true);
-
-        this.context = this;
     }
 
     @Override
@@ -331,18 +310,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     BmobManager.getInstance(new BmobMsgSendCallback() {
                         @Override
                         public void onMsgSendSuccess() {
-                            ToastUtil.show(LoginActivity.this, R.string.sms_code_send_success);
+                            ToastUtil.show(LoginActivity_bmob.this,R.string.sms_code_send_success);
                             //验证码发送成功，倒计时
                             setCodeTimeDown();
                         }
 
                         @Override
                         public void onMsgSendFailure() {
-                            ToastUtil.show(LoginActivity.this, R.string.sms_code_send_failure);
+                            ToastUtil.show(LoginActivity_bmob.this,R.string.sms_code_send_failure);
                         }
                     }).sendMsgCode(mPhoneNumber);
                 } else {
-                    ToastUtil.show(this, R.string.phone_number_incorrect);
+                    ToastUtil.show(this,R.string.phone_number_incorrect);
                 }
                 break;
             case R.id.login_quick_login_btn:
@@ -353,17 +332,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         @Override
                         public void onLoginSuccess() {
                             Log.i(TAG, "onLoginSuccess: 登陆成功");
-                            ToastUtil.show(LoginActivity.this, R.string.login_success);
+                            ToastUtil.show(LoginActivity_bmob.this,R.string.login_success);
                         }
 
                         @Override
                         public void onLoginFailure() {
                             Log.i(TAG, "onLoginFailure: 登陆失败");
-                            ToastUtil.show(LoginActivity.this, R.string.login_failed);
+                            ToastUtil.show(LoginActivity_bmob.this,R.string.login_failed);
                         }
-                    }).signOrLoginByMsgCode(mPhoneNumber, code);
+                    }).signOrLoginByMsgCode(mPhoneNumber,code);
                 } else {
-                    ToastUtil.showLong(this, R.string.quick_login_input_incorrect);
+                    ToastUtil.showLong(this,R.string.quick_login_input_incorrect);
                 }
                 break;
             case R.id.login_account_login_iv_clear_username:
@@ -375,32 +354,24 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 mAccountLoginIvClearPassword.setVisibility(View.GONE);
                 break;
             case R.id.login_account_login_btn:
-
                 String username = mAccountLoginEtUsername.getText().toString();
                 String password = mAccountLoginEtPassword.getText().toString();
-
-
                 if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
-//                    BmobManager.getInstance(new BmobLoginCallback() {
-//                        @Override
-//                        public void onLoginSuccess() {
-//                            ToastUtil.show(LoginActivity.this,R.string.login_success);
-//                            Intent data = new Intent();
-//                            setResult(LOGIN_RESULT_CODE,data);
-//                            finish();
-//                        }
-//                        @Override
-//                        public void onLoginFailure() {
-//                            ToastUtil.show(LoginActivity.this,R.string.login_failed);
-//                        }
-//                    }).login(username,password);
-
-
-                    LdapSearchAsyn ldapSearchAsyn = new LdapSearchAsyn(this, username, password);
-                    ldapSearchAsyn.execute();
-
+                    BmobManager.getInstance(new BmobLoginCallback() {
+                        @Override
+                        public void onLoginSuccess() {
+                            ToastUtil.show(LoginActivity_bmob.this,R.string.login_success);
+                            Intent data = new Intent();
+                            setResult(LOGIN_RESULT_CODE,data);
+                            finish();
+                        }
+                        @Override
+                        public void onLoginFailure() {
+                            ToastUtil.show(LoginActivity_bmob.this,R.string.login_failed);
+                        }
+                    }).login(username,password);
                 } else {
-                    ToastUtil.show(this, R.string.login_input_empty);
+                    ToastUtil.show(this,R.string.login_input_empty);
                 }
                 break;
             case R.id.login_account_login_tv_forget_password:
@@ -471,7 +442,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     @Override
                     public void run() {
                         mSecCount--;
-                        mQuickLoginBtnGetCode.setText(mSecCount + " s");
+                        mQuickLoginBtnGetCode.setText(mSecCount+" s");
                         if (mSecCount <= 0) {
                             timer.cancel();
                             mQuickLoginBtnGetCode.setText(getString(R.string.reSend));
@@ -481,7 +452,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 });
             }
         };
-        timer.schedule(timerTask, 1000, 1000);
+        timer.schedule(timerTask,1000,1000);
     }
 
 //    @Override
@@ -512,20 +483,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public boolean handleMessage(Message msg) {
-        switch (msg.what) {
+        switch(msg.what) {
             case MSG_AUTH_CANCEL: {
                 //取消授权
-                ToastUtil.show(this, R.string.auth_cancel);
+                ToastUtil.show(this,R.string.auth_cancel);
             }
             break;
             case MSG_AUTH_ERROR: {
                 //授权失败
-                ToastUtil.show(this, R.string.auth_error);
+                ToastUtil.show(this,R.string.auth_error);
             }
             break;
             case MSG_AUTH_COMPLETE: {
                 //授权成功
-                ToastUtil.show(this, R.string.auth_success);
+                ToastUtil.show(this,R.string.auth_success);
                 Object[] objs = (Object[]) msg.obj;
                 String platform = (String) objs[0];
                 HashMap<String, Object> res = (HashMap<String, Object>) objs[1];
@@ -534,23 +505,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     Map.Entry entry = iterator.next();
                     Object key = entry.getKey();
                     Object value = entry.getValue();
-                    Log.i(TAG, "handleMessage: key=" + key.toString() + "  value=" + value.toString());
+                    Log.i(TAG, "handleMessage: key="+key.toString()+"  value="+value.toString());
                 }
-                ToastUtil.show(this, platform + "::::");
+                ToastUtil.show(this,platform+"::::");
             }
             break;
         }
         return false;
-    }
-
-    @Override
-    public void onFinished(User ret) {
-        if (ret != null) {
-            ToastUtil.show(LoginActivity.this, R.string.login_success);
-            Intent data = new Intent();
-            data.putExtra("login", (Serializable) ret);
-            setResult(LOGIN_RESULT_CODE, data);
-            finish();
-        }
     }
 }

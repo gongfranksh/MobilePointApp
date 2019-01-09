@@ -71,8 +71,6 @@ public class LdapSearchAsyn extends AsyncTask<String, Integer, User> implements 
     protected void onPostExecute(User user) {
         super.onPostExecute(user);
         l.onFinished(user);
-//        Log.i("ldapsearchasyc", "onPostExecute: "+user.getDisplayName());
-
     }
 
     public SearchResultEntry queryDN(String searchDN, String filter, LDAPConnection connection) {
