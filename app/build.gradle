@@ -49,4 +49,5 @@ dependencies {
     implementation files('libs/BmobPay_v3.0.3_160621.jar')
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation project(':libs_PullToRefresh')
+    implementation 'com.unboundid:unboundid-ldapsdk:4.0.9'
 }
