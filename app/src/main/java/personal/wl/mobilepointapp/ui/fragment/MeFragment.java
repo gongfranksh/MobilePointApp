@@ -18,6 +18,8 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 
+import java.io.Serializable;
+
 import personal.wl.mobilepointapp.R;
 import personal.wl.mobilepointapp.auth.ldap.LdapSearchAsyn;
 import personal.wl.mobilepointapp.auth.ldap.LdapSearchListener;
@@ -72,6 +74,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     private RelativeLayout mItemRecommendLayout;
     private RelativeLayout mItemQrLayout;
     private LinearLayout mLoginProfileLayout;
+    private MPALoginInfo loginInfo;
 
     @Nullable
     @Override
@@ -90,9 +93,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     private void initUserLayout() {
 //        User user = User.getCurrentUser(User.class);
 //        User user = User.getCurrentUser(User.class);
-        MPALoginInfo loginInfo = new MPALoginInfo(getActivity());
         personal.wl.mobilepointapp.auth.ldap.User user = loginInfo.getUser();;
-
 
         if (user != null) {
             mLoginLayout.setVisibility(View.VISIBLE);
@@ -161,6 +162,9 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         mItemRecommendLayout.setOnClickListener(this);
         mItemQrLayout.setOnClickListener(this);
         mLoginProfileLayout.setOnClickListener(this);
+
+
+        loginInfo = new MPALoginInfo(getActivity());
     }
 
     @Override
@@ -171,6 +175,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.me_login_profile_layout:
                 Intent profileIntent = new Intent(getActivity(), UserProfileActivity.class);
+                profileIntent.putExtra("login", (Serializable) loginInfo.getUser());
                 startActivityForResult(profileIntent, PROFILE_REQUEST_CODE);
 //                openActivity(UserProfileActivity.class);
                 break;

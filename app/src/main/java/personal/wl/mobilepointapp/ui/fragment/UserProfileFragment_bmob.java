@@ -14,8 +14,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import personal.wl.mobilepointapp.R;
-import personal.wl.mobilepointapp.auth.ldap.User;
-import personal.wl.mobilepointapp.preference.CurrentUser.MPALoginInfo;
+import personal.wl.mobilepointapp.model.User;
 import personal.wl.mobilepointapp.ui.activity.UserProfileActivity;
 import personal.wl.mobilepointapp.ui.base.BaseFragment;
 
@@ -23,7 +22,7 @@ import personal.wl.mobilepointapp.ui.base.BaseFragment;
 /**
  * Created by asus on 2016/9/18.
  */
-public class UserProfileFragment extends BaseFragment implements View.OnClickListener {
+public class UserProfileFragment_bmob extends BaseFragment implements View.OnClickListener {
 
     private SimpleDraweeView mAvatar;
     private RelativeLayout mAvatarLayout;
@@ -47,44 +46,13 @@ public class UserProfileFragment extends BaseFragment implements View.OnClickLis
     private RelativeLayout mAddressLayout;
     private RelativeLayout mQrLayout;
     private Button mBtnExitLogin;
-    private User user;
-    private MPALoginInfo loginInfo;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_profile, null);
         initView(view);
-        initLoadData();
         return view;
-    }
-
-    private void initLoadData() {
-
-        user=loginInfo.getUser();
-        mNameTvUsername.setText(user.getsAMAccountName());
-        mNicknameTvNickname.setText(user.getName());
-        mBindPhoneTvNickname.setText(user.getMobile());
-
-
-        mPayPasswordTvState.setEnabled(false);
-        mLevelLayout.setEnabled(false);
-
-
-
-
-        mPayPasswordLayout.setEnabled(false);
-        mLoginPasswordTvState.setEnabled(false);
-        mLoginPasswordLayout.setEnabled(false);
-        mLevelIvLevel.setEnabled(false);
-        mLevelLayout.setEnabled(false);
-        mGenderTvState.setEnabled(false);
-        mGenderLayout.setEnabled(false);
-        mBirthdayTvState.setEnabled(false);
-        mBirthdayLayout.setEnabled(false);
-        mAddressLayout.setEnabled(false);
-        mQrLayout.setEnabled(false);
-
     }
 
     private void initView(View view) {
@@ -123,9 +91,6 @@ public class UserProfileFragment extends BaseFragment implements View.OnClickLis
         mAddressLayout.setOnClickListener(this);
         mQrLayout.setOnClickListener(this);
         mBtnExitLogin.setOnClickListener(this);
-
-
-        loginInfo = new MPALoginInfo(getActivity());
     }
 
     @Override
@@ -155,7 +120,7 @@ public class UserProfileFragment extends BaseFragment implements View.OnClickLis
             case R.id.user_item_qr_layout:
                 break;
             case R.id.user_btn_exit_login:
-//                User.logOut();
+                User.logOut();
                 Intent data = new Intent();
                 getActivity().setResult(UserProfileActivity.PROFILE_RESULT_CODE,data);
                 getActivity().finish();

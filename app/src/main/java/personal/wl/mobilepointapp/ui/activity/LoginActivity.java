@@ -290,10 +290,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         mBottomIvWeibo = (ImageView) findViewById(R.id.login_bottom_iv_weibo);
         mBottomIvAlipay = (ImageView) findViewById(R.id.login_bottom_iv_alipay);
 
-//        mAccountLoginEtUsername.setText("weiliang@buynow.com.cn");
-//        mAccountLoginEtPassword.setText("qazwsx");
-        mAccountLoginEtUsername.setText("wenhao.wang@buynow.com.cn");
-        mAccountLoginEtPassword.setText("222222");
+        mAccountLoginEtUsername.setText("weiliang@buynow.com.cn");
+        mAccountLoginEtPassword.setText("qazwsx");
+//        mAccountLoginEtUsername.setText("wenhao.wang@buynow.com.cn");
+//        mAccountLoginEtPassword.setText("222222");
         mAccountLoginBtn.setEnabled(true);
 
         this.context = this;

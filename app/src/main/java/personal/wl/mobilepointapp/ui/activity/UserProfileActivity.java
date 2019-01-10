@@ -1,6 +1,8 @@
 package personal.wl.mobilepointapp.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -8,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import personal.wl.mobilepointapp.R;
+import personal.wl.mobilepointapp.auth.ldap.User;
 import personal.wl.mobilepointapp.ui.base.BaseActivity;
 import personal.wl.mobilepointapp.ui.fragment.UserProfileFragment;
 
@@ -22,6 +25,16 @@ public class UserProfileActivity extends BaseActivity {
     private FrameLayout mContentLayout;
     private TextView mErrorTv;
     private LinearLayout mErrorLayout;
+
+    private User user;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        user= (User) data.getSerializableExtra("login");
+
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
