@@ -38,9 +38,12 @@ import personal.wl.mobilepointapp.common.BmobManager;
 import personal.wl.mobilepointapp.listener.BmobLoginCallback;
 import personal.wl.mobilepointapp.listener.BmobMsgSendCallback;
 import personal.wl.mobilepointapp.listener.TextInputWatcher;
+import personal.wl.mobilepointapp.preference.CurrentUser.MPALoginInfo;
 import personal.wl.mobilepointapp.ui.base.BaseActivity;
 import personal.wl.mobilepointapp.utils.LoginHelperUtil;
 import personal.wl.mobilepointapp.utils.ToastUtil;
+
+import static android.app.PendingIntent.getActivity;
 
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener, Handler.Callback, LdapSearchListener {
@@ -287,8 +290,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         mBottomIvWeibo = (ImageView) findViewById(R.id.login_bottom_iv_weibo);
         mBottomIvAlipay = (ImageView) findViewById(R.id.login_bottom_iv_alipay);
 
-        mAccountLoginEtUsername.setText("weiliang@buynow.com.cn");
-        mAccountLoginEtPassword.setText("qazwsx");
+//        mAccountLoginEtUsername.setText("weiliang@buynow.com.cn");
+//        mAccountLoginEtPassword.setText("qazwsx");
+        mAccountLoginEtUsername.setText("wenhao.wang@buynow.com.cn");
+        mAccountLoginEtPassword.setText("222222");
         mAccountLoginBtn.setEnabled(true);
 
         this.context = this;
@@ -547,10 +552,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void onFinished(User ret) {
         if (ret != null) {
             ToastUtil.show(LoginActivity.this, R.string.login_success);
+            MPALoginInfo loginInfo = new MPALoginInfo(context);
+            loginInfo.setUser(ret);
             Intent data = new Intent();
             data.putExtra("login", (Serializable) ret);
             setResult(LOGIN_RESULT_CODE, data);
             finish();
         }
+    }
+
+
+    private void getValueFromConfig() {
     }
 }

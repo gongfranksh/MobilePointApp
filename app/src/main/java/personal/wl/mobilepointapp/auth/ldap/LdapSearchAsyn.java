@@ -53,6 +53,7 @@ public class LdapSearchAsyn extends AsyncTask<String, Integer, User> implements 
                 ldapuser.setMail(entry.getAttributeValue("mail"));
                 ldapuser.setDepartment(entry.getAttributeValue("Department"));
                 ldapuser.setDisplayName(entry.getAttributeValue("displayName"));
+                ldapuser.setUsername(entry.getAttributeValue("displayName"));
                 ldapuser.setsAMAccountName(entry.getAttributeValue("sAMAccountName"));
                 ldapuser.setMailNickname(entry.getAttributeValue("mailNickname"));
                 ldapuser.setTitle(entry.getAttributeValue("title"));

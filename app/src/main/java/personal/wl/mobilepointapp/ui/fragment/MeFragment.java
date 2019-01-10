@@ -22,6 +22,7 @@ import personal.wl.mobilepointapp.R;
 import personal.wl.mobilepointapp.auth.ldap.LdapSearchAsyn;
 import personal.wl.mobilepointapp.auth.ldap.LdapSearchListener;
 import personal.wl.mobilepointapp.model.User;
+import personal.wl.mobilepointapp.preference.CurrentUser.MPALoginInfo;
 import personal.wl.mobilepointapp.ui.activity.CartActivity;
 import personal.wl.mobilepointapp.ui.activity.CollectActivity;
 import personal.wl.mobilepointapp.ui.activity.CouponsActivity;
@@ -87,7 +88,12 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 
 
     private void initUserLayout() {
-        User user = User.getCurrentUser(User.class);
+//        User user = User.getCurrentUser(User.class);
+//        User user = User.getCurrentUser(User.class);
+        MPALoginInfo loginInfo = new MPALoginInfo(getActivity());
+        personal.wl.mobilepointapp.auth.ldap.User user = loginInfo.getUser();;
+
+
         if (user != null) {
             mLoginLayout.setVisibility(View.VISIBLE);
             mNologinLayout.setVisibility(View.GONE);
@@ -96,11 +102,11 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 
             mLoginTvUsername.setText(user.getUsername());
             mLoginTvBalance.setText(user.getBalance() + "");
-            if (user.getHeadIcon() == null) {
                 mLoginIvHead.setImageResource(R.mipmap.user_head);
-            } else {
-                mLoginIvHead.setImageURI(Uri.parse(user.getHeadIcon().getFileUrl()));
-            }
+//            if (user.getHeadIcon() == null) {
+//            } else {
+//                mLoginIvHead.setImageURI(Uri.parse(user.getHeadIcon().getFileUrl()));
+//            }
         } else {
             mLoginLayout.setVisibility(View.GONE);
             mNologinLayout.setVisibility(View.VISIBLE);
@@ -244,9 +250,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == LOGIN_REQUEST_CODE && resultCode == LoginActivity.LOGIN_RESULT_CODE) {
-            personal.wl.mobilepointapp.auth.ldap.User user = (personal.wl.mobilepointapp.auth.ldap.User) data.getSerializableExtra("login");
 //            Log.i("MeFragment", "onActivityResult: "+user.getDisplayName());
-
             initUserLayout();
         } else if (requestCode == PROFILE_REQUEST_CODE && resultCode == UserProfileActivity.PROFILE_RESULT_CODE) {
             initUserLayout();

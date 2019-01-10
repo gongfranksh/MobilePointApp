@@ -93,7 +93,16 @@ public class User implements Serializable {
     private String mobile;
     private String mail;
     private String systemaccount;
-    private String getUsername;
+
+    public String getUsername() {
+        return Username;
+    }
+
+    public void setUsername(String username) {
+        Username = username;
+    }
+
+    private String Username;
 
 
     private String sex;
@@ -115,11 +124,4 @@ public class User implements Serializable {
         this.balance = balance;
     }
 
-    public String getGetUsername() {
-        return getUsername;
-    }
-
-    public void setGetUsername(String getUsername) {
-        this.getUsername = getUsername;
-    }
 }
