@@ -2,6 +2,7 @@ package personal.wl.mobilepointapp.preference;
 
 public class SystemSettingConstant {
     public static final String CURRENT_LOGIN="mpacurrentlogin";
+    public static final String CURRENT_LOGIN_DATE="currentlogindate";
     public static final String CURRENT_ACCOUNT="currentaccount";
     public static final String DEFAULT_CURRENT_ACCOUNT=null;
     ;
