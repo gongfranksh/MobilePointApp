@@ -34,6 +34,15 @@
                 android:background="@drawable/white_quai_bg"
                 android:layout_marginTop="@dimen/me_item_common_layout_marginTop"
                 android:orientation="vertical">
+                <RelativeLayout
+                    style="@style/me_common_item_relativeLayout_style">
+                    <TextView
+                        style="@style/more_common_item_textView_style"
+                        android:text="@string/more_item_only_wifi_show_picture"/>
+                    <CheckBox
+                        android:id="@+id/more_btn_wifi_switch"
+                        style="@style/more_common_checkBox_style"/>
+                </RelativeLayout>
                 <View
                     style="@style/me_horizontal_view_style"/>
                 <RelativeLayout
@@ -44,6 +53,17 @@
                     <CheckBox
                         android:id="@+id/more_btn_notice_switch"
                         style="@style/more_common_checkBox_style"/>
+                </RelativeLayout>
+                <View
+                    style="@style/me_horizontal_view_style"/>
+                <RelativeLayout
+                    android:id="@+id/more_item_share_layout"
+                    style="@style/me_common_item_relativeLayout_style">
+                    <TextView
+                        style="@style/more_common_item_textView_style"
+                        android:text="@string/more_item_share_settings"/>
+                    <ImageView
+                        style="@style/me_common_item_arrow_right_imageView_style"/>
                 </RelativeLayout>
                 <View
                     style="@style/me_horizontal_view_style"/>
@@ -65,6 +85,17 @@
                 android:layout_marginTop="@dimen/me_item_common_layout_marginTop"
                 android:orientation="vertical"
                 android:background="@drawable/white_quai_bg">
+                <RelativeLayout
+                    android:id="@+id/more_item_comment_layout"
+                    style="@style/me_common_item_relativeLayout_style">
+                    <TextView
+                        style="@style/more_common_item_textView_style"
+                        android:text="@string/more_item_good_comment"/>
+                    <ImageView
+                        style="@style/me_common_item_arrow_right_imageView_style"/>
+                </RelativeLayout>
+                <View
+                    style="@style/me_horizontal_view_style"/>
                 <RelativeLayout
                     android:id="@+id/more_item_feedback_layout"
                     style="@style/me_common_item_relativeLayout_style">
@@ -89,8 +120,7 @@
                         android:layout_toRightOf="@+id/contact_kefu"
                         android:layout_marginLeft="5dp"
                         android:text="@string/more_item_kefu_hours"
-                        android:textSize="@dimen/textSize_14"
-                        android:layout_alignParentRight="false" />
+                        android:textSize="@dimen/textSize_14"/>
                     <TextView
                         android:id="@+id/more_item_tv_kefu"
                         style="@style/more_common_desc_textView_style"

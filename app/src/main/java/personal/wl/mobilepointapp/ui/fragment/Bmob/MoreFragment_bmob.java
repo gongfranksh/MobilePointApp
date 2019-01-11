@@ -1,4 +1,4 @@
-package personal.wl.mobilepointapp.ui.fragment;
+package personal.wl.mobilepointapp.ui.fragment.Bmob;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -13,7 +13,6 @@ import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
 import cn.bmob.v3.update.BmobUpdateAgent;
 import personal.wl.mobilepointapp.R;
 import personal.wl.mobilepointapp.common.MobilePointApplication;
@@ -24,9 +23,11 @@ import personal.wl.mobilepointapp.utils.ToastUtil;
 /**
  * Created by asus on 2016/8/27.
  */
-public class MoreFragment extends BaseFragment implements View.OnClickListener {
+public class MoreFragment_bmob extends BaseFragment implements View.OnClickListener {
     private Toolbar mToolbar;
+    private CheckBox mBtnWifiSwitch;
     private CheckBox mBtnNoticeSwitch;
+    private RelativeLayout mItemShareLayout;
     private TextView mItemTvCacheSize;
     private RelativeLayout mItemClearCacheLayout;
     private RelativeLayout mItemCommentLayout;
@@ -47,7 +48,9 @@ public class MoreFragment extends BaseFragment implements View.OnClickListener {
 
     private void initView(View view) {
         mToolbar = (Toolbar) view.findViewById(R.id.more_toolbar);
+        mBtnWifiSwitch = (CheckBox) view.findViewById(R.id.more_btn_wifi_switch);
         mBtnNoticeSwitch = (CheckBox) view.findViewById(R.id.more_btn_notice_switch);
+        mItemShareLayout = (RelativeLayout) view.findViewById(R.id.more_item_share_layout);
         mItemTvCacheSize = (TextView) view.findViewById(R.id.more_item_tv_cacheSize);
         mItemClearCacheLayout = (RelativeLayout) view.findViewById(R.id.more_item_clear_cache_layout);
         mItemCommentLayout = (RelativeLayout) view.findViewById(R.id.more_item_comment_layout);
@@ -58,6 +61,14 @@ public class MoreFragment extends BaseFragment implements View.OnClickListener {
         mItemCheckUpdateLayout = (RelativeLayout) view.findViewById(R.id.more_item_check_update_layout);
         mItemAboutLayout = (RelativeLayout) view.findViewById(R.id.more_item_about_layout);
 
+        mBtnWifiSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                if (checked) {
+
+                }
+            }
+        });
         mBtnNoticeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
@@ -66,7 +77,9 @@ public class MoreFragment extends BaseFragment implements View.OnClickListener {
                 }
             }
         });
+        mItemShareLayout.setOnClickListener(this);
         mItemClearCacheLayout.setOnClickListener(this);
+        mItemCommentLayout.setOnClickListener(this);
         mItemFeedbackLayout.setOnClickListener(this);
         mItemContactKefuLayout.setOnClickListener(this);
         mItemCheckUpdateLayout.setOnClickListener(this);
@@ -79,6 +92,8 @@ public class MoreFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.more_item_share_layout:
+                break;
             case R.id.more_item_clear_cache_layout:
                 DataClearUtil.cleanAllCache(getActivity());
                 ToastUtil.show(getActivity(),R.string.clear_cache_success);
