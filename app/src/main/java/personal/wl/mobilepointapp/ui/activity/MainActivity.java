@@ -18,6 +18,7 @@ import java.util.List;
 import personal.wl.mobilepointapp.R;
 import personal.wl.mobilepointapp.common.LocationService;
 import personal.wl.mobilepointapp.model.User;
+import personal.wl.mobilepointapp.ui.fragment.AppsFragment;
 import personal.wl.mobilepointapp.ui.fragment.AroundFragment;
 import personal.wl.mobilepointapp.ui.fragment.HomeFragment;
 import personal.wl.mobilepointapp.ui.fragment.MeFragment;
@@ -27,14 +28,14 @@ public class MainActivity extends AppCompatActivity {
     private FragmentTabHost tabhost;
 
     private Class[] fragments = new Class[]{
-            HomeFragment.class, AroundFragment.class,
-            MeFragment.class, MoreFragment.class};
+            HomeFragment.class,AppsFragment.class ,
+             AroundFragment.class,MeFragment.class,MoreFragment.class};
     private int[] resTitles = new int[]{
-            R.string.tab_title_home, R.string.tab_title_around,
-            R.string.tab_title_me, R.string.tab_title_more};
+            R.string.tab_title_home, R.string.tab_title_application,
+            R.string.tab_title_around,R.string.tab_title_me, R.string.tab_title_more};
     private int[] icons = new int[]{
-            R.drawable.tab_home_selector, R.drawable.tab_around_selector,
-            R.drawable.tab_me_selector, R.drawable.tab_more_selector};
+            R.drawable.tab_home_selector, R.drawable.tab_application_selector,
+             R.drawable.tab_around_selector,R.drawable.tab_me_selector,R.drawable.tab_more_selector};
 
     private Intent local;
 

@@ -4,6 +4,9 @@
     <string name="tab_title_around">周边</string>
     <string name="tab_title_me">我的</string>
     <string name="tab_title_more">更多</string>
+
+    <string name="tab_title_application">应用</string>
+
     <string name="wait_dialog_title">加载中，请稍后...</string>
     <string name="error_please_check_network">网络无法连接，请检查网络！</string>
     <string name="error_timeout">请求超时</string>
