@@ -1,4 +1,4 @@
-package personal.wl.mobilepointapp.ui.fragment;
+package personal.wl.mobilepointapp.ui.fragment.Bmob;
 
 import android.content.Intent;
 import android.os.Bundle;

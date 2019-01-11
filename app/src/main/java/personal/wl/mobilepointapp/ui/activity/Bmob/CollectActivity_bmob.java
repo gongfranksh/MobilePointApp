@@ -1,4 +1,4 @@
-package personal.wl.mobilepointapp.ui.activity;
+package personal.wl.mobilepointapp.ui.activity.Bmob;
 
 import android.os.Bundle;
 import android.view.View;
@@ -7,8 +7,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +19,12 @@ import personal.wl.mobilepointapp.listener.BmobQueryCallback;
 import personal.wl.mobilepointapp.model.BaseModel;
 import personal.wl.mobilepointapp.model.FavorModel;
 import personal.wl.mobilepointapp.model.User;
+import personal.wl.mobilepointapp.ui.activity.DetailActivity;
 import personal.wl.mobilepointapp.ui.adapter.FavorListAdapter;
 import personal.wl.mobilepointapp.ui.base.BaseActivity;
 import personal.wl.mobilepointapp.ui.fragment.HomeFragment;
 
-public class CollectActivity extends BaseActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
+public class CollectActivity_bmob extends BaseActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
 
     private ImageView mTitleBarIvBack;
     private ListView mListView;
@@ -40,7 +39,7 @@ public class CollectActivity extends BaseActivity implements AdapterView.OnItemC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collect);
-//        initData();
+        initData();
         initView();
     }
 

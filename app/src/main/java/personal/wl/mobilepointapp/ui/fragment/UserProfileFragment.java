@@ -40,7 +40,7 @@ public class UserProfileFragment extends BaseFragment implements View.OnClickLis
     private RelativeLayout mLoginPasswordLayout;
     private ImageView mLevelIvLevel;
     private RelativeLayout mLevelLayout;
-    private TextView mGenderTvState;
+    private TextView mBindDept;
     private RelativeLayout mGenderLayout;
     private TextView mBirthdayTvState;
     private RelativeLayout mBirthdayLayout;
@@ -65,26 +65,7 @@ public class UserProfileFragment extends BaseFragment implements View.OnClickLis
         mNameTvUsername.setText(user.getsAMAccountName());
         mNicknameTvNickname.setText(user.getName());
         mBindPhoneTvNickname.setText(user.getMobile());
-
-
-        mPayPasswordTvState.setEnabled(false);
-        mLevelLayout.setEnabled(false);
-
-
-
-
-        mPayPasswordLayout.setEnabled(false);
-        mLoginPasswordTvState.setEnabled(false);
-        mLoginPasswordLayout.setEnabled(false);
-        mLevelIvLevel.setEnabled(false);
-        mLevelLayout.setEnabled(false);
-        mGenderTvState.setEnabled(false);
-        mGenderLayout.setEnabled(false);
-        mBirthdayTvState.setEnabled(false);
-        mBirthdayLayout.setEnabled(false);
-        mAddressLayout.setEnabled(false);
-        mQrLayout.setEnabled(false);
-
+        mBindDept.setText(user.getDepartment());
     }
 
     private void initView(View view) {
@@ -103,25 +84,8 @@ public class UserProfileFragment extends BaseFragment implements View.OnClickLis
         mLoginPasswordLayout = (RelativeLayout) view.findViewById(R.id.user_item_loginPassword_layout);
         mLevelIvLevel = (ImageView) view.findViewById(R.id.user_item_level_iv_level);
         mLevelLayout = (RelativeLayout) view.findViewById(R.id.user_item_level_layout);
-        mGenderTvState = (TextView) view.findViewById(R.id.user_item_gender_tv_state);
-        mGenderLayout = (RelativeLayout) view.findViewById(R.id.user_item_gender_layout);
-        mBirthdayTvState = (TextView) view.findViewById(R.id.user_item_birthday_tv_state);
-        mBirthdayLayout = (RelativeLayout) view.findViewById(R.id.user_item_birthday_layout);
-        mAddressLayout = (RelativeLayout) view.findViewById(R.id.user_item_address_layout);
-        mQrLayout = (RelativeLayout) view.findViewById(R.id.user_item_qr_layout);
         mBtnExitLogin = (Button) view.findViewById(R.id.user_btn_exit_login);
-
-        mAvatarLayout.setOnClickListener(this);
-        mNameLayout.setOnClickListener(this);
-        mNicknameLayout.setOnClickListener(this);
-        mBindPhoneLayout.setOnClickListener(this);
-        mPayPasswordLayout.setOnClickListener(this);
-        mLoginPasswordLayout.setOnClickListener(this);
-        mLevelLayout.setOnClickListener(this);
-        mGenderLayout.setOnClickListener(this);
-        mBirthdayLayout.setOnClickListener(this);
-        mAddressLayout.setOnClickListener(this);
-        mQrLayout.setOnClickListener(this);
+        mBindDept = view.findViewById(R.id.user_item_bindDept_tv_nickname);
         mBtnExitLogin.setOnClickListener(this);
 
 
@@ -131,31 +95,8 @@ public class UserProfileFragment extends BaseFragment implements View.OnClickLis
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.user_item_avatar_layout:
-                break;
-            case R.id.user_item_username_layout:
-
-                break;
-            case R.id.user_item_nickname_layout:
-                break;
-            case R.id.user_item_bindPhone_layout:
-                break;
-            case R.id.user_item_payPassword_layout:
-                break;
-            case R.id.user_item_loginPassword_layout:
-                break;
-            case R.id.user_item_level_layout:
-                break;
-            case R.id.user_item_gender_layout:
-                break;
-            case R.id.user_item_birthday_layout:
-                break;
-            case R.id.user_item_address_layout:
-                break;
-            case R.id.user_item_qr_layout:
-                break;
             case R.id.user_btn_exit_login:
-//                User.logOut();
+                loginInfo.logout();
                 Intent data = new Intent();
                 getActivity().setResult(UserProfileActivity.PROFILE_RESULT_CODE,data);
                 getActivity().finish();

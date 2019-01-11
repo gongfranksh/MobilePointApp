@@ -1,4 +1,4 @@
-package personal.wl.mobilepointapp.ui.activity;
+package personal.wl.mobilepointapp.ui.activity.Bmob;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,6 +32,7 @@ import personal.wl.mobilepointapp.common.BmobManager;
 import personal.wl.mobilepointapp.listener.BmobLoginCallback;
 import personal.wl.mobilepointapp.listener.BmobMsgSendCallback;
 import personal.wl.mobilepointapp.listener.TextInputWatcher;
+import personal.wl.mobilepointapp.ui.activity.RegisterActivity;
 import personal.wl.mobilepointapp.ui.base.BaseActivity;
 import personal.wl.mobilepointapp.utils.LoginHelperUtil;
 import personal.wl.mobilepointapp.utils.ToastUtil;

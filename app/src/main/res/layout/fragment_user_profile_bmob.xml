@@ -61,6 +61,14 @@
                         android:layout_marginLeft="10dp"
                         tools:text="布拉拉"
                         android:textSize="@dimen/textSize_14"/>
+                    <TextView
+                        style="@style/more_common_desc_textView_style"
+                        android:layout_alignParentEnd="false"
+                        android:layout_toLeftOf="@+id/user_item_username_iv_arrow"
+                        android:text="@string/user_item_right_modify"/>
+                    <ImageView
+                        android:id="@+id/user_item_username_iv_arrow"
+                        style="@style/me_common_item_arrow_right_imageView_style"/>
                 </RelativeLayout>
                 <View
                     style="@style/me_horizontal_view_style"/>
@@ -79,6 +87,14 @@
                         android:layout_marginLeft="10dp"
                         tools:text="布拉拉"
                         android:textSize="@dimen/textSize_14"/>
+                    <TextView
+                        style="@style/more_common_desc_textView_style"
+                        android:layout_alignParentEnd="false"
+                        android:layout_toLeftOf="@+id/user_item_nickname_iv_arrow"
+                        android:text="@string/user_item_right_edit"/>
+                    <ImageView
+                        android:id="@+id/user_item_nickname_iv_arrow"
+                        style="@style/me_common_item_arrow_right_imageView_style"/>
                 </RelativeLayout>
                 <View
                     style="@style/me_horizontal_view_style"/>
@@ -96,32 +112,53 @@
                         android:layout_toRightOf="@+id/user_item_bindPhone_tv_title"
                         android:layout_marginLeft="10dp"
                         tools:text="18186532328"
-                        android:textSize="@dimen/textSize_14"
-                        android:layout_alignParentRight="false" />
+                        android:textSize="@dimen/textSize_14"/>
+                    <TextView
+                        android:id="@+id/user_item_bindPhone_tv_state"
+                        style="@style/more_common_desc_textView_style"
+                        android:layout_alignParentEnd="false"
+                        android:layout_toLeftOf="@+id/user_item_bindPhone_iv_arrow"
+                        android:text="@string/user_item_right_unbind"/>
+                    <ImageView
+                        android:id="@+id/user_item_bindPhone_iv_arrow"
+                        style="@style/me_common_item_arrow_right_imageView_style"/>
                 </RelativeLayout>
                 <View
                     style="@style/me_horizontal_view_style"/>
                 <RelativeLayout
-                    android:id="@+id/user_item_bindDept_layout"
+                    android:id="@+id/user_item_payPassword_layout"
                     style="@style/me_common_item_relativeLayout_style">
                     <TextView
-                        android:id="@+id/user_item_bindDept_tv_title"
                         style="@style/more_common_item_textView_style"
-                        android:text="@string/user_item_title_bindDept"/>
+                        android:text="@string/user_item_title_pay_password"/>
                     <TextView
-                        android:id="@+id/user_item_bindDept_tv_nickname"
+                        android:id="@+id/user_item_payPassword_tv_state"
                         style="@style/more_common_desc_textView_style"
                         android:layout_alignParentEnd="false"
-                        android:layout_toRightOf="@+id/user_item_bindDept_tv_title"
-                        android:layout_marginLeft="10dp"
-                        tools:text=""
-                        android:textSize="@dimen/textSize_14"
-                        android:layout_alignParentRight="false" />
+                        android:layout_toLeftOf="@+id/user_item_payPassword_iv_arrow"
+                        android:text="@string/user_item_right_unset"/>
+                    <ImageView
+                        android:id="@+id/user_item_payPassword_iv_arrow"
+                        style="@style/me_common_item_arrow_right_imageView_style"/>
                 </RelativeLayout>
-
-
-
-
+                <View
+                    style="@style/me_horizontal_view_style"/>
+                <RelativeLayout
+                    android:id="@+id/user_item_loginPassword_layout"
+                    style="@style/me_common_item_relativeLayout_style">
+                    <TextView
+                        style="@style/more_common_item_textView_style"
+                        android:text="@string/user_item_title_login_password"/>
+                    <TextView
+                        android:id="@+id/user_item_loginPassword_tv_state"
+                        style="@style/more_common_desc_textView_style"
+                        android:layout_alignParentEnd="false"
+                        android:layout_toLeftOf="@+id/user_item_loginPassword_iv_arrow"
+                        android:text="@string/user_item_right_unset"/>
+                    <ImageView
+                        android:id="@+id/user_item_loginPassword_iv_arrow"
+                        style="@style/me_common_item_arrow_right_imageView_style"/>
+                </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -150,6 +187,69 @@
                 </RelativeLayout>
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/me_item_common_layout_marginTop"
+                android:orientation="vertical"
+                android:background="@drawable/white_quai_bg">
+                <RelativeLayout
+                    android:id="@+id/user_item_gender_layout"
+                    style="@style/me_common_item_relativeLayout_style">
+                    <TextView
+                        style="@style/more_common_item_textView_style"
+                        android:text="@string/user_item_title_gender"/>
+                    <TextView
+                        android:id="@+id/user_item_gender_tv_state"
+                        style="@style/more_common_desc_textView_style"
+                        android:layout_alignParentEnd="false"
+                        android:layout_toLeftOf="@+id/user_item_gender_iv_arrow"
+                        android:text="@string/man"/>
+                    <ImageView
+                        android:id="@+id/user_item_gender_iv_arrow"
+                        style="@style/me_common_item_arrow_right_imageView_style"/>
+                </RelativeLayout>
+                <View
+                    style="@style/me_horizontal_view_style"/>
+                <RelativeLayout
+                    android:id="@+id/user_item_birthday_layout"
+                    style="@style/me_common_item_relativeLayout_style">
+                    <TextView
+                        style="@style/more_common_item_textView_style"
+                        android:text="@string/user_item_title_birthday"/>
+                    <TextView
+                        android:id="@+id/user_item_birthday_tv_state"
+                        style="@style/more_common_desc_textView_style"
+                        android:layout_alignParentEnd="false"
+                        android:layout_toLeftOf="@+id/user_item_birthday_iv_arrow"
+                        android:text="@string/user_item_right_select"/>
+                    <ImageView
+                        android:id="@+id/user_item_birthday_iv_arrow"
+                        style="@style/me_common_item_arrow_right_imageView_style"/>
+                </RelativeLayout>
+                <View
+                    style="@style/me_horizontal_view_style"/>
+                <RelativeLayout
+                    android:id="@+id/user_item_address_layout"
+                    style="@style/me_common_item_relativeLayout_style">
+                    <TextView
+                        style="@style/more_common_item_textView_style"
+                        android:text="@string/user_item_title_address"/>
+                    <ImageView
+                        style="@style/me_common_item_arrow_right_imageView_style"/>
+                </RelativeLayout>
+                <View
+                    style="@style/me_horizontal_view_style"/>
+                <RelativeLayout
+                    android:id="@+id/user_item_qr_layout"
+                    style="@style/me_common_item_relativeLayout_style">
+                    <TextView
+                        style="@style/more_common_item_textView_style"
+                        android:text="@string/user_item_title_qr"/>
+                    <ImageView
+                        style="@style/me_common_item_arrow_right_imageView_style"/>
+                </RelativeLayout>
+            </LinearLayout>
 
             <Button
                 android:id="@+id/user_btn_exit_login"

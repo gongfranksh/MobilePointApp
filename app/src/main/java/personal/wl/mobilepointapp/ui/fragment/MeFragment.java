@@ -75,6 +75,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     private RelativeLayout mItemQrLayout;
     private LinearLayout mLoginProfileLayout;
     private MPALoginInfo loginInfo;
+    private personal.wl.mobilepointapp.auth.ldap.User user;
 
     @Nullable
     @Override
@@ -84,7 +85,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 
 
         initView(view);
-//        initUserLayout();
+        initUserLayout();
         return view;
     }
 
@@ -93,16 +94,16 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     private void initUserLayout() {
 //        User user = User.getCurrentUser(User.class);
 //        User user = User.getCurrentUser(User.class);
-        personal.wl.mobilepointapp.auth.ldap.User user = loginInfo.getUser();;
+        user = loginInfo.getUser();;
 
         if (user != null) {
             mLoginLayout.setVisibility(View.VISIBLE);
             mNologinLayout.setVisibility(View.GONE);
-            mItemBankcardLayout.setVisibility(View.VISIBLE);
-            mItemCouponsLayout.setVisibility(View.VISIBLE);
+
+
 
             mLoginTvUsername.setText(user.getUsername());
-            mLoginTvBalance.setText(user.getBalance() + "");
+
                 mLoginIvHead.setImageResource(R.mipmap.user_head);
 //            if (user.getHeadIcon() == null) {
 //            } else {
@@ -111,8 +112,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         } else {
             mLoginLayout.setVisibility(View.GONE);
             mNologinLayout.setVisibility(View.VISIBLE);
-            mItemBankcardLayout.setVisibility(View.GONE);
-            mItemCouponsLayout.setVisibility(View.GONE);
+
+
         }
     }
 
@@ -133,15 +134,12 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         mItemPaidTvCount = (TextView) view.findViewById(R.id.me_item_paid_tv_count);
         mItemPaidTvUncommentCount = (TextView) view.findViewById(R.id.me_item_paid_tv_uncomment_count);
         mItemPaidOrderLayout = (RelativeLayout) view.findViewById(R.id.me_item_paid_order_layout);
-        mItemLotteryTvCount = (TextView) view.findViewById(R.id.me_item_lottery_tv_count);
-        mItemLotteryLayout = (RelativeLayout) view.findViewById(R.id.me_item_lottery_layout);
+
         mItemTreasureTvCount = (TextView) view.findViewById(R.id.me_item_treasure_tv_count);
         mItemTreasureLayout = (RelativeLayout) view.findViewById(R.id.me_item_treasure_layout);
         mUserOrderLayout = (LinearLayout) view.findViewById(R.id.me_user_order_layout);
-        mItemBankcardTvComplete = (TextView) view.findViewById(R.id.me_item_bankcard_tv_complete);
-        mItemBankcardLayout = (RelativeLayout) view.findViewById(R.id.me_item_bankcard_layout);
-        mItemCouponsTvCount = (TextView) view.findViewById(R.id.me_item_coupons_tv_count);
-        mItemCouponsLayout = (RelativeLayout) view.findViewById(R.id.me_item_coupons_layout);
+
+
         mItemRecommendTvNew = (TextView) view.findViewById(R.id.me_item_recommend_tv_new);
         mItemRecommendLayout = (RelativeLayout) view.findViewById(R.id.me_item_recommend_layout);
         mItemQrLayout = (RelativeLayout) view.findViewById(R.id.me_item_qr_layout);
@@ -155,11 +153,10 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         mUserTvHistory.setOnClickListener(this);
         mItemUnpaidLayout.setOnClickListener(this);
         mItemPaidOrderLayout.setOnClickListener(this);
-        mItemLotteryLayout.setOnClickListener(this);
-        mItemTreasureLayout.setOnClickListener(this);
-        mItemBankcardLayout.setOnClickListener(this);
-        mItemCouponsLayout.setOnClickListener(this);
-        mItemRecommendLayout.setOnClickListener(this);
+
+
+
+
         mItemQrLayout.setOnClickListener(this);
         mLoginProfileLayout.setOnClickListener(this);
 
@@ -188,63 +185,43 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 //                openActivity(LoginActivity.class);
                 break;
             case R.id.me_user_tv_cart:
-                if (User.getCurrentUser(User.class) != null) {
+                if (user != null) {
                     openActivity(CartActivity.class);
                 } else {
                     ToastUtil.show(getActivity(), R.string.me_nologin_not_login);
                 }
                 break;
             case R.id.me_user_tv_favorite:
-                if (User.getCurrentUser(User.class) != null) {
+                if (user!= null) {
                     openActivity(CollectActivity.class);
                 } else {
                     ToastUtil.show(getActivity(), R.string.me_nologin_not_login);
                 }
                 break;
             case R.id.me_user_tv_history:
-                if (User.getCurrentUser(User.class) != null) {
+                if (user != null) {
                     openActivity(HistoryActivity.class);
                 } else {
                     ToastUtil.show(getActivity(), R.string.me_nologin_not_login);
                 }
                 break;
             case R.id.me_item_unpaid_layout:
-                if (User.getCurrentUser(User.class) != null) {
+                if (user != null) {
                     openActivity(UnpaidActivity.class);
                 } else {
                     ToastUtil.show(getActivity(), R.string.me_nologin_not_login);
                 }
                 break;
             case R.id.me_item_paid_order_layout:
-                if (User.getCurrentUser(User.class) != null) {
+                if (user != null) {
                     openActivity(PaidActivity.class);
                 } else {
                     ToastUtil.show(getActivity(), R.string.me_nologin_not_login);
                 }
                 break;
-            case R.id.me_item_lottery_layout:
-                if (User.getCurrentUser(User.class) != null) {
-                    openActivity(LotteryActivity.class);
-                } else {
-                    ToastUtil.show(getActivity(), R.string.me_nologin_not_login);
-                }
-                break;
-            case R.id.me_item_treasure_layout:
-                if (User.getCurrentUser(User.class) != null) {
-                    openActivity(TreasureActivity.class);
-                } else {
-                    ToastUtil.show(getActivity(), R.string.me_nologin_not_login);
-                }
-                break;
-            case R.id.me_item_bankcard_layout:
 
-                break;
-            case R.id.me_item_coupons_layout:
-                openActivity(CouponsActivity.class);
-                break;
-            case R.id.me_item_recommend_layout:
 
-                break;
+
             case R.id.me_item_qr_layout:
                 Intent qrIntent = new Intent(getActivity(), CaptureActivity.class);
                 getActivity().startActivityForResult(qrIntent,SCAN_QR_REQUEST);

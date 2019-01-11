@@ -29,6 +29,13 @@ public class MPALoginInfo {
 
     }
 
+
+    public void logout(){
+        User u = null;
+        this.setUser(u);
+
+    }
+
     private User user;
 
     public Context getContext() {

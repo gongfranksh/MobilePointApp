@@ -60,6 +60,23 @@
                             android:layout_toRightOf="@+id/me_login_tv_username"
                             android:src="@mipmap/level_0"/>
                     </RelativeLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/me_login_balance_layout_marginTop"
+                        android:layout_marginStart="@dimen/me_login_profile_layout_marginStart">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/me_login_balance"
+                            android:textSize="@dimen/me_login_balance_size"/>
+                        <TextView
+                            android:id="@+id/me_login_tv_balance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00.00"
+                            android:textSize="@dimen/textSize_16"/>
+                    </LinearLayout>
                 </LinearLayout>
                 <ImageView
                     android:id="@+id/me_login_iv_arrow_right"
@@ -183,8 +200,122 @@
                         android:textColor="@color/white"
                         android:visibility="gone"/>
                 </RelativeLayout>
+                <View
+                    style="@style/me_horizontal_view_style"/>
+                <RelativeLayout
+                    android:id="@+id/me_item_lottery_layout"
+                    style="@style/me_common_item_relativeLayout_style">
+                    <ImageView
+                        android:id="@+id/me_item_lottery_iv_icon"
+                        style="@style/me_common_item_icon_imageView_style"
+                        android:src="@mipmap/user_listicon_choujiang"/>
+                    <TextView
+                        style="@style/me_common_item_title_textView_style"
+                        android:layout_toRightOf="@+id/me_item_lottery_iv_icon"
+                        android:text="@string/me_item_lottery_order"/>
+                    <ImageView
+                        android:id="@+id/me_item_lottery_iv_arrow_right"
+                        style="@style/me_common_item_arrow_right_imageView_style"/>
+                    <TextView
+                        android:id="@+id/me_item_lottery_tv_count"
+                        android:layout_toLeftOf="@+id/me_item_lottery_iv_arrow_right"
+                        style="@style/me_common_item_count_textView_style"
+                        tools:text="1"/>
+                </RelativeLayout>
+                <View
+                    style="@style/me_horizontal_view_style"/>
+                <RelativeLayout
+                    android:id="@+id/me_item_treasure_layout"
+                    style="@style/me_common_item_relativeLayout_style">
+                    <ImageView
+                        android:id="@+id/me_item_treasure_iv_icon"
+                        style="@style/me_common_item_icon_imageView_style"
+                        android:src="@mipmap/user_generdisplay_img"/>
+                    <TextView
+                        style="@style/me_common_item_title_textView_style"
+                        android:layout_toRightOf="@+id/me_item_treasure_iv_icon"
+                        android:text="@string/me_item_treasure_order"/>
+                    <ImageView
+                        android:id="@+id/me_item_treasure_iv_arrow_right"
+                        style="@style/me_common_item_arrow_right_imageView_style"/>
+                    <TextView
+                        android:id="@+id/me_item_treasure_tv_count"
+                        android:layout_toLeftOf="@+id/me_item_treasure_iv_arrow_right"
+                        style="@style/me_common_item_count_textView_style"
+                        tools:text="1"/>
+                </RelativeLayout>
             </LinearLayout>
 
+            <RelativeLayout
+                android:id="@+id/me_item_bankcard_layout"
+                style="@style/me_common_item_relativeLayout_style"
+                android:layout_marginTop="@dimen/me_item_common_layout_marginTop"
+                android:visibility="gone">
+                <ImageView
+                    android:id="@+id/me_item_bankcard_iv_icon"
+                    style="@style/me_common_item_icon_imageView_style"
+                    android:src="@mipmap/user_icon_yinhangka"/>
+                <TextView
+                    style="@style/me_common_item_title_textView_style"
+                    android:layout_toRightOf="@+id/me_item_bankcard_iv_icon"
+                    android:text="@string/me_item_bankcard"/>
+                <ImageView
+                    android:id="@+id/me_item_bankcard_iv_arrow_right"
+                    style="@style/me_common_item_arrow_right_imageView_style"/>
+                <TextView
+                    android:id="@+id/me_item_bankcard_tv_complete"
+                    android:layout_toLeftOf="@+id/me_item_bankcard_iv_arrow_right"
+                    style="@style/me_common_item_count_textView_style"
+                    android:text="@string/me_item_bankcard_go_complete"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/me_item_coupons_layout"
+                style="@style/me_common_item_relativeLayout_style"
+                android:layout_marginTop="@dimen/me_item_common_layout_marginTop"
+                android:visibility="gone">
+                <ImageView
+                    android:id="@+id/me_item_coupons_iv_icon"
+                    style="@style/me_common_item_icon_imageView_style"
+                    android:src="@mipmap/user_listicon_diyongquan"/>
+                <TextView
+                    style="@style/me_common_item_title_textView_style"
+                    android:layout_toRightOf="@+id/me_item_coupons_iv_icon"
+                    android:text="@string/me_item_coupons"/>
+                <ImageView
+                    android:id="@+id/me_item_coupons_iv_arrow_right"
+                    style="@style/me_common_item_arrow_right_imageView_style"/>
+                <TextView
+                    android:id="@+id/me_item_coupons_tv_count"
+                    android:layout_toLeftOf="@+id/me_item_coupons_iv_arrow_right"
+                    style="@style/me_common_item_count_textView_style"
+                    tools:text="1"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/me_item_recommend_layout"
+                style="@style/me_common_item_relativeLayout_style"
+                android:layout_marginTop="@dimen/me_item_common_layout_marginTop">
+                <ImageView
+                    android:id="@+id/me_item_recommend_iv_icon"
+                    style="@style/me_common_item_icon_imageView_style"
+                    android:src="@mipmap/user_listicon_tuijian"/>
+                <TextView
+                    style="@style/me_common_item_title_textView_style"
+                    android:layout_toRightOf="@+id/me_item_recommend_iv_icon"
+                    android:text="@string/me_item_recommend"/>
+                <ImageView
+                    android:id="@+id/me_item_recommend_iv_arrow_right"
+                    style="@style/me_common_item_arrow_right_imageView_style"/>
+                <TextView
+                    android:id="@+id/me_item_recommend_tv_new"
+                    style="@style/me_common_item_count_textView_style"
+                    android:layout_toLeftOf="@+id/me_item_recommend_iv_arrow_right"
+                    android:background="@drawable/orange_bg"
+                    android:text="new"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textSize_12"/>
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/me_item_qr_layout"
