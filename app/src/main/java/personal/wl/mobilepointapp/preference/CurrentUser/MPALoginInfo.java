@@ -14,9 +14,20 @@ import static personal.wl.mobilepointapp.preference.SystemSettingConstant.CURREN
 import static personal.wl.mobilepointapp.preference.SystemSettingConstant.DEFAULT_CURRENT_ACCOUNT;
 
 public class MPALoginInfo {
+
+    private static final MPALoginInfo instance = new MPALoginInfo();
+
     private SharedPreferences sPre;
     private Context context;
     private Gson gon;
+
+
+    public static MPALoginInfo getInstance(){
+        return instance;
+    }
+
+
+
 
     public User getUser() {
         String struser = sPre.getString(CURRENT_ACCOUNT, null);
@@ -44,14 +55,14 @@ public class MPALoginInfo {
 
     public void setContext(Context context) {
         this.context = context;
-    }
-
-
-    public MPALoginInfo(Context context) {
-        this.context = context;
         gon = new Gson();
         this.sPre = sPre;
         sPre = context.getSharedPreferences(
                 CURRENT_LOGIN, 0);
+    }
+
+
+    private  MPALoginInfo() {
+
     }
 }

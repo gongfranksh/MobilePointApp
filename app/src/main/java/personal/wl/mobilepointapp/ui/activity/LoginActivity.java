@@ -44,6 +44,7 @@ import personal.wl.mobilepointapp.utils.LoginHelperUtil;
 import personal.wl.mobilepointapp.utils.ToastUtil;
 
 import static android.app.PendingIntent.getActivity;
+import static personal.wl.mobilepointapp.common.MobilePointApplication.loginInfo;
 
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener, Handler.Callback, LdapSearchListener {
@@ -170,13 +171,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
 
-    private void myAnimation(){
+    private void myAnimation() {
         mSelectTvAccountLogin.setTextColor(mSelectedTextColor);
         mAccountLoginLayout.setVisibility(View.VISIBLE);
         mSelectLeftLine.setVisibility(View.INVISIBLE);
         mSelectRightLine.setVisibility(View.VISIBLE);
     }
-
 
 
     private void initAnimation() {
@@ -396,7 +396,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 //            mHandler.sendEmptyMessage(MSG_AUTH_CANCEL);
 //        }
 //    }
-
     @Override
     public boolean handleMessage(Message msg) {
         switch (msg.what) {
@@ -434,7 +433,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void onFinished(User ret) {
         if (ret != null) {
             ToastUtil.show(LoginActivity.this, R.string.login_success);
-            MPALoginInfo loginInfo = new MPALoginInfo(context);
+            loginInfo = MPALoginInfo.getInstance();
             loginInfo.setUser(ret);
             Intent data = new Intent();
             data.putExtra("login", (Serializable) ret);

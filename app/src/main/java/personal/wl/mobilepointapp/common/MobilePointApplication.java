@@ -25,6 +25,8 @@ import c.b.BP;
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.update.BmobUpdateAgent;
 import personal.wl.mobilepointapp.R;
+import personal.wl.mobilepointapp.auth.ldap.User;
+import personal.wl.mobilepointapp.preference.CurrentUser.MPALoginInfo;
 import personal.wl.mobilepointapp.utils.ToastUtil;
 
 public class MobilePointApplication extends ZApplication {
@@ -35,10 +37,17 @@ public class MobilePointApplication extends ZApplication {
     private List<BDLocation> mLocations = new ArrayList<>();
     private PatchManager mPatchManager;
 
+    public static MPALoginInfo loginInfo;
+
     @Override
     public void onCreate() {
         super.onCreate();
         appContext = this;
+
+
+        loginInfo= MPALoginInfo.getInstance();
+        loginInfo.setContext(this);
+
 
         //NoHttp初始化
         NoHttp.initialize(this);

@@ -26,20 +26,22 @@ public class LdapServer {
 
     private static final String BIND_DN = "ldap@buynow.com.cn";
     private static final String BIND_PW = "``11qqww";
-//    public static final String LDAP_FILTER = "sAMAccountName=";
+    //    public static final String LDAP_FILTER = "sAMAccountName=";
     public static final String LDAP_FILTER = "mail=";
-
 
 
     private static LDAPConnection conn;
 
-    public static LDAPConnection getConnection() {
+    public static LDAPConnection getConnection() throws LDAPException {
         if (conn == null) {
             try {
                 conn = new LDAPConnection(HOST, PORT, BIND_DN, BIND_PW);
             } catch (LDAPException e) {
-                Log.i("LDAPSERVER", "getConnection: "+e.toString());
+                Log.i("LDAPSERVER", "getConnection: " + e.toString());
             }
+        }
+        if (!conn.isConnected()) {
+            conn = new LDAPConnection(HOST, PORT, BIND_DN, BIND_PW);
         }
 
         return conn;

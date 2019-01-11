@@ -61,6 +61,7 @@ import personal.wl.mobilepointapp.listener.ViewPagerListener;
 import personal.wl.mobilepointapp.model.User;
 import personal.wl.mobilepointapp.network.CallServer;
 import personal.wl.mobilepointapp.network.HttpListener;
+import personal.wl.mobilepointapp.preference.CurrentUser.MPALoginInfo;
 import personal.wl.mobilepointapp.ui.activity.CityActivity;
 import personal.wl.mobilepointapp.ui.activity.DetailActivity;
 import personal.wl.mobilepointapp.ui.activity.MessageActivity;
@@ -73,6 +74,7 @@ import personal.wl.mobilepointapp.ui.widget.Indicator;
 import personal.wl.mobilepointapp.utils.ToastUtil;
 
 import static android.icu.lang.UScript.getCode;
+import static personal.wl.mobilepointapp.common.MobilePointApplication.loginInfo;
 
 /**
  * Created by asus on 2016/8/27.
@@ -112,6 +114,11 @@ public class HomeFragment extends BaseFragment implements HttpListener<String> {
     private boolean isRefreshing = false;
     private TextView mCityName;
     private TextView tv_input_barcode;
+
+
+//    private MPALoginInfo loginInfo;
+
+    private personal.wl.mobilepointapp.auth.ldap.User user;
 
     @Nullable
     @Override
@@ -157,6 +164,11 @@ public class HomeFragment extends BaseFragment implements HttpListener<String> {
     }
 
     private void initViews(View view) {
+
+//        loginInfo = MPALoginInfo.getInstance();
+//        loginInfo.setContext(getActivity());
+        user=loginInfo.getUser();
+
         //titleBar
         View titleView = view.findViewById(R.id.home_titlebar);
         initTitlebar(titleView);
@@ -268,7 +280,7 @@ public class HomeFragment extends BaseFragment implements HttpListener<String> {
         messageBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                User user = User.getCurrentUser(User.class);
+                user=loginInfo.getUser();
                 if (user != null) {
                     openActivity(MessageActivity.class);
                 } else {

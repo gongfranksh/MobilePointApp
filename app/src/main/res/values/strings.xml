@@ -90,7 +90,7 @@
     <string name="more_item_check_update">检查更新</string>
     <string name="more_item_about">关于</string>
     <string name="more_item_default_cache_size">0.00KB</string>
-    <string name="more_item_kefu_hours">(8:00-22:00)</string>
+    <string name="more_item_kefu_hours">工作日(9:00-18:00)</string>
     <string name="clear_cache_success">清除缓存成功</string>
     <string name="open_app_market_failed">打开应用商店失败</string>
     <string name="current_version">当前版本 V</string>

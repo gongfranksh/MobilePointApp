@@ -38,6 +38,8 @@ import personal.wl.mobilepointapp.ui.activity.UserProfileActivity;
 import personal.wl.mobilepointapp.ui.base.BaseFragment;
 import personal.wl.mobilepointapp.utils.ToastUtil;
 
+import static personal.wl.mobilepointapp.common.MobilePointApplication.loginInfo;
+
 /**
  * Created by asus on 2016/8/27.
  */
@@ -74,7 +76,6 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     private RelativeLayout mItemRecommendLayout;
     private RelativeLayout mItemQrLayout;
     private LinearLayout mLoginProfileLayout;
-    private MPALoginInfo loginInfo;
     private personal.wl.mobilepointapp.auth.ldap.User user;
 
     @Nullable
@@ -94,7 +95,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     private void initUserLayout() {
 //        User user = User.getCurrentUser(User.class);
 //        User user = User.getCurrentUser(User.class);
-        user = loginInfo.getUser();;
+        user = loginInfo.getUser();
 
         if (user != null) {
             mLoginLayout.setVisibility(View.VISIBLE);
@@ -159,9 +160,6 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 
         mItemQrLayout.setOnClickListener(this);
         mLoginProfileLayout.setOnClickListener(this);
-
-
-        loginInfo = new MPALoginInfo(getActivity());
     }
 
     @Override

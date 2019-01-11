@@ -19,6 +19,8 @@ import personal.wl.mobilepointapp.preference.CurrentUser.MPALoginInfo;
 import personal.wl.mobilepointapp.ui.activity.UserProfileActivity;
 import personal.wl.mobilepointapp.ui.base.BaseFragment;
 
+import static personal.wl.mobilepointapp.common.MobilePointApplication.loginInfo;
+
 
 /**
  * Created by asus on 2016/9/18.
@@ -48,7 +50,6 @@ public class UserProfileFragment extends BaseFragment implements View.OnClickLis
     private RelativeLayout mQrLayout;
     private Button mBtnExitLogin;
     private User user;
-    private MPALoginInfo loginInfo;
 
     @Nullable
     @Override
@@ -87,9 +88,6 @@ public class UserProfileFragment extends BaseFragment implements View.OnClickLis
         mBtnExitLogin = (Button) view.findViewById(R.id.user_btn_exit_login);
         mBindDept = view.findViewById(R.id.user_item_bindDept_tv_nickname);
         mBtnExitLogin.setOnClickListener(this);
-
-
-        loginInfo = new MPALoginInfo(getActivity());
     }
 
     @Override
