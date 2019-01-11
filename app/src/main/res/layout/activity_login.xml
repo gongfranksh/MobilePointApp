@@ -54,14 +54,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <TextView
-                        android:id="@+id/login_select_tv_quickLogin"
-                        style="@style/login_select_textView_style"
-                        android:text="@string/login_select_quick_login"
-                        android:visibility="invisible"
-                        android:textColor="@color/app_yellow"/>
-                    <View
-                        style="@style/me_vertical_view_style"/>
-                    <TextView
                         android:id="@+id/login_select_tv_accountLogin"
                         style="@style/login_select_textView_style"
                         android:text="@string/login_select_account_login"/>
@@ -86,94 +78,7 @@
                         android:visibility="invisible"/>
                 </LinearLayout>
             </RelativeLayout>
-
-            <LinearLayout
-                android:id="@+id/login_quick_login_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/login_layout_marginTop"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@color/app_white">
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <EditText
-                            android:id="@+id/login_quick_login_et_phoneNumber"
-                            style="@style/login_editText_style"
-                            android:inputType="number"
-                            android:maxLength="11"
-                            android:hint="@string/login_input_phoneNumber_hint"/>
-                        <ImageView
-                            android:id="@+id/login_quick_login_iv_clear_phoneNumber"
-                            android:visibility="gone"
-                            style="@style/common_clear_input_imageView_style"/>
-                    </RelativeLayout>
-                    <View
-                        style="@style/me_horizontal_view_style"/>
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <EditText
-                            android:id="@+id/login_quick_login_et_code"
-                            style="@style/login_editText_style"
-                            android:inputType="number"
-                            android:maxLength="6"
-                            android:hint="@string/login_input_check_code_hint"/>
-                        <Button
-                            android:id="@+id/login_quick_login_btn_getCode"
-                            style="@style/login_btn_getCode_style"/>
-                        <ImageView
-                            android:id="@+id/login_quick_login_iv_clear_code"
-                            android:layout_toLeftOf="@+id/login_quick_login_btn_getCode"
-                            android:layout_alignParentRight="false"
-                            android:visibility="gone"
-                            style="@style/common_clear_input_imageView_style"/>
-                    </RelativeLayout>
-                    <RelativeLayout
-                        android:id="@+id/ll_check_picture"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:visibility="gone" >
-
-                        <View
-                            android:layout_width="fill_parent"
-                            android:layout_height="1.0dip"
-                            android:layout_marginLeft="14.0dip"
-                            android:background="#ffdadada" />
-
-                        <EditText
-                            android:id="@+id/et_check_picture"
-                            android:layout_width="120.0dip"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:background="@null"
-                            android:hint="验证图片"
-                            android:padding="16.0dip"
-                            android:scrollHorizontally="true"
-                            android:singleLine="true"
-                            android:textColorHint="@color/gray01"
-                            android:textSize="@dimen/size_24" />
-
-                        <ImageView
-                            android:id="@+id/iv_check_picture"
-                            android:layout_width="50.0dip"
-                            android:layout_height="30.0dip"
-                            android:layout_centerVertical="true"
-                            android:layout_toRightOf="@id/et_check_picture"
-                            android:scaleType="fitXY" />
-                    </RelativeLayout>
-                </LinearLayout>
-                <Button
-                    android:id="@+id/login_quick_login_btn"
-                    style="@style/login_btn_style"/>
-            </LinearLayout>
-
-            <LinearLayout
+           <LinearLayout
                 android:id="@+id/login_account_login_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -270,6 +175,7 @@
                     android:drawablePadding="5dp"
                     android:text="@string/login_account_forget_password"
                     android:textColor="@color/orange"
+                    android:visibility="invisible"
                     android:textSize="@dimen/login_content_size"/>
             </LinearLayout>
 

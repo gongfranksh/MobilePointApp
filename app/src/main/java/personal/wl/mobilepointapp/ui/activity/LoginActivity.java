@@ -61,30 +61,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private static final int MSG_USERID_FOUND = 5;
 
     private ImageView mTitleBarIvBack;
-    private TextView mTitleBarTvRegister;
-    private TextView mSelectTvQuickLogin;
     private TextView mSelectTvAccountLogin;
     private View mSelectLeftLine;
     private View mSelectRightLine;
-    private EditText mQuickLoginEtPhoneNumber;
-    private ImageView mQuickLoginIvClearPhoneNumber;
-    private EditText mQuickLoginEtCode;
-    private Button mQuickLoginBtnGetCode;
     private ImageView mQuickLoginIvClearCode;
-    private EditText mEtCheckPicture;
-    private ImageView mIvCheckPicture;
-    private RelativeLayout mLlCheckPicture;
-    private LinearLayout mQuickLoginLayout;
     private EditText mAccountLoginEtUsername;
     private ImageView mAccountLoginIvClearUsername;
     private EditText mAccountLoginEtPassword;
     private CheckBox mAccountLoginCheckBox;
     private ImageView mAccountLoginIvClearPassword;
-    private EditText mEtCheckCode;
-    private ImageView mIvCheckCode;
-    private RelativeLayout mLlCheckCode;
     private LinearLayout mAccountLoginLayout;
-    private Button mQuickLoginBtn;
     private Button mAccountLoginBtn;
     private TextView mAccountLoginTvForgetPassword;
     private ImageView mBottomIvQq;
@@ -125,6 +111,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         setContentView(R.layout.activity_login);
         initView();
         initAnimation();
+        myAnimation();
         setViewListener();
 
 //        ShareSDK.initSDK(this);
@@ -134,14 +121,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private void setViewListener() {
         //顶部选择
         mTitleBarIvBack.setOnClickListener(this);
-        mTitleBarTvRegister.setOnClickListener(this);
-        mSelectTvQuickLogin.setOnClickListener(this);
         mSelectTvAccountLogin.setOnClickListener(this);
-        //快速登录
-        mQuickLoginIvClearPhoneNumber.setOnClickListener(this);
-        mQuickLoginBtnGetCode.setOnClickListener(this);
-        mQuickLoginIvClearCode.setOnClickListener(this);
-        mQuickLoginBtn.setOnClickListener(this);
         //账号登录
         mAccountLoginIvClearUsername.setOnClickListener(this);
         mAccountLoginIvClearPassword.setOnClickListener(this);
@@ -167,25 +147,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             }
         });
 
-        mQuickLoginEtPhoneNumber.addTextChangedListener(new TextInputWatcher() {
-            @Override
-            public void afterTextChanged(Editable editable) {
-                isPhoneNumberNull = TextUtils.isEmpty(mQuickLoginEtPhoneNumber.getText());
-                mQuickLoginIvClearPhoneNumber.setVisibility(isPhoneNumberNull ? View.GONE : View.VISIBLE);
-                mQuickLoginIvClearPhoneNumber.setEnabled(!isPhoneNumberNull);
-                mQuickLoginBtn.setEnabled((isPhoneNumberNull || isCodeNull) ? false : true);
-            }
-        });
-
-        mQuickLoginEtCode.addTextChangedListener(new TextInputWatcher() {
-            @Override
-            public void afterTextChanged(Editable editable) {
-                isCodeNull = TextUtils.isEmpty(mQuickLoginEtCode.getText());
-                mQuickLoginIvClearCode.setVisibility(isCodeNull ? View.GONE : View.VISIBLE);
-                mQuickLoginIvClearCode.setEnabled(!isCodeNull);
-                mQuickLoginBtn.setEnabled((isPhoneNumberNull || isCodeNull) ? false : true);
-            }
-        });
 
         mAccountLoginEtUsername.addTextChangedListener(new TextInputWatcher() {
             @Override
@@ -208,6 +169,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         });
     }
 
+
+    private void myAnimation(){
+        mSelectTvAccountLogin.setTextColor(mSelectedTextColor);
+        mAccountLoginLayout.setVisibility(View.VISIBLE);
+        mSelectLeftLine.setVisibility(View.INVISIBLE);
+        mSelectRightLine.setVisibility(View.VISIBLE);
+    }
+
+
+
     private void initAnimation() {
         mSelectedTextColor = getResources().getColor(R.color.app_yellow);
         mUnselectedTextColor = getResources().getColor(R.color.content_color);
@@ -220,9 +191,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                mSelectTvQuickLogin.setTextColor(mUnselectedTextColor);
                 mSelectTvAccountLogin.setTextColor(mSelectedTextColor);
-                mQuickLoginLayout.setVisibility(View.GONE);
                 mAccountLoginLayout.setVisibility(View.VISIBLE);
                 mSelectLeftLine.setVisibility(View.INVISIBLE);
                 mSelectRightLine.setVisibility(View.VISIBLE);
@@ -242,9 +211,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                mSelectTvQuickLogin.setTextColor(mSelectedTextColor);
                 mSelectTvAccountLogin.setTextColor(mUnselectedTextColor);
-                mQuickLoginLayout.setVisibility(View.VISIBLE);
                 mAccountLoginLayout.setVisibility(View.GONE);
                 mSelectLeftLine.setVisibility(View.VISIBLE);
                 mSelectRightLine.setVisibility(View.INVISIBLE);
@@ -259,30 +226,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     private void initView() {
         mTitleBarIvBack = (ImageView) findViewById(R.id.login_titleBar_iv_back);
-        mTitleBarTvRegister = (TextView) findViewById(R.id.login_titleBar_tv_register);
-        mSelectTvQuickLogin = (TextView) findViewById(R.id.login_select_tv_quickLogin);
         mSelectTvAccountLogin = (TextView) findViewById(R.id.login_select_tv_accountLogin);
         mSelectLeftLine = findViewById(R.id.login_select_left_line);
         mSelectRightLine = findViewById(R.id.login_select_right_line);
-        mQuickLoginEtPhoneNumber = (EditText) findViewById(R.id.login_quick_login_et_phoneNumber);
-        mQuickLoginIvClearPhoneNumber = (ImageView) findViewById(R.id.login_quick_login_iv_clear_phoneNumber);
-        mQuickLoginEtCode = (EditText) findViewById(R.id.login_quick_login_et_code);
-        mQuickLoginBtnGetCode = (Button) findViewById(R.id.login_quick_login_btn_getCode);
         mQuickLoginIvClearCode = (ImageView) findViewById(R.id.login_quick_login_iv_clear_code);
-        mEtCheckPicture = (EditText) findViewById(R.id.et_check_picture);
-        mIvCheckPicture = (ImageView) findViewById(R.id.iv_check_picture);
-        mLlCheckPicture = (RelativeLayout) findViewById(R.id.ll_check_picture);
-        mQuickLoginLayout = (LinearLayout) findViewById(R.id.login_quick_login_layout);
         mAccountLoginEtUsername = (EditText) findViewById(R.id.login_account_login_et_username);
         mAccountLoginIvClearUsername = (ImageView) findViewById(R.id.login_account_login_iv_clear_username);
         mAccountLoginEtPassword = (EditText) findViewById(R.id.login_account_login_et_password);
         mAccountLoginCheckBox = (CheckBox) findViewById(R.id.login_account_login_checkBox);
         mAccountLoginIvClearPassword = (ImageView) findViewById(R.id.login_account_login_iv_clear_password);
-        mEtCheckCode = (EditText) findViewById(R.id.et_check_code);
-        mIvCheckCode = (ImageView) findViewById(R.id.iv_check_code);
-        mLlCheckCode = (RelativeLayout) findViewById(R.id.ll_check_code);
         mAccountLoginLayout = (LinearLayout) findViewById(R.id.login_account_login_layout);
-        mQuickLoginBtn = (Button) findViewById(R.id.login_quick_login_btn);
         mAccountLoginBtn = (Button) findViewById(R.id.login_account_login_btn);
         mAccountLoginTvForgetPassword = (TextView) findViewById(R.id.login_account_login_tv_forget_password);
         mBottomIvQq = (ImageView) findViewById(R.id.login_bottom_iv_qq);
@@ -308,67 +261,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             case R.id.login_titleBar_tv_register:
                 openActivity(RegisterActivity.class);
                 break;
-            case R.id.login_select_tv_quickLogin:
-                if (!isQuickLoginSelected) {
-                    mSelectRightLine.startAnimation(mRightLineAnimation);
-                    isQuickLoginSelected = true;
-                    isAccountLoginSelected = false;
-                }
-                break;
             case R.id.login_select_tv_accountLogin:
                 if (!isAccountLoginSelected) {
                     mSelectLeftLine.startAnimation(mLeftLineAnimation);
                     isAccountLoginSelected = true;
                     isQuickLoginSelected = false;
-                }
-                break;
-            case R.id.login_quick_login_iv_clear_phoneNumber:
-                mQuickLoginEtPhoneNumber.setText("");
-                mQuickLoginIvClearPhoneNumber.setVisibility(View.GONE);
-                break;
-            case R.id.login_quick_login_iv_clear_code:
-                mQuickLoginEtCode.setText("");
-                mQuickLoginIvClearCode.setVisibility(View.GONE);
-                break;
-            case R.id.login_quick_login_btn_getCode:
-                mPhoneNumber = mQuickLoginEtPhoneNumber.getText().toString();
-                if (LoginHelperUtil.isPhoneNumber(mPhoneNumber)) {
-                    BmobManager.getInstance(new BmobMsgSendCallback() {
-                        @Override
-                        public void onMsgSendSuccess() {
-                            ToastUtil.show(LoginActivity.this, R.string.sms_code_send_success);
-                            //验证码发送成功，倒计时
-                            setCodeTimeDown();
-                        }
-
-                        @Override
-                        public void onMsgSendFailure() {
-                            ToastUtil.show(LoginActivity.this, R.string.sms_code_send_failure);
-                        }
-                    }).sendMsgCode(mPhoneNumber);
-                } else {
-                    ToastUtil.show(this, R.string.phone_number_incorrect);
-                }
-                break;
-            case R.id.login_quick_login_btn:
-                mPhoneNumber = mQuickLoginEtPhoneNumber.getText().toString();
-                String code = mQuickLoginEtCode.getText().toString();
-                if (LoginHelperUtil.isCodeCorrect(code) && LoginHelperUtil.isPhoneNumber(mPhoneNumber)) {
-                    BmobManager.getInstance(new BmobLoginCallback() {
-                        @Override
-                        public void onLoginSuccess() {
-                            Log.i(TAG, "onLoginSuccess: 登陆成功");
-                            ToastUtil.show(LoginActivity.this, R.string.login_success);
-                        }
-
-                        @Override
-                        public void onLoginFailure() {
-                            Log.i(TAG, "onLoginFailure: 登陆失败");
-                            ToastUtil.show(LoginActivity.this, R.string.login_failed);
-                        }
-                    }).signOrLoginByMsgCode(mPhoneNumber, code);
-                } else {
-                    ToastUtil.showLong(this, R.string.quick_login_input_incorrect);
                 }
                 break;
             case R.id.login_account_login_iv_clear_username:
@@ -386,21 +283,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
 
                 if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
-//                    BmobManager.getInstance(new BmobLoginCallback() {
-//                        @Override
-//                        public void onLoginSuccess() {
-//                            ToastUtil.show(LoginActivity.this,R.string.login_success);
-//                            Intent data = new Intent();
-//                            setResult(LOGIN_RESULT_CODE,data);
-//                            finish();
-//                        }
-//                        @Override
-//                        public void onLoginFailure() {
-//                            ToastUtil.show(LoginActivity.this,R.string.login_failed);
-//                        }
-//                    }).login(username,password);
-
-
                     LdapSearchAsyn ldapSearchAsyn = new LdapSearchAsyn(this, username, password);
                     ldapSearchAsyn.execute();
 
@@ -465,29 +347,29 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     /**
      * 验证码倒计时
      */
-    private void setCodeTimeDown() {
-        mQuickLoginBtnGetCode.setEnabled(false);
-        final Timer timer = new Timer();
-        mSecCount = 60;
-        TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mSecCount--;
-                        mQuickLoginBtnGetCode.setText(mSecCount + " s");
-                        if (mSecCount <= 0) {
-                            timer.cancel();
-                            mQuickLoginBtnGetCode.setText(getString(R.string.reSend));
-                            mQuickLoginBtnGetCode.setEnabled(true);
-                        }
-                    }
-                });
-            }
-        };
-        timer.schedule(timerTask, 1000, 1000);
-    }
+//    private void setCodeTimeDown() {
+//        mQuickLoginBtnGetCode.setEnabled(false);
+//        final Timer timer = new Timer();
+//        mSecCount = 60;
+//        TimerTask timerTask = new TimerTask() {
+//            @Override
+//            public void run() {
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mSecCount--;
+//                        mQuickLoginBtnGetCode.setText(mSecCount + " s");
+//                        if (mSecCount <= 0) {
+//                            timer.cancel();
+//                            mQuickLoginBtnGetCode.setText(getString(R.string.reSend));
+//                            mQuickLoginBtnGetCode.setEnabled(true);
+//                        }
+//                    }
+//                });
+//            }
+//        };
+//        timer.schedule(timerTask, 1000, 1000);
+//    }
 
 //    @Override
 //    public void onComplete(Platform platform, int action, HashMap<String, Object> res) {
@@ -561,7 +443,4 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         }
     }
 
-
-    private void getValueFromConfig() {
-    }
 }
