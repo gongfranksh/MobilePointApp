@@ -24,67 +24,20 @@
         android:scrollbars="none"
         android:layout_marginBottom="@dimen/me_item_common_layout_marginTop"
         android:background="@color/app_bg">
-        <LinearLayout
+        <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <LinearLayout
+            android:layout_height="match_parent"
+            android:background="@color/app_bg"
+            tools:context=".SectionUseActivity">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/white_quai_bg"
-                android:layout_marginTop="@dimen/me_item_common_layout_marginTop"
-                android:orientation="vertical">
-                <View
-                    style="@style/me_horizontal_view_style"/>
-                <RelativeLayout
-                    style="@style/me_common_item_relativeLayout_style">
-                </RelativeLayout>
-                <View
-                    style="@style/me_horizontal_view_style"/>
-                <RelativeLayout
-                    android:id="@+id/more_item_clear_cache_layout"
-                    style="@style/me_common_item_relativeLayout_style">
-                </RelativeLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/me_item_common_layout_marginTop"
-                android:orientation="vertical"
-                android:background="@drawable/white_quai_bg">
-                <RelativeLayout
-                    android:id="@+id/more_item_feedback_layout"
-                    style="@style/me_common_item_relativeLayout_style">
-                    <ImageView
-                        style="@style/me_common_item_arrow_right_imageView_style"/>
-                </RelativeLayout>
-                <View
-                    style="@style/me_horizontal_view_style"/>
-                <RelativeLayout
-                    android:id="@+id/more_item_contact_kefu_layout"
-                    style="@style/me_common_item_relativeLayout_style">
-                </RelativeLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/me_item_common_layout_marginTop"
-                android:orientation="vertical"
-                android:background="@drawable/white_quai_bg">
-                <RelativeLayout
-                    android:id="@+id/more_item_check_update_layout"
-                    style="@style/me_common_item_relativeLayout_style">
-                </RelativeLayout>
-                <View
-                    style="@style/me_horizontal_view_style"/>
-                <RelativeLayout
-                    android:id="@+id/more_item_about_layout"
-                    style="@style/me_common_item_relativeLayout_style">
-                    <ImageView
-                        style="@style/me_common_item_arrow_right_imageView_style"/>
-                </RelativeLayout>
-            </LinearLayout>
-        </LinearLayout>
+                android:layout_height="match_parent"/>
+
+        </RelativeLayout>
+
     </ScrollView>
 
 </LinearLayout>

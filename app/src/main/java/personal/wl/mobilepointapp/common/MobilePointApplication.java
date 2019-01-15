@@ -1,5 +1,6 @@
 package personal.wl.mobilepointapp.common;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -32,12 +33,14 @@ import personal.wl.mobilepointapp.utils.ToastUtil;
 public class MobilePointApplication extends ZApplication {
     // 此为支付插件的官方最新版本号,请在更新时留意更新说明
     private static final int PLUGINVERSION = 7;
-    private static MobilePointApplication appContext;
+    public static MobilePointApplication appContext;
     private boolean flag = true;
     private List<BDLocation> mLocations = new ArrayList<>();
     private PatchManager mPatchManager;
 
     public static MPALoginInfo loginInfo;
+
+
 
     @Override
     public void onCreate() {

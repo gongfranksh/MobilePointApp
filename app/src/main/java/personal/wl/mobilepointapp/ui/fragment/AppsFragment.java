@@ -4,7 +4,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.telecom.Call;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,94 +16,124 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.chad.library.adapter.base.BaseQuickAdapter;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.bmob.v3.update.BmobUpdateAgent;
 import personal.wl.mobilepointapp.R;
+import personal.wl.mobilepointapp.baserecycler.GridSectionAverageGapItemDecoration;
 import personal.wl.mobilepointapp.common.MobilePointApplication;
+import personal.wl.mobilepointapp.entity.MySection;
+import personal.wl.mobilepointapp.entity.Video;
+import personal.wl.mobilepointapp.entity.menufunction.MPAFunction;
+import personal.wl.mobilepointapp.entity.menufunction.MPASection;
+import personal.wl.mobilepointapp.ui.adapter.MPAFunctionAdapter;
+import personal.wl.mobilepointapp.ui.adapter.SectionAdapter;
 import personal.wl.mobilepointapp.ui.base.BaseFragment;
 import personal.wl.mobilepointapp.utils.DataClearUtil;
 import personal.wl.mobilepointapp.utils.ToastUtil;
+import personal.wl.mobilepointapp.webservice.CallWebservices;
+import personal.wl.mobilepointapp.webservice.WebServiceInterface;
+
+import static android.widget.Toast.LENGTH_LONG;
+import static personal.wl.mobilepointapp.common.AppConstant.Method_GET_FUNCTION_MENU_ALL;
+import static personal.wl.mobilepointapp.common.AppConstant.PARA_GET_FUNCTION_MENU_ALL;
 
 /**
  * Created by asus on 2016/8/27.
  */
-public class AppsFragment extends BaseFragment implements View.OnClickListener {
-    private Toolbar mToolbar;
-    private CheckBox mBtnNoticeSwitch;
-    private TextView mItemTvCacheSize;
-    private RelativeLayout mItemClearCacheLayout;
-    private RelativeLayout mItemCommentLayout;
-    private RelativeLayout mItemFeedbackLayout;
-    private TextView mItemTvKefu;
-    private RelativeLayout mItemContactKefuLayout;
-    private TextView mItemTvCurrentVersion;
-    private RelativeLayout mItemCheckUpdateLayout;
-    private RelativeLayout mItemAboutLayout;
+public class AppsFragment extends BaseFragment implements  WebServiceInterface,View.OnClickListener {
+    private RecyclerView mRecyclerView;
+    private List<MPASection> mData;
+
+    private MPAFunctionAdapter sectionAdapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_apps, null);
-//        initView(view);
+        view.setOnClickListener(this);
+        mRecyclerView = view.findViewById(R.id.rv_list);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 5));
+        mRecyclerView.addItemDecoration(new GridSectionAverageGapItemDecoration(10, 10, 10, 10));
+        mRecyclerView.setOnClickListener(this);
+        getfunctions();
         return view;
     }
 
-//    private void initView(View view) {
-//        mToolbar = (Toolbar) view.findViewById(R.id.more_toolbar);
-//        mBtnNoticeSwitch = (CheckBox) view.findViewById(R.id.more_btn_notice_switch);
-//        mItemTvCacheSize = (TextView) view.findViewById(R.id.more_item_tv_cacheSize);
-//        mItemClearCacheLayout = (RelativeLayout) view.findViewById(R.id.more_item_clear_cache_layout);
-//        mItemCommentLayout = (RelativeLayout) view.findViewById(R.id.more_item_comment_layout);
-//        mItemFeedbackLayout = (RelativeLayout) view.findViewById(R.id.more_item_feedback_layout);
-//        mItemTvKefu = (TextView) view.findViewById(R.id.more_item_tv_kefu);
-//        mItemContactKefuLayout = (RelativeLayout) view.findViewById(R.id.more_item_contact_kefu_layout);
-//        mItemTvCurrentVersion = (TextView) view.findViewById(R.id.more_item_tv_current_version);
-//        mItemCheckUpdateLayout = (RelativeLayout) view.findViewById(R.id.more_item_check_update_layout);
-//        mItemAboutLayout = (RelativeLayout) view.findViewById(R.id.more_item_about_layout);
-//
-//        mBtnNoticeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-//                if (checked) {
-//
-//                }
-//            }
-//        });
-//        mItemClearCacheLayout.setOnClickListener(this);
-//        mItemFeedbackLayout.setOnClickListener(this);
-//        mItemContactKefuLayout.setOnClickListener(this);
-//        mItemCheckUpdateLayout.setOnClickListener(this);
-//        mItemAboutLayout.setOnClickListener(this);
-//
-//        mItemTvCacheSize.setText(DataClearUtil.getTotalCacheSize(getActivity()));
-//        mItemTvCurrentVersion.setText(MobilePointApplication.getAppContext().getAppVersion());
-//    }
+    public void getfunctions() {
 
-    @Override
-    public void onClick(View view) {
-//        switch (view.getId()) {
-//            case R.id.more_item_clear_cache_layout:
-//                DataClearUtil.cleanAllCache(getActivity());
-//                ToastUtil.show(getActivity(),R.string.clear_cache_success);
-//                mItemTvCacheSize.setText(DataClearUtil.getTotalCacheSize(getActivity()));
-//                break;
-//            case R.id.more_item_comment_layout:
-//                openAppMarket("com.netease.edu.study");
-//                break;
-//            case R.id.more_item_feedback_layout:
-//                break;
-//            case R.id.more_item_contact_kefu_layout:
-//                Intent intent = new Intent();
-//                intent.setAction(Intent.ACTION_CALL);
-//                intent.setData(Uri.parse("tel:"+mItemTvKefu.getText()));
-//                startActivity(intent);
-//                break;
-//            case R.id.more_item_check_update_layout:
-//                BmobUpdateAgent.forceUpdate(getActivity());
-//                break;
-//            case R.id.more_item_about_layout:
-//                break;
-//        }
+        CallWebservices callWebservices = new CallWebservices(this, Method_GET_FUNCTION_MENU_ALL, PARA_GET_FUNCTION_MENU_ALL, "01002");
+        callWebservices.execute();
     }
 
+
+
+    @Override
+    public void onRecevicedResult(JSONArray jsonArray) {
+        Log.i("apps", "onRecevicedResult: " + jsonArray.toString());
+        List<MPASection> list = new ArrayList<>();
+        try {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject rec = jsonArray.getJSONObject(i);
+                list.add(new MPASection(true, rec.get("sectionname").toString(), false));
+                JSONArray funs = new JSONArray();
+                funs = (JSONArray) rec.get("functions");
+                for (int j = 0; j < funs.length(); j++) {
+                    JSONObject currline = funs.getJSONObject(j);
+                    MPAFunction mpaf = new MPAFunction();
+                    mpaf.setFunctionName(currline.get("functionname").toString());
+                    mpaf.setFunctionId(currline.get("functionid").toString());
+                    mpaf.setIconName(currline.get("iconname").toString());
+                    mpaf.setMethodName(currline.get("methodname").toString());
+                    list.add(new MPASection(mpaf));
+                }
+            }
+        } catch (Exception e) {
+
+        }
+        mData = list;
+//        sectionAdapter.notifyDataSetChanged();
+        init_menu();
+
+    }
+
+
+    public void init_menu(){
+        sectionAdapter = new MPAFunctionAdapter(R.layout.fragment_item_section_content, R.layout.def_section_head, mData);
+        sectionAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                MPASection myselect = mData.get(position);
+                if (myselect.isHeader) {
+                    Toast.makeText(getActivity(), myselect.header, LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(getActivity(), myselect.t.getFunctionName(), LENGTH_LONG).show();
+                }
+            }
+        });
+
+        sectionAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                Toast.makeText(getActivity(),"onItemChildClick" + position, LENGTH_LONG).show();
+            }
+        });
+        mRecyclerView.setAdapter(sectionAdapter);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        Toast.makeText(getActivity(),"hello",LENGTH_LONG).show();
+    }
 }
