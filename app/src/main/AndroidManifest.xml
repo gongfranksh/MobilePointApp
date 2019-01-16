@@ -126,6 +126,7 @@
         </activity>
 
 
+
         <!-- 百度地图 开始 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"

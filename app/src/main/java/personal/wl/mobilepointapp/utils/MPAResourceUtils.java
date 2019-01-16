@@ -9,12 +9,24 @@ import static personal.wl.mobilepointapp.common.MobilePointApplication.appContex
 
 public class MPAResourceUtils {
 
+    public static Class getMPAclass(String classname) {
+//        classname="personal.wl.mobilepointapp.ui.activity.LoginActivity";
+        Class clazz = null;
+        try {
+            clazz = Class.forName(classname);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return clazz;
+    }
+
+
     public static int getImageResid(String ImageName) {
         int imgid;
-        List<String> lists =  getSourceName(ImageName);
+        List<String> lists = getSourceName(ImageName);
         String imagetype = lists.get(0).toString();
         String imagefile = lists.get(1).toString();
-        imgid = appContext.getResources().getIdentifier(imagefile,imagetype,appContext.getPackageName());
+        imgid = appContext.getResources().getIdentifier(imagefile, imagetype, appContext.getPackageName());
         return imgid;
     }
 

@@ -12,6 +12,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/fragment_apps_title"
             android:layout_gravity="center"
             android:text="@string/tab_title_application"
             android:textSize="@dimen/textSize_20"
