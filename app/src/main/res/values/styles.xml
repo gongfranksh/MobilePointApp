@@ -118,6 +118,35 @@
         <item name="android:src">@mipmap/arrow_right_my_gray</item>
     </style>
 
+    <style name="me_common_item_forward_right_imageView_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:src">@drawable/ic_forward_black_24dp</item>
+    </style>
+
+    <style name="me_common_item_member_right_imageView_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:src">@drawable/ic_person_add_black_24dp</item>
+    </style>
+
+
+    <style name="me_common_item_qrscan_right_imageView_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:src">@mipmap/nav_icon_scan_nor</item>
+    </style>
+
+
     <style name="me_common_item_count_textView_style" parent="base_textView_style">
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_marginRight">5dp</item>
@@ -240,6 +269,14 @@
         <item name="android:layout_alignParentEnd" tools:targetApi="jelly_bean_mr1">true</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_marginRight">10dp</item>
+        <item name="android:textSize">@dimen/textSize_15</item>
+        <item name="android:textColor">@color/gray01</item>
+    </style>
+
+    <style name="more_common_desc_textView_img_style" parent="base_textView_style">
+        <item name="android:layout_alignParentEnd" tools:targetApi="jelly_bean_mr1">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginRight">40dp</item>
         <item name="android:textSize">@dimen/textSize_15</item>
         <item name="android:textColor">@color/gray01</item>
     </style>

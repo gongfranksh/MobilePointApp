@@ -124,6 +124,10 @@
         </activity>
         <activity android:name=".ui.activity.MessageActivity">
         </activity>
+        <activity android:name=".ui.activity.SalesOrder.SaleOrderActivity">
+        </activity>
+        <activity android:name=".ui.activity.SalesOrder.SkuSelectActivity">
+        </activity>
 
 
 

@@ -42,9 +42,7 @@ import java.util.List;
 import cn.bmob.v3.exception.BmobException;
 import personal.wl.mobilepointapp.ui.widget.ObserverScrollView;
 import personal.wl.mobilepointapp.utils.ToastUtil;
-//import cn.sharesdk.framework.ShareSDK;
-//import cn.sharesdk.onekeyshare.OnekeyShare;
-//import personal.wl.mobilepointapp.ui.base.BaseActivity;
+
 
 public class DetailActivity extends BaseActivity implements View.OnClickListener, HttpListener<String>,ObserverScrollView.ScrollViewListener {
 
@@ -100,13 +98,13 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         setContentView(R.layout.activity_detail);
         initData();
         initView();
-        setViewWithIntentData();
+//        setViewWithIntentData();
         initScrollViewListener();
         showIsFavor();
     }
 
     private void setViewWithIntentData() {
-        mTvBought.setText(""+mGoodsBought);
+//        mTvBought.setText(""+mGoodsBought);
         if (mSevenRefund.equals("1")) {
             mSureLayoutSevenday.setVisibility(View.VISIBLE);
         } else {
@@ -122,11 +120,11 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void initData() {
-        mGoodsId = getIntent().getExtras().getString(HomeFragment.GOODS_ID);
-        mGoodsBought = getIntent().getExtras().getInt(HomeFragment.GOODS_BOUGHT);
-        mSevenRefund = getIntent().getExtras().getString(HomeFragment.GOODS_SEVEN_REFUND);
-        mTimeRefund = getIntent().getExtras().getInt(HomeFragment.GOODS_TIME_REFUND);
-        Request<String> request = NoHttp.createStringRequest(AppConstant.BASE_URL+ mGoodsId +".txt", RequestMethod.GET);
+//        mGoodsId = getIntent().getExtras().getString(HomeFragment.GOODS_ID);
+//        mGoodsBought = getIntent().getExtras().getInt(HomeFragment.GOODS_BOUGHT);
+//        mSevenRefund = getIntent().getExtras().getString(HomeFragment.GOODS_SEVEN_REFUND);
+//        mTimeRefund = getIntent().getExtras().getInt(HomeFragment.GOODS_TIME_REFUND);
+        Request<String> request = NoHttp.createStringRequest(AppConstant.RECOMMEND_URL, RequestMethod.GET);
         CallServer.getInstance().add(this,REQUEST_GOOD,request,this,true,true);
     }
 
@@ -211,31 +209,31 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onSucceed(int what, Response<String> response) {
         isRequestSuccess = true;
-        switch (what) {
-            case REQUEST_GOOD:
-                Gson gson = new Gson();
-                mDetailInfo = gson.fromJson(response.get(),GoodsDetailInfo.class);
-                //商品名称
-                mTvProductName.setText(mDetailInfo.getResult().getProduct());
-                //商家
-                mTvMerchantTitle.setText(mDetailInfo.getResult().getProduct());
-                //商品照片
-                mProductPhoto.setImageURI(Uri.parse(mDetailInfo.getResult().getImages().get(0).getImage()));
-                //商品描述
-                mTvDescription.setText(mDetailInfo.getResult().getTitle());
-                //商品详情
-                mDescWvDescription.loadDataWithBaseURL(AppConstant.BASE_URL, mDetailInfo.getResult().getDetails(),
-                        "text/html","UTF-8",null);
-                //温馨提示
-                mDescWvTips.loadDataWithBaseURL(AppConstant.BASE_URL, mDetailInfo.getResult().getNotice(),
-                        "text/html","UTF-8",null);
-                //团购价
-                mLayoutBuyPrice.setText(mDetailInfo.getResult().getPrice());
-                //门市价
-                mLayoutBuyValue.setText("$"+ mDetailInfo.getResult().getValue());
-                mLayoutBuyValue.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);//添加删除线
-                break;
-        }
+//        switch (what) {
+//            case REQUEST_GOOD:
+//                Gson gson = new Gson();
+//                mDetailInfo = gson.fromJson(response.get(),GoodsDetailInfo.class);
+//                //商品名称
+//                mTvProductName.setText(mDetailInfo.getResult().getProduct());
+//                //商家
+//                mTvMerchantTitle.setText(mDetailInfo.getResult().getProduct());
+//                //商品照片
+//                mProductPhoto.setImageURI(Uri.parse(mDetailInfo.getResult().getImages().get(0).getImage()));
+//                //商品描述
+//                mTvDescription.setText(mDetailInfo.getResult().getTitle());
+//                //商品详情
+//                mDescWvDescription.loadDataWithBaseURL(AppConstant.BASE_URL, mDetailInfo.getResult().getDetails(),
+//                        "text/html","UTF-8",null);
+//                //温馨提示
+//                mDescWvTips.loadDataWithBaseURL(AppConstant.BASE_URL, mDetailInfo.getResult().getNotice(),
+//                        "text/html","UTF-8",null);
+//                //团购价
+//                mLayoutBuyPrice.setText(mDetailInfo.getResult().getPrice());
+//                //门市价
+//                mLayoutBuyValue.setText("$"+ mDetailInfo.getResult().getValue());
+//                mLayoutBuyValue.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);//添加删除线
+//                break;
+//        }
     }
 
     @Override

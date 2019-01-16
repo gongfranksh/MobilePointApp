@@ -149,4 +149,12 @@
     <string name="check_no_plugin">监测到你尚未安装支付插件,无法进行支付,请先安装插件(已打包在本地,无流量消耗),安装结束后重新支付</string>
     <string name="pay_interrupt">支付中断</string>
     <string name="user_item_title_bindDept">归属部门</string>
+    <string name="salesorder">销售单</string>
+    <string name="saleorder_date_string">销售日期</string>
+    <string name="saleorder_member_string">会员</string>
+    <string name="saleorder_sku_string">商品</string>
+    <string name="sku_select_list_string">商品清单</string>
+    <string name="sku_input_seleced_hint">请扫码或者输入条码</string>
+    <string name="sku_selected_title_string">商品编码:</string>
+    <string name="sku_input_hint_string">请输入编码</string>
 </resources>
