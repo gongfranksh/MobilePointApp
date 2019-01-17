@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/around_bg_color"
     android:orientation="vertical">
+
     <FrameLayout
         android:id="@+id/around_titleBar_layout"
         android:layout_width="match_parent"
@@ -54,19 +55,20 @@
     </FrameLayout>
 
     <RelativeLayout
+        style="@style/home_title_bar_style"
         android:layout_width="match_parent"
         android:layout_height="@dimen/common_titleBar_height"
-        style="@style/home_title_bar_style"
         android:background="@color/app_yellow">
+
         <LinearLayout
             android:id="@+id/titleBar_location_lay"
             android:layout_width="@dimen/location_lay_width"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
+            android:background="@drawable/imageview_btn_selector"
             android:gravity="center_horizontal"
-            android:visibility="visible"
             android:orientation="horizontal"
-            android:background="@drawable/imageview_btn_selector">
+            android:visibility="visible">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -74,8 +76,8 @@
                 android:gravity="left|center"
                 android:maxLines="2"
                 android:text="@string/sku_selected_title_string"
-                android:textSize="@dimen/size_19"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_19" />
 
         </LinearLayout>
 
@@ -95,7 +97,7 @@
                 android:paddingLeft="@dimen/titleBar_scan_img_paddingLeft"
                 android:paddingRight="@dimen/titleBar_scan_img_paddingRight"
                 android:src="@mipmap/nav_icon_scan_nor"
-                android:visibility="visible"/>
+                android:visibility="visible" />
 
             <RelativeLayout
                 android:id="@+id/titleBar_rl_msg_num"
@@ -114,8 +116,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_toRightOf="@id/titleBar_location_lay"
             android:layout_toLeftOf="@id/titleBar_ll_right_layout"
+            android:layout_toRightOf="@id/titleBar_location_lay"
             android:background="@drawable/edittext_round_background_yellow"
             android:orientation="horizontal"
             android:paddingTop="@dimen/titleBar_search_ll_paddingTop"
@@ -128,12 +130,12 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/titleBar_search_iv_marginLeft"
                 android:layout_marginRight="@dimen/titleBar_search_iv_marginRight"
-                android:src="@mipmap/home_search"/>
+                android:src="@mipmap/home_search" />
 
             <TextView
+                android:id="@+id/sku_text_input_barcode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/sku_text_input_barcode"
                 android:singleLine="true"
                 android:text="@string/sku_input_hint_string"
                 android:textColor="@color/title_bar_search_text_color"
@@ -142,14 +144,7 @@
         </LinearLayout>
 
 
-
-
     </RelativeLayout>
-
-
-
-
-
 
 
     <View style="@style/around_view_style" />
@@ -228,14 +223,96 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/me_item_common_layout_marginTop"
-        android:background="@color/app_bg"
-        android:scrollbars="none">
+        android:layout_height="match_parent">
 
 
-    </ScrollView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/skulists"
+            android:layout_width="match_parent"
+            android:layout_above="@+id/detail_layout_sky_selected"
+            android:layout_height="match_parent" />
 
+        <RelativeLayout
+            android:id="@+id/detail_layout_sky_selected"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/detail_layout_buy_height"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white">
+
+
+            <View style="@style/detail_view_style" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:text="$"
+                            android:textColor="@color/app_yellow"
+                            android:textSize="@dimen/textSize_14"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/detail_layout_buy_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/detail_layout_buy_price_marginLeft"
+                            android:textColor="@color/app_yellow"
+                            android:textSize="@dimen/textSize_23"
+                            android:textStyle="bold"
+                            tools:text="119" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="15dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/detail_layout_buy_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/textSize_12"
+                            tools:text="$998" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/detail_bottom_retail_price"
+                            android:textSize="@dimen/textSize_12" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/detail_layout_buy_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/app_yellow"
+                    android:text="@string/detail_bottom_buy"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textSize_17" />
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
 </LinearLayout>
