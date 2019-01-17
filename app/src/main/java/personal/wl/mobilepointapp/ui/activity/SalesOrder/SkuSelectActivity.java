@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
@@ -13,59 +15,45 @@ import com.uuzuche.lib_zxing.activity.CodeUtils;
 import personal.wl.mobilepointapp.R;
 import personal.wl.mobilepointapp.preference.SystemSettingConstant;
 import personal.wl.mobilepointapp.ui.base.BaseActivity;
+import personal.wl.mobilepointapp.ui.fragment.Sales.SaleOrderFragment;
+import personal.wl.mobilepointapp.ui.fragment.Sales.SkuSelectFragment;
 import personal.wl.mobilepointapp.utils.ToastUtil;
 
 
-public class SkuSelectActivity extends BaseActivity implements View.OnClickListener {
+public class SkuSelectActivity extends BaseActivity  {
 
-    private ImageView skuscan;
-    private TextView skuvalue;
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == SystemSettingConstant.SCAN_QR_REQUEST) {
-            if (null != data) {
-                Bundle bundle = data.getExtras();
-                if (bundle == null) {
-                    return;
-                }
-                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
-                    String result = bundle.getString(CodeUtils.RESULT_STRING);
-                    ToastUtil.show(this, "解析结果:" + result);
-                    skuvalue.setText(result);
-                }
-            }
-        }
-
-
-    }
+    private ImageView mTitleBarIvBack;
+    private TextView mTitleBarTvTitle;
+    private TextView mTitleBarTvRight;
+    private FrameLayout mContentLayout;
+    private TextView mErrorTv;
+    private LinearLayout mErrorLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sku_select);
+        setContentView(R.layout.layout_common_info_activity);
         initView();
+        getSupportFragmentManager().beginTransaction().replace(R.id.common_content_layout,new SkuSelectFragment()).commit();
     }
 
     public void initView() {
-        skuscan = findViewById(R.id.sku_titleBar_scan_img);
-        skuvalue= findViewById(R.id.sku_text_input_barcode);
-//
-        skuscan.setOnClickListener(this);
-//        memscan.setOnClickListener(this);
+        mTitleBarIvBack = (ImageView) findViewById(R.id.common_titleBar_iv_back);
+        mTitleBarTvTitle = (TextView) findViewById(R.id.common_titleBar_tv_title);
+        mTitleBarTvRight = (TextView) findViewById(R.id.common_titleBar_tv_right);
+        mContentLayout = (FrameLayout) findViewById(R.id.common_content_layout);
+        mErrorTv = (TextView) findViewById(R.id.common_error_tv);
+        mErrorLayout = (LinearLayout) findViewById(R.id.common_error_layout);
+
+        mTitleBarTvRight.setVisibility(View.GONE);
+        mTitleBarTvTitle.setText("商品清单");
+        mTitleBarIvBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.sku_titleBar_scan_img:
-                ToastUtil.show(this, "san sku");
-                Intent intent = new Intent(this, CaptureActivity.class);
-                startActivityForResult(intent, SystemSettingConstant.SCAN_QR_REQUEST);
-                break;
-        }
-
-
-    }
 }

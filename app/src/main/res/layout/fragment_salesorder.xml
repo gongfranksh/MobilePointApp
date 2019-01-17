@@ -5,22 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/around_bg_color"
     android:orientation="vertical">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/around_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/around_toolbar_height"
-        android:background="@color/app_yellow">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/salesorder"
-            android:textColor="@color/white"
-            android:textSize="@dimen/textSize_20" />
-    </android.support.v7.widget.Toolbar>
-
     <FrameLayout
         android:id="@+id/around_titleBar_layout"
         android:layout_width="match_parent"
