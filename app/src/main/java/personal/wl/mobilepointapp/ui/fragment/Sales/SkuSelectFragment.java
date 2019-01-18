@@ -243,7 +243,7 @@ class Request extends Thread {
             p = new Product();
             p.setProName("hello=================" + i);
             p.setProSName("hello" + i);
-            p.setNormalPrice((long) 11.11 + i);
+            p.setNormalPrice( 11.11 + i);
             tt.add(p);
         }
         return tt;
