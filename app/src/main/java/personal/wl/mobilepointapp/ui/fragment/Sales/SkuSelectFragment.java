@@ -12,10 +12,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,10 +42,14 @@ import static personal.wl.mobilepointapp.preference.SystemSettingConstant.CLICK_
 import static personal.wl.mobilepointapp.preference.SystemSettingConstant.PAGE_SIZE;
 
 
-public class SkuSelectFragment extends BaseFragment implements View.OnClickListener,BaseQuickAdapter.OnItemClickListener,BaseQuickAdapter.OnItemChildClickListener,BaseQuickAdapter.RequestLoadMoreListener {
+public class SkuSelectFragment extends BaseFragment implements View.OnClickListener, BaseQuickAdapter.OnItemClickListener,
+        BaseQuickAdapter.OnItemChildClickListener, SwipeRefreshLayout.OnRefreshListener,
+        BaseQuickAdapter.RequestLoadMoreListener,TextWatcher
+
+{
 
     private ImageView skuscan;
-    private TextView skuvalue;
+    private EditText skuvalue;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mskuRecyclerView;
     private int mNextRequestPage = 1;
@@ -55,31 +62,8 @@ public class SkuSelectFragment extends BaseFragment implements View.OnClickListe
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sku_select, null);
         initView(view);
-        initAdapter();
-        initRefreshLayout();
         mSwipeRefreshLayout.setRefreshing(true);
         return view;
-    }
-
-
-
-    private void initAdapter() {
-
-//        Product p =null;
-//
-//        for (int i = 0; i <100 ; i++) {
-//            p = new Product();
-//        p.setTYPE(CLICK_ITEM_VIEW);
-//        p.setProName("hello================="+i);
-//        p.setProSName("hello"+i);
-//        p.setNormalPrice((long) 11.11+i);
-//        data.add(p);
-//
-//        }
-
-        mskuRecyclerView.setAdapter(adapter);
-
-
     }
 
     @Override
@@ -101,32 +85,31 @@ public class SkuSelectFragment extends BaseFragment implements View.OnClickListe
     }
 
     public void initView(View view) {
+
+
         skuscan = view.findViewById(R.id.sku_titleBar_scan_img);
         skuvalue = view.findViewById(R.id.sku_text_input_barcode);
+
+
+        skuvalue.addTextChangedListener(this);
+
         mskuRecyclerView = view.findViewById(R.id.skulists);
         mskuRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-
         mSwipeRefreshLayout = view.findViewById(R.id.skuswipeLayout);
         mSwipeRefreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
-        adapter = new MPASkuListAdapter(R.layout.item_databing_sku_list,data);
+
+        adapter = new MPASkuListAdapter(R.layout.item_databing_sku_list, data);
         adapter.openLoadAnimation();
+
         adapter.setOnItemClickListener(this);
         adapter.setOnItemChildClickListener(this);
         adapter.setOnLoadMoreListener(this);
-
         skuscan.setOnClickListener(this);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setRefreshing(true);
+        mskuRecyclerView.setAdapter(adapter);
         refresh();
-    }
-
-    private void initRefreshLayout() {
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refresh();
-            }
-        });
     }
 
 
@@ -144,14 +127,15 @@ public class SkuSelectFragment extends BaseFragment implements View.OnClickListe
             //第一页如果不够一页就不显示没有更多数据布局
             adapter.loadMoreEnd(isRefresh);
 
-            ToastUtil.show(getActivity(),"no more data");
+            ToastUtil.show(getActivity(), "no more data");
         } else {
             adapter.loadMoreComplete();
         }
     }
 
     private void refresh() {
-        mNextRequestPage = 1;
+
+        if(mNextRequestPage!=1) mNextRequestPage++;
         adapter.setEnableLoadMore(false);//这里的作用是防止下拉刷新的时候还可以上拉加载
         mSwipeRefreshLayout.setRefreshing(false);
         new Request(mNextRequestPage, new RequestCallBack() {
@@ -164,7 +148,7 @@ public class SkuSelectFragment extends BaseFragment implements View.OnClickListe
 
             @Override
             public void fail(Exception e) {
-                ToastUtil.show(getActivity(),"error ddd");
+                ToastUtil.show(getActivity(), "连接失败");
                 adapter.setEnableLoadMore(true);
                 mSwipeRefreshLayout.setRefreshing(false);
             }
@@ -210,19 +194,36 @@ public class SkuSelectFragment extends BaseFragment implements View.OnClickListe
         new Request(mNextRequestPage, new RequestCallBack() {
             @Override
             public void success(List<Product> data) {
-                /**
-                 * fix https://github.com/CymChad/BaseRecyclerViewAdapterHelper/issues/2400
-                 */
-                boolean isRefresh =mNextRequestPage ==1;
+                boolean isRefresh = mNextRequestPage == 1;
                 setData(isRefresh, data);
             }
 
             @Override
             public void fail(Exception e) {
                 adapter.loadMoreFail();
-                ToastUtil.show(getActivity(),"eroror");
+                ToastUtil.show(getActivity(), "eroror");
             }
         }).start();
+    }
+
+    @Override
+    public void onRefresh() {
+        refresh();
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//        skuvalue.setText("");
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }
 
@@ -235,15 +236,14 @@ class Request extends Thread {
     private static boolean mFirstPageNoMore;
     private static boolean mFirstError = true;
 
-    private List<Product> getSampleData(int len){
-        List<Product> tt= new ArrayList<>();
-        Product p =null;
-        for (int i = 0; i <len ; i++) {
+    private List<Product> getSampleData(int len) {
+        List<Product> tt = new ArrayList<>();
+        Product p = null;
+        for (int i = 0; i < len; i++) {
             p = new Product();
-            p.setTYPE(CLICK_ITEM_VIEW);
-            p.setProName("hello================="+i);
-            p.setProSName("hello"+i);
-            p.setNormalPrice((long) 11.11+i);
+            p.setProName("hello=================" + i);
+            p.setProSName("hello" + i);
+            p.setNormalPrice((long) 11.11 + i);
             tt.add(p);
         }
         return tt;
@@ -258,7 +258,10 @@ class Request extends Thread {
 
     @Override
     public void run() {
-        try {Thread.sleep(500);} catch (InterruptedException e) {}
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+        }
 
         if (mPage == 2 && mFirstError) {
             mFirstError = false;

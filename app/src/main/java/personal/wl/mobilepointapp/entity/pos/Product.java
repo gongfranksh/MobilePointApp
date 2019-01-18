@@ -2,6 +2,7 @@ package personal.wl.mobilepointapp.entity.pos;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
+import java.io.Serializable;
 import java.sql.*;
 
 /**
@@ -13,7 +14,7 @@ import java.sql.*;
  */
 
 
-public class Product implements MultiItemEntity {
+public class Product implements Serializable {
     private String ProId;
     private String Barcode;
     private String ProName;
@@ -80,15 +81,6 @@ public class Product implements MultiItemEntity {
     private String onlineflag;
     private String invoice;
 
-    private int TYPE;
-
-    public int getTYPE() {
-        return TYPE;
-    }
-
-    public void setTYPE(int TYPE) {
-        this.TYPE = TYPE;
-    }
 
     public void setProId(String ProId) {
         this.ProId = ProId;
@@ -611,9 +603,5 @@ public class Product implements MultiItemEntity {
     }
 
 
-    @Override
-    public int getItemType() {
-        return getTYPE();
-    }
 }
 

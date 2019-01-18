@@ -132,12 +132,12 @@
                 android:layout_marginRight="@dimen/titleBar_search_iv_marginRight"
                 android:src="@mipmap/home_search" />
 
-            <TextView
+            <EditText
                 android:id="@+id/sku_text_input_barcode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="@string/sku_input_hint_string"
+                android:hint="@string/sku_input_hint_string"
                 android:textColor="@color/title_bar_search_text_color"
                 android:textSize="@dimen/size_17" />
 
