@@ -3,6 +3,8 @@ package personal.wl.mobilepointapp.ui.fragment.Sales;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -27,6 +29,7 @@ import java.util.List;
 
 import personal.wl.mobilepointapp.R;
 import personal.wl.mobilepointapp.entity.pos.Product;
+import personal.wl.mobilepointapp.listener.RequestCallBack;
 import personal.wl.mobilepointapp.preference.SystemSettingConstant;
 import personal.wl.mobilepointapp.ui.adapter.MPASkuListAdapter;
 import personal.wl.mobilepointapp.ui.base.BaseFragment;
@@ -36,7 +39,7 @@ import static personal.wl.mobilepointapp.preference.SystemSettingConstant.CLICK_
 import static personal.wl.mobilepointapp.preference.SystemSettingConstant.PAGE_SIZE;
 
 
-public class SkuSelectFragment extends BaseFragment implements View.OnClickListener,BaseQuickAdapter.OnItemClickListener,BaseQuickAdapter.OnItemChildClickListener {
+public class SkuSelectFragment extends BaseFragment implements View.OnClickListener,BaseQuickAdapter.OnItemClickListener,BaseQuickAdapter.OnItemChildClickListener,BaseQuickAdapter.RequestLoadMoreListener {
 
     private ImageView skuscan;
     private TextView skuvalue;
@@ -58,19 +61,21 @@ public class SkuSelectFragment extends BaseFragment implements View.OnClickListe
         return view;
     }
 
+
+
     private void initAdapter() {
 
-        Product p =null;
-
-        for (int i = 0; i <100 ; i++) {
-            p = new Product();
-        p.setTYPE(CLICK_ITEM_VIEW);
-        p.setProName("hello================="+i);
-        p.setProSName("hello"+i);
-        p.setNormalPrice((long) 11.11+i);
-        data.add(p);
-
-        }
+//        Product p =null;
+//
+//        for (int i = 0; i <100 ; i++) {
+//            p = new Product();
+//        p.setTYPE(CLICK_ITEM_VIEW);
+//        p.setProName("hello================="+i);
+//        p.setProSName("hello"+i);
+//        p.setNormalPrice((long) 11.11+i);
+//        data.add(p);
+//
+//        }
 
         mskuRecyclerView.setAdapter(adapter);
 
@@ -108,6 +113,7 @@ public class SkuSelectFragment extends BaseFragment implements View.OnClickListe
         adapter.openLoadAnimation();
         adapter.setOnItemClickListener(this);
         adapter.setOnItemChildClickListener(this);
+        adapter.setOnLoadMoreListener(this);
 
         skuscan.setOnClickListener(this);
         mSwipeRefreshLayout.setRefreshing(true);
@@ -146,24 +152,23 @@ public class SkuSelectFragment extends BaseFragment implements View.OnClickListe
 
     private void refresh() {
         mNextRequestPage = 1;
-
         adapter.setEnableLoadMore(false);//这里的作用是防止下拉刷新的时候还可以上拉加载
         mSwipeRefreshLayout.setRefreshing(false);
-//        new Request(mNextRequestPage, new RequestCallBack() {
-//            @Override
-//            public void success(List<Product> data) {
-//                setData(true, data);
-//                adapter.setEnableLoadMore(true);
-//                mSwipeRefreshLayout.setRefreshing(false);
-//            }
-//
-//            @Override
-//            public void fail(Exception e) {
-//                Toast.makeText(PullToRefreshUseActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
-//                adapter.setEnableLoadMore(true);
-//                mSwipeRefreshLayout.setRefreshing(false);
-//            }
-//        }).start();
+        new Request(mNextRequestPage, new RequestCallBack() {
+            @Override
+            public void success(List<Product> data) {
+                setData(true, data);
+                adapter.setEnableLoadMore(true);
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void fail(Exception e) {
+                ToastUtil.show(getActivity(),"error ddd");
+                adapter.setEnableLoadMore(true);
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        }).start();
     }
 
 
@@ -193,5 +198,97 @@ public class SkuSelectFragment extends BaseFragment implements View.OnClickListe
         Log.d("Be Click", "skuselectfragment==>onItemChildClick: ");
         ToastUtil.show(getActivity(), "skuselectfragment==>onItemChildClick" + position);
 
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        loadMore();
+    }
+
+
+    private void loadMore() {
+        new Request(mNextRequestPage, new RequestCallBack() {
+            @Override
+            public void success(List<Product> data) {
+                /**
+                 * fix https://github.com/CymChad/BaseRecyclerViewAdapterHelper/issues/2400
+                 */
+                boolean isRefresh =mNextRequestPage ==1;
+                setData(isRefresh, data);
+            }
+
+            @Override
+            public void fail(Exception e) {
+                adapter.loadMoreFail();
+                ToastUtil.show(getActivity(),"eroror");
+            }
+        }).start();
+    }
+}
+
+class Request extends Thread {
+    private static final int PAGE_SIZE = 6;
+    private int mPage;
+    private RequestCallBack mCallBack;
+    private Handler mHandler;
+
+    private static boolean mFirstPageNoMore;
+    private static boolean mFirstError = true;
+
+    private List<Product> getSampleData(int len){
+        List<Product> tt= new ArrayList<>();
+        Product p =null;
+        for (int i = 0; i <len ; i++) {
+            p = new Product();
+            p.setTYPE(CLICK_ITEM_VIEW);
+            p.setProName("hello================="+i);
+            p.setProSName("hello"+i);
+            p.setNormalPrice((long) 11.11+i);
+            tt.add(p);
+        }
+        return tt;
+
+    }
+
+    public Request(int page, RequestCallBack callBack) {
+        mPage = page;
+        mCallBack = callBack;
+        mHandler = new Handler(Looper.getMainLooper());
+    }
+
+    @Override
+    public void run() {
+        try {Thread.sleep(500);} catch (InterruptedException e) {}
+
+        if (mPage == 2 && mFirstError) {
+            mFirstError = false;
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    mCallBack.fail(new RuntimeException("fail"));
+                }
+            });
+        } else {
+            int size = PAGE_SIZE;
+            if (mPage == 1) {
+                if (mFirstPageNoMore) {
+                    size = 1;
+                }
+                mFirstPageNoMore = !mFirstPageNoMore;
+                if (!mFirstError) {
+                    mFirstError = true;
+                }
+            } else if (mPage == 4) {
+                size = 1;
+            }
+
+            final int dataSize = size;
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    mCallBack.success(getSampleData(dataSize));
+                }
+            });
+        }
     }
 }
