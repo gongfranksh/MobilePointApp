@@ -14,6 +14,8 @@ public class SystemSettingConstant {
     public static final int LONG_CLICK_ITEM_CHILD_VIEW = 4;
     public static final int NEST_CLICK_ITEM_CHILD_VIEW = 5;
 
+    public static final int PAGE_SIZE = 6;
+
 
 //    public static final String SETTING_DB_CONF_NAME="DBSetting";
 }
