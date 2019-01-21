@@ -3,6 +3,8 @@ package personal.wl.mobilepointapp.entity.pos;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 
@@ -46,9 +48,11 @@ public class Product implements Serializable {
     private java.util.Date UpdateDate;
     private java.util.Date stopdate;
     private Long TimeStamp;
+    private Product thisproduct;
 
     @Generated
     public Product() {
+        this.thisproduct=this;
     }
 
     public Product(Long id) {
@@ -336,6 +340,19 @@ public class Product implements Serializable {
 
     public void setTimeStamp(Long TimeStamp) {
         this.TimeStamp = TimeStamp;
+    }
+
+
+    public Product getfromjson(JSONObject rec) throws JSONException {
+
+        Product tmp_product = this.thisproduct;
+        tmp_product.setProName(rec.getString("ProName"));
+        tmp_product.setProSName(rec.getString("ProSName"));
+        tmp_product.setNormalPrice(rec.getDouble("NormalPrice"));
+        tmp_product.setSpec(rec.getString("Spec"));
+        tmp_product.setBarcode(rec.getString("Barcode"));
+        tmp_product.setProid(rec.getString("ProId"));
+        return tmp_product;
     }
 
 }

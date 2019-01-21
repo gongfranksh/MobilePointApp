@@ -157,4 +157,7 @@
     <string name="sku_input_seleced_hint">请扫码或者输入条码</string>
     <string name="sku_selected_title_string">商品编码:</string>
     <string name="sku_input_hint_string">请输入编码</string>
+    <string name="sku_proid_string">店内码:</string>
+    <string name="sku_barcode_string">条形码:</string>
+    <string name="sku_spec_string">规格:</string>
 </resources>

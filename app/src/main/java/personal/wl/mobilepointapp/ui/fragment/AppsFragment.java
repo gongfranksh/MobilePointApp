@@ -31,6 +31,7 @@ import personal.wl.mobilepointapp.ui.base.BaseFragment;
 import personal.wl.mobilepointapp.utils.ToastUtil;
 import personal.wl.mobilepointapp.webservice.CallWebservices;
 import personal.wl.mobilepointapp.webservice.WebServiceInterface;
+import personal.wl.mobilepointapp.webservice.WebServicePara;
 
 import static android.widget.Toast.LENGTH_LONG;
 import static personal.wl.mobilepointapp.common.AppConstant.Method_GET_FUNCTION_MENU_ALL;
@@ -49,6 +50,9 @@ public class AppsFragment extends BaseFragment implements WebServiceInterface {
     private TextView tv1;
 
     private personal.wl.mobilepointapp.auth.ldap.User user;
+
+    private WebServicePara parain;
+    private List<WebServicePara> paraList = new ArrayList<>();
 
 
 //    @Override
@@ -81,7 +85,11 @@ public class AppsFragment extends BaseFragment implements WebServiceInterface {
 
     public void getfunctions() {
 
-        CallWebservices callWebservices = new CallWebservices(this, Method_GET_FUNCTION_MENU_ALL, PARA_GET_FUNCTION_MENU_ALL, "01002");
+        parain = new WebServicePara();
+        parain.setPara_name(PARA_GET_FUNCTION_MENU_ALL);
+        parain.setPara_value("01002");
+        paraList.add(parain);
+        CallWebservices callWebservices = new CallWebservices(this, Method_GET_FUNCTION_MENU_ALL,paraList);
         callWebservices.execute();
     }
 

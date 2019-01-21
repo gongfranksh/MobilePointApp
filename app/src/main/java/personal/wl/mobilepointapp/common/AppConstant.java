@@ -55,10 +55,15 @@ public class AppConstant {
 
     public static final String WSDL_URI = "http://192.168.81.136:8000/?wsdl";
     public static final String WSDL_NAMESPACE = "http://shangyi.weiliang.webservice";
-    public static final String Method_GET_PRODUCT = "get_productbarcode_all";
-    public static final String Method_QUERY_PRODUCT_BY_BARCODE = "get_productbarcode_by_barcode_result";
+
+    public static final String Method_QUERY_PRODUCT_BY_BARCODE = "get_product_by_barcode";
     public static final String Method_GET_FUNCTION_MENU_ALL = "get_functionmenu_all";
+
     public static final String PARA_GET_FUNCTION_MENU_ALL = "branchcode";
+
+    public static final String PARA_BRANCHCODE = "branchcode";
+    public static final String PARA_BARCODE = "barcode";
+    public static final String PARA_PRONAME = "proname";
 
 
 

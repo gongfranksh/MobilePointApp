@@ -42,6 +42,7 @@ public class MPASkuListAdapter extends BaseQuickAdapter<Product, MPASkuListAdapt
         ViewDataBinding binding = helper.getBinding();
         binding.setVariable(BR.product,item);
         binding.setVariable(BR.productpresenter,productPresenter);
+
         helper.addOnClickListener(R.id.iv_num_add).addOnClickListener(R.id.iv_num_reduce);
         binding.executePendingBindings();
     }

@@ -76,6 +76,91 @@
                     android:textSize="12sp"
                     tools:text="He was one of Australia's most distinguished artistes" />
 
+
+                <TextView
+                    android:id="@+id/sku_proid_lable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/sku_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignStart="@+id/sku_name"
+                    android:layout_alignLeft="@+id/sku_name"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/sku_proid_string"
+                    android:textColor="@color/txt_color"
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/sku_proid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/sku_proid_lable"
+                    android:layout_toRightOf="@+id/sku_proid_lable"
+                    android:text='@{product.Proid}'
+                    android:layout_marginRight="10dp"
+                    android:textColor="#888888"
+                    android:textSize="12sp"
+                    tools:text="product.Proid" />
+
+
+                <TextView
+                    android:id="@+id/sku_barcode_lable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/sku_proid"
+                    android:layout_toRightOf="@+id/sku_proid"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/sku_barcode_string"
+                    android:textColor="@color/txt_color"
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/sku_barcode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignBottom="@+id/sku_barcode_lable"
+                    android:layout_toRightOf="@+id/sku_barcode_lable"
+                    android:text='@{product.Barcode}'
+                    android:textColor="#888888"
+                    android:textSize="12sp"
+                    tools:text="product.Barcode" />
+
+
+
+                <TextView
+                    android:id="@+id/sku_spec_lable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/sku_name"
+                    android:layout_alignLeft="@+id/sku_name"
+
+                    android:layout_below="@+id/sku_proid_lable"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/sku_spec_string"
+                    android:textColor="@color/txt_color"
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
+
+
+
+                <TextView
+                    android:id="@+id/sku_spec"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/sku_spec_lable"
+                    android:layout_toRightOf="@+id/sku_spec_lable"
+                    android:text='@{product.Spec}'
+                    android:layout_marginRight="10dp"
+                    android:textColor="#888888"
+                    android:textSize="12sp"
+                    tools:text="product.Spec" />
+
+
+
                 <TextView
                     android:id="@+id/sku_price"
                     android:layout_width="wrap_content"
@@ -87,7 +172,7 @@
                     android:textColor="@color/txt_color"
                     android:textSize="28sp"
                     android:textStyle="bold"
-                    tools:text="RMB 12" />
+                    tools:text="RMB 12"  />
 
 
             </RelativeLayout>

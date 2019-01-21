@@ -8,25 +8,31 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static personal.wl.mobilepointapp.common.AppConstant.Method_QUERY_PRODUCT_BY_BARCODE;
 import static personal.wl.mobilepointapp.common.AppConstant.WSDL_NAMESPACE;
 import static personal.wl.mobilepointapp.common.AppConstant.WSDL_URI;
 
-public class CallWebservices extends AsyncTask<String, Integer, String>  implements WebServiceInterface{
+public class CallWebservices extends AsyncTask<String, Integer, String> implements WebServiceInterface {
     private final String TAG = "webservice";
     private String method;
     private String para;
     private String para_value;
+    private List<WebServicePara> paraList = new ArrayList<>();
+    private WebServicePara parain;
     private JSONArray jsobj;
 
     private WebServiceInterface webServiceInterface;
 
 
-    public CallWebservices(WebServiceInterface wi,String method, String para, String para_value)  {
+    public CallWebservices(WebServiceInterface wi, String method, List<WebServicePara> paraList) {
         this.method = method;
         this.para = para;
         this.para_value = para_value;
-        this.webServiceInterface=wi;
+        this.webServiceInterface = wi;
+        this.paraList = paraList;
     }
 
     @Override
@@ -35,7 +41,12 @@ public class CallWebservices extends AsyncTask<String, Integer, String>  impleme
         try {
             String soapAction = WSDL_NAMESPACE + "/" + Method_QUERY_PRODUCT_BY_BARCODE;
             SoapObject request = new SoapObject(WSDL_NAMESPACE, this.method);
-            request.addProperty(WSDL_NAMESPACE, this.para, this.para_value);
+
+            for (int i = 0; i < paraList.size(); i++) {
+                parain = paraList.get(i);
+                request.addProperty(WSDL_NAMESPACE, parain.getPara_name(), parain.getPara_value());
+            }
+
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapSerializationEnvelope.VER11);
             envelope.bodyOut = request;
             envelope.dotNet = false;
