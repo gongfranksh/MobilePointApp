@@ -160,4 +160,5 @@
     <string name="sku_proid_string">店内码:</string>
     <string name="sku_barcode_string">条形码:</string>
     <string name="sku_spec_string">规格:</string>
+    <string name="sku_detail_layout_selected_btn_string">提交</string>
 </resources>

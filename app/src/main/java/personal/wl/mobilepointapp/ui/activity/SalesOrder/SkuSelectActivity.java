@@ -12,12 +12,17 @@ import android.widget.TextView;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
+import java.io.Serializable;
+import java.util.List;
+
 import personal.wl.mobilepointapp.R;
 import personal.wl.mobilepointapp.preference.SystemSettingConstant;
 import personal.wl.mobilepointapp.ui.base.BaseActivity;
 import personal.wl.mobilepointapp.ui.fragment.Sales.SaleOrderFragment;
 import personal.wl.mobilepointapp.ui.fragment.Sales.SkuSelectFragment;
 import personal.wl.mobilepointapp.utils.ToastUtil;
+
+import static personal.wl.mobilepointapp.common.AppConstant.SKU_SELECT_RESULT_CODE;
 
 
 public class SkuSelectActivity extends BaseActivity  {
@@ -28,13 +33,14 @@ public class SkuSelectActivity extends BaseActivity  {
     private FrameLayout mContentLayout;
     private TextView mErrorTv;
     private LinearLayout mErrorLayout;
+    private int skuselectfragment_id ;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_common_info_activity);
         initView();
-        getSupportFragmentManager().beginTransaction().replace(R.id.common_content_layout,new SkuSelectFragment()).commit();
+        skuselectfragment_id = getSupportFragmentManager().beginTransaction().replace(R.id.common_content_layout, new SkuSelectFragment()).commit();
     }
 
     public void initView() {
@@ -53,6 +59,8 @@ public class SkuSelectActivity extends BaseActivity  {
                 finish();
             }
         });
+
+
     }
 
 

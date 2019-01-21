@@ -50,6 +50,16 @@ public class Product implements Serializable {
     private Long TimeStamp;
     private Product thisproduct;
 
+    public Double getSaleQty() {
+        return SaleQty;
+    }
+
+    public void setSaleQty(Double saleQty) {
+        SaleQty = saleQty;
+    }
+
+    private Double SaleQty;
+
     @Generated
     public Product() {
         this.thisproduct=this;
@@ -352,6 +362,7 @@ public class Product implements Serializable {
         tmp_product.setSpec(rec.getString("Spec"));
         tmp_product.setBarcode(rec.getString("Barcode"));
         tmp_product.setProid(rec.getString("ProId"));
+        tmp_product.setSaleQty(1.00);
         return tmp_product;
     }
 

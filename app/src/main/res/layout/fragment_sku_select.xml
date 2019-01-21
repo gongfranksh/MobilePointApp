@@ -311,11 +311,11 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/detail_layout_buy_btn"
+                    android:id="@+id/sku_detail_layout_selected_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@color/app_yellow"
-                    android:text="@string/detail_bottom_buy"
+                    android:text="@string/sku_detail_layout_selected_btn_string"
                     android:textColor="@color/white"
                     android:textSize="@dimen/textSize_17" />
             </LinearLayout>

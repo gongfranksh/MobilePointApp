@@ -23,6 +23,14 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
 
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ToastUtil.show(getActivity(),"return result");
+
+
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_salesorder, null);
         skuscan = view.findViewById(R.id.sales_order_img_sku);

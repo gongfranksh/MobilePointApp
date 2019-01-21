@@ -67,4 +67,9 @@ public class AppConstant {
 
 
 
+    public static final int SKU_SELECT_RESULT_CODE = 8112;
+    public static final String SKU_SELECT_RESULT_EXTRA_CODE = "skuselected";
+
+
+
 }

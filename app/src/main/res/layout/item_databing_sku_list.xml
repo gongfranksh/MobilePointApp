@@ -210,7 +210,7 @@
                         android:layout_width="35dp"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="0" />
+                        android:text='@{"" +product.SaleQty}' />
 
                     <ImageView
                         android:id="@+id/iv_num_add"

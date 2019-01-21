@@ -1,14 +1,9 @@
 package personal.wl.mobilepointapp.ui.fragment.Sales;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,10 +13,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
@@ -31,13 +25,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import personal.wl.mobilepointapp.R;
 import personal.wl.mobilepointapp.entity.pos.Product;
-import personal.wl.mobilepointapp.listener.RequestCallBack;
 import personal.wl.mobilepointapp.preference.SystemSettingConstant;
+import personal.wl.mobilepointapp.ui.activity.SalesOrder.SkuSelectActivity;
 import personal.wl.mobilepointapp.ui.adapter.MPASkuListAdapter;
 import personal.wl.mobilepointapp.ui.base.BaseFragment;
 import personal.wl.mobilepointapp.utils.ToastUtil;
@@ -45,11 +40,11 @@ import personal.wl.mobilepointapp.webservice.CallWebservices;
 import personal.wl.mobilepointapp.webservice.WebServiceInterface;
 import personal.wl.mobilepointapp.webservice.WebServicePara;
 
-import static personal.wl.mobilepointapp.common.AppConstant.Method_GET_FUNCTION_MENU_ALL;
 import static personal.wl.mobilepointapp.common.AppConstant.Method_QUERY_PRODUCT_BY_BARCODE;
 import static personal.wl.mobilepointapp.common.AppConstant.PARA_BARCODE;
 import static personal.wl.mobilepointapp.common.AppConstant.PARA_BRANCHCODE;
-import static personal.wl.mobilepointapp.common.AppConstant.PARA_GET_FUNCTION_MENU_ALL;
+import static personal.wl.mobilepointapp.common.AppConstant.SKU_SELECT_RESULT_CODE;
+import static personal.wl.mobilepointapp.common.AppConstant.SKU_SELECT_RESULT_EXTRA_CODE;
 import static personal.wl.mobilepointapp.preference.SystemSettingConstant.PAGE_SIZE;
 
 
@@ -69,6 +64,8 @@ public class SkuSelectFragment extends BaseFragment implements View.OnClickListe
     private WebServicePara parain;
     private List<WebServicePara> paraList = new ArrayList<>();
     private CallWebservices callWebservices;
+    private Button sku_select_btn;
+
 
     @Nullable
     @Override
@@ -77,6 +74,19 @@ public class SkuSelectFragment extends BaseFragment implements View.OnClickListe
         initView(view);
         return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ToastUtil.show(getActivity(), "sku=>fragment=>onresmue");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ToastUtil.show(getActivity(), "sku=>fragment=>onDestroy");
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -101,7 +111,7 @@ public class SkuSelectFragment extends BaseFragment implements View.OnClickListe
     public void getfunctions(String scanresult) {
 
         parain = new WebServicePara();
-        paraList= new ArrayList<>();
+        paraList = new ArrayList<>();
         callWebservices = null;
 
         parain.setPara_name(PARA_BRANCHCODE);
@@ -120,6 +130,7 @@ public class SkuSelectFragment extends BaseFragment implements View.OnClickListe
 
         skuscan = view.findViewById(R.id.sku_titleBar_scan_img);
         skuvalue = view.findViewById(R.id.sku_text_input_barcode);
+        sku_select_btn = view.findViewById(R.id.sku_detail_layout_selected_btn);
 
 
         skuvalue.addTextChangedListener(this);
@@ -137,6 +148,7 @@ public class SkuSelectFragment extends BaseFragment implements View.OnClickListe
         adapter.setOnItemChildClickListener(this);
 //        adapter.setOnLoadMoreListener(this);
         skuscan.setOnClickListener(this);
+        sku_select_btn.setOnClickListener(this);
         mskuRecyclerView.setAdapter(adapter);
     }
 
@@ -172,21 +184,41 @@ public class SkuSelectFragment extends BaseFragment implements View.OnClickListe
             case R.id.sku_good_bt1:
                 ToastUtil.show(getActivity(), "sku_good_bt1 sku");
                 break;
+            case R.id.sku_detail_layout_selected_btn:
 
+
+                Intent callintent = new Intent();
+                callintent.putExtra(SKU_SELECT_RESULT_EXTRA_CODE, (Serializable) data);
+                getActivity().setResult(SKU_SELECT_RESULT_CODE, callintent);
+                getActivity().finish();
+
+                break;
         }
     }
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        Log.d("Be Click", "skuselectfragment==>onItemClick: ");
         ToastUtil.show(getActivity(), "skuselectfragment==>onItemClick" + position);
     }
 
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-        Log.d("Be Click", "skuselectfragment==>onItemChildClick: ");
-        ToastUtil.show(getActivity(), "skuselectfragment==>onItemChildClick" + position);
-
+        switch (view.getId()) {
+            case R.id.iv_num_add:
+                data.get(position).setSaleQty(data.get(position).getSaleQty() + 1);
+                break;
+            case R.id.iv_num_reduce:
+                if (data.get(position).getSaleQty() != 0) {
+                    data.get(position).setSaleQty(data.get(position).getSaleQty() - 1);
+                } else {
+                    data.get(position).setSaleQty(0.00);
+                    adapter.remove(position);
+                }
+                break;
+            default:
+                break;
+        }
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -210,8 +242,8 @@ public class SkuSelectFragment extends BaseFragment implements View.OnClickListe
         try {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject rec = jsonArray.getJSONObject(i);
-                Product tmp_product=new Product();
-                tmp_product=tmp_product.getfromjson(rec);
+                Product tmp_product = new Product();
+                tmp_product = tmp_product.getfromjson(rec);
                 data.add(tmp_product);
             }
         } catch (JSONException e1) {
