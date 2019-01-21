@@ -161,4 +161,6 @@
     <string name="sku_barcode_string">条形码:</string>
     <string name="sku_spec_string">规格:</string>
     <string name="sku_detail_layout_selected_btn_string">提交</string>
+    <string name="saleorder_qty_label_string">数量:</string>
+    <string name="saleorder_sku_unit_label_string">单价:</string>
 </resources>

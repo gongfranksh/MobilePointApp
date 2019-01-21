@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="saleorder"
+            type="personal.wl.mobilepointapp.entity.pos.SaleDaily" />
+
+
+
+    </data>
+
+    <android.support.v7.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="175dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/sku_buy_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="false"
+                android:layout_alignParentTop="false"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
+                              android:src="@mipmap/buy_icon"
+                app:backgroundTint="@color/app_yellow" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true">
+
+
+                <TextView
+                    android:id="@+id/sale_order_sku_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="ProSname"
+                    android:textColor="@color/txt_color"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="ProSname" />
+
+
+                <TextView
+                    android:id="@+id/saleorder_proid_lable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/sale_order_sku_name"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignStart="@+id/sale_order_sku_name"
+                    android:layout_alignLeft="@+id/sale_order_sku_name"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/sku_proid_string"
+                    android:textColor="@color/txt_color"
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/saleorder_proid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/saleorder_proid_lable"
+                    android:layout_toRightOf="@+id/saleorder_proid_lable"
+                    android:text='@{saleorder.ProId}'
+                    android:layout_marginRight="10dp"
+                    android:textColor="#888888"
+                    android:textSize="12sp"
+                    tools:text="saleorder.Proid" />
+
+
+                <TextView
+                    android:id="@+id/saleorder_barcode_lable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/saleorder_proid_lable"
+                    android:layout_toRightOf="@+id/saleorder_proid"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/sku_barcode_string"
+                    android:textColor="@color/txt_color"
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/saleorder_barcode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignBottom="@+id/saleorder_barcode_lable"
+                    android:layout_toRightOf="@+id/saleorder_barcode_lable"
+                    android:text='@{saleorder.BarCode}'
+                    android:textColor="#888888"
+                    android:textSize="12sp"
+                    tools:text="saleorder.Barcode" />
+
+
+                <TextView
+                    android:id="@+id/saleorder_qty_lable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/saleorder_proid_lable"
+                    android:layout_alignStart="@+id/sale_order_sku_name"
+                    android:layout_alignLeft="@+id/sale_order_sku_name"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/saleorder_qty_label_string"
+                    android:textColor="@color/txt_color"
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/saleorder_qty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignBottom="@+id/saleorder_qty_lable"
+                    android:layout_toRightOf="@+id/saleorder_qty_lable"
+                    android:text='@{""+saleorder.saleQty}'
+                    android:textColor="#888888"
+                    android:textSize="12sp"
+                    tools:text="saleorder.qty" />
+
+                <TextView
+                    android:id="@+id/saleorder_sku_unit_lable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/saleorder_barcode_lable"
+                    android:layout_alignStart="@+id/saleorder_barcode_lable"
+                    android:layout_alignLeft="@+id/saleorder_barcode_lable"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/saleorder_sku_unit_label_string"
+                    android:textColor="@color/txt_color"
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/saleorder_sku_unit_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignBottom="@+id/saleorder_sku_unit_lable"
+                    android:layout_toRightOf="@+id/saleorder_sku_unit_lable"
+                    android:text='@{""+saleorder.normalPrice}'
+                    android:textColor="#888888"
+                    android:textSize="12sp"
+                    tools:text="saleorder.NormalPrice" />
+                <TextView
+                    android:id="@+id/saleorder_sku_amt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="17dp"
+                    android:text='@{"" +saleorder.SaleAmt}'
+                    android:textColor="@color/txt_color"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    tools:text="RMB"  />
+
+
+            </RelativeLayout>
+
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</layout>

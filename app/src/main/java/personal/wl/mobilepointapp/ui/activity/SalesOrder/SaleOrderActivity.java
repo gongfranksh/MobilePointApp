@@ -38,17 +38,6 @@ public class SaleOrderActivity extends BaseActivity {
 
     private List<Product> NeedProduct = new ArrayList<>();
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == SKU_SELECT_RESULT_CODE) {
-            if (null != data) {
-                NeedProduct = (List<Product>) data.getSerializableExtra(SKU_SELECT_RESULT_EXTRA_CODE);
-            }
-        }
-
-
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
