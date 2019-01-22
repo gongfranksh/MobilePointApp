@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,12 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
     private MPASaleOrderListAdapter mpaSaleOrderListAdapter;
     private List<Product> NeedProduct = new ArrayList<>();
 
+
+    private TextView sales_total_amount;
+    private TextView sales_detail_layout_buy_total_amount;
+    private TextView sales_detail_layout_buy_total_qty;
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -47,10 +54,11 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
 
                 for (int i = 0; i < NeedProduct.size(); i++) {
                     onesales = new SaleDaily();
-                    onesales=onesales.getSaleDailyFromProduct(NeedProduct.get(i));
+                    onesales = onesales.getSaleDailyFromProduct(NeedProduct.get(i));
                     saleDailyList.add(onesales);
                 }
                 mpaSaleOrderListAdapter.notifyDataSetChanged();
+                ReflashValue();
             }
         }
 
@@ -63,6 +71,10 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
         skuscan = view.findViewById(R.id.sales_order_img_sku);
         memscan = view.findViewById(R.id.sales_order_img_memeber);
 
+
+        sales_detail_layout_buy_total_amount = view.findViewById(R.id.detail_layout_buy_amount);
+        sales_detail_layout_buy_total_qty = view.findViewById(R.id.detail_layout_buy_qty);
+        sales_total_amount = view.findViewById(R.id.sales_order_Total_Amount);
 
         productorderlistecyclerView = view.findViewById(R.id.sale_order_product_lists);
         productorderlistecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -88,6 +100,21 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
                 ToastUtil.show(getActivity(), "san member");
                 break;
         }
+
+
+    }
+
+
+    public void ReflashValue() {
+
+        double tmp_qty = 0.00, tmp_total_amount = 0.00;
+        for (int i = 0; i < saleDailyList.size(); i++) {
+            tmp_qty += saleDailyList.get(i).getSaleQty();
+            tmp_total_amount += saleDailyList.get(i).getSaleAmt();
+        }
+        sales_total_amount.setText("" + tmp_total_amount);
+        sales_detail_layout_buy_total_amount.setText("" + tmp_total_amount);
+        sales_detail_layout_buy_total_qty.setText("" + tmp_qty);
 
 
     }
