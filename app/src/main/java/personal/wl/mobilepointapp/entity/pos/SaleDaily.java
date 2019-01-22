@@ -19,6 +19,16 @@ public class SaleDaily implements Serializable {
     private String Braid;
     private java.util.Date SaleDate;
     private String ProId;
+
+    public String getProName() {
+        return ProName;
+    }
+
+    public void setProName(String proName) {
+        ProName = proName;
+    }
+
+    private String ProName;
     private String BarCode;
     private String ClassId;
     private String IsDM;
@@ -53,8 +63,22 @@ public class SaleDaily implements Serializable {
     private Boolean IsReturn;
     private String OrderInnerId;
 
+    private SaleDaily saleDaily;
+
     @Generated
     public SaleDaily() {
+        saleDaily = this;
+    }
+
+
+    public SaleDaily getSaleDailyFromProduct(Product product) {
+        saleDaily.setProId(product.getProid());
+        saleDaily.setBarCode(product.getBarcode());
+        saleDaily.setProName(product.getProName());
+        saleDaily.setNormalPrice(product.getNormalPrice());
+        saleDaily.setSaleQty(product.getSaleQty());
+        saleDaily.setSaleAmt(product.getSaleQty() * product.getNormalPrice());
+        return saleDaily;
     }
 
     public SaleDaily(Long id) {

@@ -163,4 +163,8 @@
     <string name="sku_detail_layout_selected_btn_string">提交</string>
     <string name="saleorder_qty_label_string">数量:</string>
     <string name="saleorder_sku_unit_label_string">单价:</string>
+    <string name="saleorder_totalamount_string">销售金额:</string>
+    <string name="saleorder_payment_all">本次收款</string>
+    <string name="sale_order_saler_man_string">销售人员:</string>
+    <string name="saleorder_branch_string">门店：</string>
 </resources>

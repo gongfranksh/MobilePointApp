@@ -33,8 +33,8 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
     private ImageView memscan;
     private RecyclerView productorderlistecyclerView;
 
-    private List<SaleDaily> saleDailyList  = new ArrayList<>();
-    private  SaleDaily onesales;
+    private List<SaleDaily> saleDailyList = new ArrayList<>();
+    private SaleDaily onesales;
     private MPASaleOrderListAdapter mpaSaleOrderListAdapter;
     private List<Product> NeedProduct = new ArrayList<>();
 
@@ -45,19 +45,14 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
             if (null != data) {
                 NeedProduct = (List<Product>) data.getSerializableExtra(SKU_SELECT_RESULT_EXTRA_CODE);
 
-                for (int i = 0; i <NeedProduct.size()  ; i++) {
-                    onesales= new SaleDaily();
-                    onesales.setProId(NeedProduct.get(i).getProid());
-                    onesales.setBarCode(NeedProduct.get(i).getBarcode());
-                    onesales.setNormalPrice(NeedProduct.get(i).getNormalPrice());
-                    onesales.setSaleQty(NeedProduct.get(i).getSaleQty());
-                    onesales.setSaleAmt(NeedProduct.get(i).getSaleQty() *NeedProduct.get(i).getNormalPrice() );
+                for (int i = 0; i < NeedProduct.size(); i++) {
+                    onesales = new SaleDaily();
+                    onesales=onesales.getSaleDailyFromProduct(NeedProduct.get(i));
                     saleDailyList.add(onesales);
                 }
                 mpaSaleOrderListAdapter.notifyDataSetChanged();
             }
         }
-
 
 
     }
@@ -90,7 +85,7 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
                 startActivityForResult(intent, SystemSettingConstant.SKU_SELECTED_REQUEST);
                 break;
             case R.id.sales_order_img_memeber:
-                ToastUtil.show (getActivity(), "san member");
+                ToastUtil.show(getActivity(), "san member");
                 break;
         }
 

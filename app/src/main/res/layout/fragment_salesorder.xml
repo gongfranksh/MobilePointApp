@@ -3,8 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/around_bg_color"
     android:orientation="vertical">
+
     <FrameLayout
         android:id="@+id/around_titleBar_layout"
         android:layout_width="match_parent"
@@ -129,6 +131,9 @@
     </LinearLayout>
 
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -148,6 +153,25 @@
                 android:layout_marginTop="@dimen/me_item_common_layout_marginTop"
                 android:background="@drawable/white_quai_bg"
                 android:orientation="vertical">
+                <View style="@style/me_horizontal_view_style" />
+
+                <RelativeLayout style="@style/me_common_item_relativeLayout_style">
+
+                    <TextView
+                        style="@style/more_common_item_textView_style"
+                        android:text="@string/saleorder_branch_string" />
+
+                    <TextView
+                        android:id="@+id/sales_order_branch_selected"
+                        style="@style/more_common_desc_textView_img_style"
+                        android:text="上海店" />
+
+
+                    <ImageView
+                        android:id="@+id/sales_order_img_branchselected"
+                        style="@style/me_common_item_arrow_right_black_style" />
+
+                </RelativeLayout>
 
                 <View style="@style/me_horizontal_view_style" />
 
@@ -162,11 +186,6 @@
                         style="@style/more_common_desc_textView_img_style"
                         android:text="2009-12-10" />
 
-
-                    <ImageView
-                        android:id="@+id/sales_order_img_saledate"
-                        style="@style/me_common_item_arrow_right_imageView_style"
-                        />
 
                 </RelativeLayout>
 
@@ -185,8 +204,7 @@
 
                     <ImageView
                         android:id="@+id/sales_order_img_memeber"
-                        style="@style/me_common_item_member_right_imageView_style"
-                        />
+                        style="@style/me_common_item_member_right_imageView_style" />
 
                 </RelativeLayout>
 
@@ -207,20 +225,180 @@
 
                     <ImageView
                         android:id="@+id/sales_order_img_sku"
-                        style="@style/me_common_item_forward_right_imageView_style"
-                        />
+                        style="@style/me_common_item_arrow_right_black_style" />
 
                 </RelativeLayout>
+
                 <View style="@style/around_view_style" />
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/sale_order_product_lists"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/sale_order_product_lists"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
                 </RelativeLayout>
             </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/me_item_common_layout_marginTop"
+                android:background="@drawable/white_quai_bg"
+                android:orientation="vertical">
+
+                <View style="@style/me_horizontal_view_style" />
+
+                <RelativeLayout style="@style/me_common_item_relativeLayout_style">
+
+                    <TextView
+                        style="@style/more_common_item_textView_style"
+                        android:text="@string/saleorder_totalamount_string" />
+
+                    <TextView
+                        android:id="@+id/sales_order_Total_Amount"
+                        style="@style/more_common_desc_textView_img_style"
+                        android:text="999.9" />
+
+                </RelativeLayout>
+
+
+                <View style="@style/me_horizontal_view_style" />
+
+                <RelativeLayout style="@style/me_common_item_relativeLayout_style">
+
+                    <TextView
+                        style="@style/more_common_item_textView_style"
+                        android:text="@string/saleorder_payment_all" />
+
+                    <TextView
+                        android:id="@+id/sales_order_payments"
+                        style="@style/more_common_desc_textView_img_style"
+                        android:text="999.9" />
+
+                    <ImageView
+                        android:id="@+id/sales_order_img_payments"
+                        style="@style/me_common_item_arrow_right_black_style" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/me_item_common_layout_marginTop"
+            android:background="@drawable/white_quai_bg"
+            android:orientation="vertical">
+
+            <View style="@style/me_horizontal_view_style" />
+
+            <RelativeLayout style="@style/me_common_item_relativeLayout_style">
+
+                <TextView
+                    style="@style/more_common_item_textView_style"
+                    android:text="@string/sale_order_saler_man_string" />
+
+                <TextView
+                    android:id="@+id/sales_order_saler_man"
+                    style="@style/more_common_desc_textView_img_style"
+                    android:text="peter" />
+
+                <ImageView
+                    android:id="@+id/sales_order_img_saleer_man"
+                    style="@style/me_common_item_arrow_right_black_style" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
         </LinearLayout>
     </ScrollView>
+
+
+    <RelativeLayout
+        android:id="@+id/detail_layout_sky_selected"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="@dimen/detail_layout_buy_height"
+              android:background="@color/white">
+
+
+        <View style="@style/detail_view_style" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="$"
+                        android:textColor="@color/app_yellow"
+                        android:textSize="@dimen/textSize_14"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/detail_layout_buy_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/detail_layout_buy_price_marginLeft"
+                        android:textColor="@color/app_yellow"
+                        android:textSize="@dimen/textSize_23"
+                        android:textStyle="bold"
+                        tools:text="119" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/detail_layout_buy_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/textSize_12"
+                        tools:text="$998" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/detail_bottom_retail_price"
+                        android:textSize="@dimen/textSize_12" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/sku_detail_layout_selected_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/app_yellow"
+                android:text="@string/sku_detail_layout_selected_btn_string"
+                android:textColor="@color/white"
+                android:textSize="@dimen/textSize_17" />
+        </LinearLayout>
+    </RelativeLayout>
+    </RelativeLayout>
 </LinearLayout>

@@ -54,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="ProSname"
+                    android:text="@{saleorder.ProName}"
                     android:textColor="@color/txt_color"
                     android:textSize="16sp"
                     android:textStyle="bold"
