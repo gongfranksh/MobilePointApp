@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/around_bg_color"
+    android:orientation="vertical">
+
+    <View style="@style/around_view_style" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/paymentlists"
+            android:layout_below="@+id/detail_layout_payment_submit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <RelativeLayout
+            android:id="@+id/detail_layout_payment_submit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/detail_layout_buy_height"
+            android:layout_alignParentTop="true"
+            android:background="@color/white">
+
+            <View style="@style/detail_view_style" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:text="￥"
+                            android:textColor="@color/app_yellow"
+                            android:textSize="@dimen/textSize_14"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/detail_layout_payment_total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/detail_layout_buy_price_marginLeft"
+                            android:textColor="@color/app_yellow"
+                            android:textSize="@dimen/textSize_23"
+                            android:textStyle="bold"
+                            tools:text="119" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="15dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/detail_layout_buy_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/textSize_12"
+                            tools:text="$998" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/detail_bottom_retail_price"
+                            android:textSize="@dimen/textSize_12" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/sku_detail_layout_selected_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/app_yellow"
+                    android:text="@string/sku_detail_layout_selected_btn_string"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textSize_17" />
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>

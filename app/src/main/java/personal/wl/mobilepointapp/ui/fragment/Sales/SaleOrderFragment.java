@@ -16,14 +16,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import personal.wl.mobilepointapp.R;
+import personal.wl.mobilepointapp.common.AppConstant;
 import personal.wl.mobilepointapp.entity.pos.Product;
 import personal.wl.mobilepointapp.entity.pos.SaleDaily;
 import personal.wl.mobilepointapp.preference.SystemSettingConstant;
+import personal.wl.mobilepointapp.ui.activity.SalesOrder.PaymentSelectActivity;
 import personal.wl.mobilepointapp.ui.activity.SalesOrder.SkuSelectActivity;
 import personal.wl.mobilepointapp.ui.adapter.MPASaleOrderListAdapter;
 import personal.wl.mobilepointapp.ui.base.BaseFragment;
 import personal.wl.mobilepointapp.utils.ToastUtil;
 
+import static personal.wl.mobilepointapp.common.AppConstant.PAYMMENT_SELECT_RESULT_CODE;
 import static personal.wl.mobilepointapp.common.AppConstant.SKU_SELECT_RESULT_CODE;
 import static personal.wl.mobilepointapp.common.AppConstant.SKU_SELECT_RESULT_EXTRA_CODE;
 
@@ -32,7 +35,11 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
 
     private ImageView skuscan;
     private ImageView memscan;
+    private ImageView payment_img;
     private RecyclerView productorderlistecyclerView;
+    private Intent intent;
+
+
 
     private List<SaleDaily> saleDailyList = new ArrayList<>();
     private SaleDaily onesales;
@@ -70,7 +77,7 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
         View view = inflater.inflate(R.layout.fragment_salesorder, null);
         skuscan = view.findViewById(R.id.sales_order_img_sku);
         memscan = view.findViewById(R.id.sales_order_img_memeber);
-
+        payment_img= view.findViewById(R.id.sales_order_img_payments);
 
         sales_detail_layout_buy_total_amount = view.findViewById(R.id.detail_layout_buy_amount);
         sales_detail_layout_buy_total_qty = view.findViewById(R.id.detail_layout_buy_qty);
@@ -84,6 +91,7 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
 
         skuscan.setOnClickListener(this);
         memscan.setOnClickListener(this);
+        payment_img.setOnClickListener(this);
         return view;
     }
 
@@ -93,9 +101,15 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
         switch (v.getId()) {
             case R.id.sales_order_img_sku:
                 ToastUtil.show(getActivity(), "san sku");
-                Intent intent = new Intent(getActivity(), SkuSelectActivity.class);
-                startActivityForResult(intent, SystemSettingConstant.SKU_SELECTED_REQUEST);
+                intent = new Intent(getActivity(), SkuSelectActivity.class);
+                startActivityForResult(intent, AppConstant.SKU_SELECT_RESULT_CODE);
                 break;
+
+            case R.id.sales_order_img_payments:
+                ToastUtil.show(getActivity(), "PayMent ");
+                intent = new Intent(getActivity(), PaymentSelectActivity.class);
+                startActivityForResult(intent, PAYMMENT_SELECT_RESULT_CODE);
+
             case R.id.sales_order_img_memeber:
                 ToastUtil.show(getActivity(), "san member");
                 break;

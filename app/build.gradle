@@ -58,7 +58,7 @@ dependencies {
     implementation 'com.unboundid:unboundid-ldapsdk:4.0.9'
     implementation 'com.google.code.ksoap2-android:ksoap2-android:3.6.0'
     implementation project(':library')
-    implementation 'com.android.databinding:library:3.2.1'
     implementation 'org.greenrobot:greendao-generator:3.2.2'
     implementation 'org.greenrobot:greendao:3.2.2'
+    implementation 'com.android.databinding:library:3.3.0'
 }
