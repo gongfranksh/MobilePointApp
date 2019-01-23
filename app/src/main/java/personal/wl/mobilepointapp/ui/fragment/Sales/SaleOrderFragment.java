@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONException;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,7 @@ import static personal.wl.mobilepointapp.common.AppConstant.SKU_SELECT_RESULT_EX
 
 public class SaleOrderFragment extends BaseFragment implements View.OnClickListener {
 
+    private static List<SaleDaily> ShouldPay = new ArrayList<>() ;
     private ImageView skuscan;
     private ImageView memscan;
     private ImageView payment_img;
@@ -96,6 +99,8 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
         skuscan.setOnClickListener(this);
         memscan.setOnClickListener(this);
         payment_img.setOnClickListener(this);
+
+        getlasttransctaion();
         return view;
     }
 
@@ -124,9 +129,30 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    private void getlasttransctaion() {
+        double tmp_shouldpay = 0.0;
+        try {
+            ShouldPay = MobilePointApplication.loginInfo.getCurrentTranscation();
+            if (ShouldPay != null && ShouldPay.size() != 0) {
+                for (int i = 0; i < ShouldPay.size(); i++) {
+                    saleDailyList.add(ShouldPay.get(i));
+
+                }
+                mpaSaleOrderListAdapter.notifyDataSetChanged();
+                ReflashValue();
+            }
+            } catch (JSONException e1) {
+            e1.printStackTrace();
+        }
+    }
 
     public void ReflashValue() {
-
         double tmp_qty = 0.00, tmp_total_amount = 0.00;
         for (int i = 0; i < saleDailyList.size(); i++) {
             tmp_qty += saleDailyList.get(i).getSaleQty();
@@ -135,7 +161,5 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
         sales_total_amount.setText("" + tmp_total_amount);
         sales_detail_layout_buy_total_amount.setText("" + tmp_total_amount);
         sales_detail_layout_buy_total_qty.setText("" + tmp_qty);
-
-
     }
 }
