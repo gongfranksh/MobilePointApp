@@ -264,7 +264,7 @@
                     <TextView
                         android:id="@+id/sales_order_Total_Amount"
                         style="@style/more_common_desc_textView_img_style"
-                        android:text="999.9" />
+                        android:text="0.0" />
 
                 </RelativeLayout>
 
@@ -280,7 +280,7 @@
                     <TextView
                         android:id="@+id/sales_order_payments"
                         style="@style/more_common_desc_textView_img_style"
-                        android:text="999.9" />
+                        android:text="0.0" />
 
                     <ImageView
                         android:id="@+id/sales_order_img_payments"

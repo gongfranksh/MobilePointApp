@@ -36,8 +36,10 @@ import java.util.Observable;
 
 import personal.wl.mobilepointapp.R;
 import personal.wl.mobilepointapp.common.AppConstant;
+import personal.wl.mobilepointapp.common.MobilePointApplication;
 import personal.wl.mobilepointapp.entity.pos.PayMent;
 import personal.wl.mobilepointapp.entity.pos.Product;
+import personal.wl.mobilepointapp.entity.pos.SaleDaily;
 import personal.wl.mobilepointapp.preference.SystemSettingConstant;
 import personal.wl.mobilepointapp.ui.adapter.MPAPaymentListAdapter;
 import personal.wl.mobilepointapp.ui.adapter.MPASkuListAdapter;
@@ -65,6 +67,7 @@ public class PaymentSelectFragment extends BaseFragment implements View.OnClickL
 {
 
 
+    private static List<SaleDaily> ShouldPay = new ArrayList<>();
     private List<PayMent> NeedPayMent = new ArrayList<>();
     private RecyclerView paymentRecyclerView;
     private int mNextRequestPage = 1;
@@ -77,6 +80,7 @@ public class PaymentSelectFragment extends BaseFragment implements View.OnClickL
     private List<WebServicePara> paraList = new ArrayList<>();
     private CallWebservices callWebservices;
     private TextView total_payment;
+    private TextView should_payment;
 
 
     private String TAG = "PaymentSelectFragment";
@@ -101,6 +105,7 @@ public class PaymentSelectFragment extends BaseFragment implements View.OnClickL
     public void onResume() {
         super.onResume();
         ToastUtil.show(getActivity(), "sku=>fragment=>onresmue");
+
         getfunctions();
     }
 
@@ -136,7 +141,6 @@ public class PaymentSelectFragment extends BaseFragment implements View.OnClickL
             adapter.notifyDataSetChanged();
 
         }
-
     }
 
 
@@ -161,7 +165,9 @@ public class PaymentSelectFragment extends BaseFragment implements View.OnClickL
         paymentRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new MPAPaymentListAdapter(getActivity(), payMentList);
         total_payment = view.findViewById(R.id.detail_layout_payment_total);
+        should_payment= view.findViewById(R.id.detail_layout_need_pay);
         paymentRecyclerView.setAdapter(adapter);
+
 
 //        adapter.setOnItemClickListener(this);
 //        adapter.setOnItemChildClickListener(this);
@@ -170,6 +176,22 @@ public class PaymentSelectFragment extends BaseFragment implements View.OnClickL
 
     }
 
+
+    private void getlasttransctaion() {
+        double tmp_shouldpay = 0.0;
+        try {
+            ShouldPay = MobilePointApplication.loginInfo.getCurrentTranscation();
+            if (ShouldPay != null && ShouldPay.size() != 0) {
+
+                for (int i = 0; i <ShouldPay.size() ; i++) {
+                    tmp_shouldpay += ShouldPay.get(i).getSaleAmt();
+                }
+            }
+            should_payment.setText(""+tmp_shouldpay);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void onClick(View v) {
@@ -213,6 +235,7 @@ public class PaymentSelectFragment extends BaseFragment implements View.OnClickL
         }
         adapter.notifyDataSetChanged();
         PayMoneyChange.getInstance().addObserver(payMoneyWatcher);
+        getlasttransctaion();
     }
 
 

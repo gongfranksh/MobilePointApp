@@ -4,12 +4,22 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import personal.wl.mobilepointapp.auth.ldap.User;
+import personal.wl.mobilepointapp.entity.pos.SaleDaily;
 import personal.wl.mobilepointapp.utils.MPADateUtils;
 
+import static personal.wl.mobilepointapp.common.AppConstant.CURRENT_TRANSACATIONS;
 import static personal.wl.mobilepointapp.preference.SystemSettingConstant.CURRENT_ACCOUNT;
 import static personal.wl.mobilepointapp.preference.SystemSettingConstant.CURRENT_LOGIN;
 import static personal.wl.mobilepointapp.preference.SystemSettingConstant.CURRENT_LOGIN_DATE;
@@ -18,6 +28,7 @@ import static personal.wl.mobilepointapp.preference.SystemSettingConstant.DEFAUL
 public class MPALoginInfo {
 
     private static final MPALoginInfo instance = new MPALoginInfo();
+
 
     private SharedPreferences sPre;
     private Context context;
@@ -48,6 +59,34 @@ public class MPALoginInfo {
 
     }
 
+
+    public void setCurrentTranscation(List<SaleDaily> saleDailyList) {
+        sPre.edit().putString(CURRENT_TRANSACATIONS, gon.toJson(saleDailyList)).commit();
+
+    }
+
+    public List<SaleDaily> getCurrentTranscation() throws JSONException {
+        JSONArray saledailyarray_json = null;
+        SaleDaily saleDaily;
+        List<SaleDaily> result_saledaily= new ArrayList<>();
+        String strlistsaledaliy = sPre.getString(CURRENT_TRANSACATIONS, null);
+        try {
+            saledailyarray_json= new JSONArray(strlistsaledaliy);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        for (int i = 0; i <saledailyarray_json.length() ; i++) {
+            JSONObject myjObject = saledailyarray_json.getJSONObject(i);
+            saleDaily = gon.fromJson(String.valueOf(myjObject), SaleDaily.class);
+
+            result_saledaily.add(saleDaily);
+
+        }
+//        user = gon.fromJson(strlistsaledaliy, List<SaleDaily.class>.getClass());
+        return result_saledaily;
+    }
 
     public void logout() {
         User u = null;

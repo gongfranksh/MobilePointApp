@@ -12,11 +12,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import personal.wl.mobilepointapp.R;
+import personal.wl.mobilepointapp.auth.ldap.User;
 import personal.wl.mobilepointapp.common.AppConstant;
+import personal.wl.mobilepointapp.common.MobilePointApplication;
 import personal.wl.mobilepointapp.entity.pos.Product;
 import personal.wl.mobilepointapp.entity.pos.SaleDaily;
 import personal.wl.mobilepointapp.preference.SystemSettingConstant;
@@ -26,6 +29,7 @@ import personal.wl.mobilepointapp.ui.adapter.MPASaleOrderListAdapter;
 import personal.wl.mobilepointapp.ui.base.BaseFragment;
 import personal.wl.mobilepointapp.utils.ToastUtil;
 
+import static personal.wl.mobilepointapp.common.AppConstant.PAYMMENT_NEED_PAY_CODE;
 import static personal.wl.mobilepointapp.common.AppConstant.PAYMMENT_SELECT_RESULT_CODE;
 import static personal.wl.mobilepointapp.common.AppConstant.SKU_SELECT_RESULT_CODE;
 import static personal.wl.mobilepointapp.common.AppConstant.SKU_SELECT_RESULT_EXTRA_CODE;
@@ -108,7 +112,9 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
             case R.id.sales_order_img_payments:
                 ToastUtil.show(getActivity(), "PayMent ");
                 intent = new Intent(getActivity(), PaymentSelectActivity.class);
-                startActivityForResult(intent, PAYMMENT_SELECT_RESULT_CODE);
+//                MobilePointApplication.loginInfo.setCurrentTranscation(saleDailyList);
+//                intent.putExtra(AppConstant.PAYMMENT_SELECT_RESULT_EXTRA_CODE, (Serializable) saleDailyList);
+                startActivityForResult(intent, PAYMMENT_NEED_PAY_CODE);
 
             case R.id.sales_order_img_memeber:
                 ToastUtil.show(getActivity(), "san member");

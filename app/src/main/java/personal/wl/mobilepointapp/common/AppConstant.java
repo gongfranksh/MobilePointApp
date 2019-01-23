@@ -70,9 +70,18 @@ public class AppConstant {
 
     public static final int SKU_SELECT_RESULT_CODE = 8112;
     public static final int PAYMMENT_SELECT_RESULT_CODE = 8122;
+    public static final int PAYMMENT_NEED_PAY_CODE = 8132;
+
 
     public static final String SKU_SELECT_RESULT_EXTRA_CODE = "skuselected";
     public static final String PAYMMENT_SELECT_RESULT_EXTRA_CODE = "PAYMMENTS";
+
+    public static final String PAYMMENT_NEED_PAY_EXTRA_CODE = "PAYMMENTS_AMAOUNT";
+
+
+
+    public static final String CURRENT_TRANSACATIONS="current_transcations";
+
 
 
 

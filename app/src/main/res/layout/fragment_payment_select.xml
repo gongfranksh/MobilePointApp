@@ -75,16 +75,16 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/detail_layout_buy_value"
+                            android:id="@+id/detail_layout_need_pay"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/textSize_12"
-                            tools:text="$998" />
+                            tools:text="0.0" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/detail_bottom_retail_price"
+                            android:text="@string/sales_order_need_payment"
                             android:textSize="@dimen/textSize_12" />
                     </LinearLayout>
                 </LinearLayout>
