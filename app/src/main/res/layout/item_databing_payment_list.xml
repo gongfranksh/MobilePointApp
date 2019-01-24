@@ -31,6 +31,7 @@
 
             <EditText
                 android:id="@+id/item_payment_amount"
+
                 style="@style/more_common_amount_number_style"
 
                 android:text='@={payment.payMoney}' />

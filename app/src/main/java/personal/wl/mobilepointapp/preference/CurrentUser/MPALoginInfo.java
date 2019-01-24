@@ -16,6 +16,8 @@ import java.util.Date;
 import java.util.List;
 
 import personal.wl.mobilepointapp.auth.ldap.User;
+import personal.wl.mobilepointapp.common.AppConstant;
+import personal.wl.mobilepointapp.entity.pos.PayMent;
 import personal.wl.mobilepointapp.entity.pos.SaleDaily;
 import personal.wl.mobilepointapp.utils.MPADateUtils;
 
@@ -62,29 +64,31 @@ public class MPALoginInfo {
 
     public void setCurrentTranscation(List<SaleDaily> saleDailyList) {
         sPre.edit().putString(CURRENT_TRANSACATIONS, gon.toJson(saleDailyList)).commit();
-
     }
 
     public List<SaleDaily> getCurrentTranscation() throws JSONException {
         JSONArray saledailyarray_json = null;
         SaleDaily saleDaily;
-        List<SaleDaily> result_saledaily= new ArrayList<>();
+        List<SaleDaily> result_saledaily = new ArrayList<>();
         String strlistsaledaliy = sPre.getString(CURRENT_TRANSACATIONS, null);
-        try {
-            saledailyarray_json= new JSONArray(strlistsaledaliy);
-        } catch (JSONException e) {
-            e.printStackTrace();
+
+        if (strlistsaledaliy != null && strlistsaledaliy.length() != 0) {
+
+            try {
+                saledailyarray_json = new JSONArray(strlistsaledaliy);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            for (int i = 0; i < saledailyarray_json.length(); i++) {
+                JSONObject myjObject = saledailyarray_json.getJSONObject(i);
+                saleDaily = gon.fromJson(String.valueOf(myjObject), SaleDaily.class);
+
+                result_saledaily.add(saleDaily);
+
+            }
         }
-
-
-        for (int i = 0; i <saledailyarray_json.length() ; i++) {
-            JSONObject myjObject = saledailyarray_json.getJSONObject(i);
-            saleDaily = gon.fromJson(String.valueOf(myjObject), SaleDaily.class);
-
-            result_saledaily.add(saleDaily);
-
-        }
-//        user = gon.fromJson(strlistsaledaliy, List<SaleDaily.class>.getClass());
         return result_saledaily;
     }
 
@@ -93,6 +97,36 @@ public class MPALoginInfo {
         this.setUser(u);
 
     }
+
+
+    public void setCurrentPayMent(List<PayMent> payments) {
+        sPre.edit().putString(AppConstant.CURRENT_PAYMENT, gon.toJson(payments)).commit();
+    }
+
+    public List<PayMent> getCurrentPayment() throws JSONException {
+        JSONArray paymentarray_json = null;
+        PayMent payment;
+        List<PayMent> result_Paments = new ArrayList<>();
+        String strlistpayment = sPre.getString(AppConstant.CURRENT_PAYMENT, null);
+
+        if (strlistpayment != null && strlistpayment.length() != 0) {
+            try {
+                paymentarray_json = new JSONArray(strlistpayment);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            for (int i = 0; i < paymentarray_json.length(); i++) {
+                JSONObject myjObject = paymentarray_json.getJSONObject(i);
+                payment = gon.fromJson(String.valueOf(myjObject), PayMent.class);
+
+                result_Paments.add(payment);
+
+            }
+        }
+        return result_Paments;
+    }
+
 
     private User user;
 

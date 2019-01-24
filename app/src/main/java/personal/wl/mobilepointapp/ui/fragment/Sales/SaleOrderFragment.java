@@ -22,6 +22,7 @@ import personal.wl.mobilepointapp.R;
 import personal.wl.mobilepointapp.auth.ldap.User;
 import personal.wl.mobilepointapp.common.AppConstant;
 import personal.wl.mobilepointapp.common.MobilePointApplication;
+import personal.wl.mobilepointapp.entity.pos.PayMent;
 import personal.wl.mobilepointapp.entity.pos.Product;
 import personal.wl.mobilepointapp.entity.pos.SaleDaily;
 import personal.wl.mobilepointapp.preference.SystemSettingConstant;
@@ -39,7 +40,7 @@ import static personal.wl.mobilepointapp.common.AppConstant.SKU_SELECT_RESULT_EX
 
 public class SaleOrderFragment extends BaseFragment implements View.OnClickListener {
 
-    private static List<SaleDaily> ShouldPay = new ArrayList<>() ;
+    private static List<SaleDaily> ShouldPay = new ArrayList<>();
     private ImageView skuscan;
     private ImageView memscan;
     private ImageView payment_img;
@@ -47,14 +48,16 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
     private Intent intent;
 
 
-
     private List<SaleDaily> saleDailyList = new ArrayList<>();
     private SaleDaily onesales;
     private MPASaleOrderListAdapter mpaSaleOrderListAdapter;
     private List<Product> NeedProduct = new ArrayList<>();
+    private List<PayMent> AlreadyPaylist = new ArrayList<>();
 
 
     private TextView sales_total_amount;
+    private TextView sales_total_payment;
+
     private TextView sales_detail_layout_buy_total_amount;
     private TextView sales_detail_layout_buy_total_qty;
 
@@ -62,18 +65,35 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == SKU_SELECT_RESULT_CODE) {
-            if (null != data) {
-                NeedProduct = (List<Product>) data.getSerializableExtra(SKU_SELECT_RESULT_EXTRA_CODE);
+        switch (requestCode) {
+            case AppConstant.SKU_SELECT_RESULT_CODE:
+                if (null != data) {
+                    NeedProduct = (List<Product>) data.getSerializableExtra(SKU_SELECT_RESULT_EXTRA_CODE);
 
-                for (int i = 0; i < NeedProduct.size(); i++) {
-                    onesales = new SaleDaily();
-                    onesales = onesales.getSaleDailyFromProduct(NeedProduct.get(i));
-                    saleDailyList.add(onesales);
+                    for (int i = 0; i < NeedProduct.size(); i++) {
+                        onesales = new SaleDaily();
+                        onesales = onesales.getSaleDailyFromProduct(NeedProduct.get(i));
+                        saleDailyList.add(onesales);
+                    }
+                    mpaSaleOrderListAdapter.notifyDataSetChanged();
+                    ReflashValue();
                 }
-                mpaSaleOrderListAdapter.notifyDataSetChanged();
-                ReflashValue();
-            }
+                break;
+
+            case AppConstant.PAYMMENT_NEED_PAY_CODE:
+                if (data != null) {
+                    AlreadyPaylist = (List<PayMent>) data.getSerializableExtra(AppConstant.PAYMMENT_SELECT_RESULT_EXTRA_CODE);
+
+                    double tmp_total_payment = 0.00;
+                    for (int i = 0; i < AlreadyPaylist.size(); i++) {
+                        tmp_total_payment += AlreadyPaylist.get(i).getPayMoney();
+                    }
+
+                    sales_total_payment.setText("" + tmp_total_payment);
+                }
+                break;
+            default:
+                break;
         }
 
 
@@ -84,11 +104,13 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
         View view = inflater.inflate(R.layout.fragment_salesorder, null);
         skuscan = view.findViewById(R.id.sales_order_img_sku);
         memscan = view.findViewById(R.id.sales_order_img_memeber);
-        payment_img= view.findViewById(R.id.sales_order_img_payments);
+        payment_img = view.findViewById(R.id.sales_order_img_payments);
 
         sales_detail_layout_buy_total_amount = view.findViewById(R.id.detail_layout_buy_amount);
         sales_detail_layout_buy_total_qty = view.findViewById(R.id.detail_layout_buy_qty);
         sales_total_amount = view.findViewById(R.id.sales_order_Total_Amount);
+
+        sales_total_payment = view.findViewById(R.id.sales_order_payments);
 
         productorderlistecyclerView = view.findViewById(R.id.sale_order_product_lists);
         productorderlistecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -117,8 +139,6 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
             case R.id.sales_order_img_payments:
                 ToastUtil.show(getActivity(), "PayMent ");
                 intent = new Intent(getActivity(), PaymentSelectActivity.class);
-//                MobilePointApplication.loginInfo.setCurrentTranscation(saleDailyList);
-//                intent.putExtra(AppConstant.PAYMMENT_SELECT_RESULT_EXTRA_CODE, (Serializable) saleDailyList);
                 startActivityForResult(intent, PAYMMENT_NEED_PAY_CODE);
 
             case R.id.sales_order_img_memeber:
@@ -147,9 +167,29 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
                 mpaSaleOrderListAdapter.notifyDataSetChanged();
                 ReflashValue();
             }
-            } catch (JSONException e1) {
+        } catch (JSONException e1) {
             e1.printStackTrace();
         }
+
+
+        try {
+            AlreadyPaylist=MobilePointApplication.loginInfo.getCurrentPayment();
+
+            if (AlreadyPaylist!=null && AlreadyPaylist.size()!=0){
+
+                double tmp_alreadpay = 0.00;
+                for (int i = 0; i < AlreadyPaylist.size() ; i++) {
+
+                    tmp_alreadpay +=AlreadyPaylist.get(i).getPayMoney();
+                }
+
+                sales_total_payment.setText(""+tmp_alreadpay);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     public void ReflashValue() {

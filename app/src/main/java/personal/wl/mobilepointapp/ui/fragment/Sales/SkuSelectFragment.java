@@ -78,13 +78,13 @@ public class SkuSelectFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void onResume() {
         super.onResume();
-        ToastUtil.show(getActivity(), "sku=>fragment=>onresmue");
+//        ToastUtil.show(getActivity(), "sku=>fragment=>onresmue");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ToastUtil.show(getActivity(), "sku=>fragment=>onDestroy");
+//        ToastUtil.show(getActivity(), "sku=>fragment=>onDestroy");
     }
 
 

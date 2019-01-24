@@ -81,6 +81,8 @@ public class AppConstant {
 
 
     public static final String CURRENT_TRANSACATIONS="current_transcations";
+    public static final String CURRENT_PAYMENT="current_payment";
+    public static final String CURRENT_SALEORDERS="current_saleorders";
 
 
 

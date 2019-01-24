@@ -68,6 +68,27 @@
                     </LinearLayout>
 
                     <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/detail_layout_need_pay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/textSize_12"
+                        tools:text="0.0" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sales_order_need_payment"
+                        android:textSize="@dimen/textSize_12" />
+                </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -75,7 +96,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/detail_layout_need_pay"
+                            android:id="@+id/detail_layout_different_pay"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/textSize_12"
@@ -84,13 +105,15 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/sales_order_need_payment"
+                            android:text="@string/pay_different_pay_string"
                             android:textSize="@dimen/textSize_12" />
                     </LinearLayout>
+
+
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/sku_detail_layout_selected_btn"
+                    android:id="@+id/sku_detail_layout_submit_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@color/app_yellow"

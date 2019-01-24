@@ -20,10 +20,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
-import com.uuzuche.lib_zxing.activity.CaptureActivity;
-import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +27,7 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Observable;
 
@@ -40,6 +37,7 @@ import personal.wl.mobilepointapp.common.MobilePointApplication;
 import personal.wl.mobilepointapp.entity.pos.PayMent;
 import personal.wl.mobilepointapp.entity.pos.Product;
 import personal.wl.mobilepointapp.entity.pos.SaleDaily;
+import personal.wl.mobilepointapp.preference.CurrentUser.MPALoginInfo;
 import personal.wl.mobilepointapp.preference.SystemSettingConstant;
 import personal.wl.mobilepointapp.ui.adapter.MPAPaymentListAdapter;
 import personal.wl.mobilepointapp.ui.adapter.MPASkuListAdapter;
@@ -69,18 +67,24 @@ public class PaymentSelectFragment extends BaseFragment implements View.OnClickL
 
     private static List<SaleDaily> ShouldPay = new ArrayList<>();
     private List<PayMent> NeedPayMent = new ArrayList<>();
+    private List<PayMent> AlreadyPayMent = new ArrayList<>();
     private RecyclerView paymentRecyclerView;
     private int mNextRequestPage = 1;
     private MPAPaymentListAdapter adapter;
     private List<PayMent> payMentList = new ArrayList<>();
-//    private ObservableArrayList<PayMent> payMentList = new ObservableArrayList<>();
-
 
     private WebServicePara parain;
     private List<WebServicePara> paraList = new ArrayList<>();
     private CallWebservices callWebservices;
     private TextView total_payment;
     private TextView should_payment;
+    private TextView different_payment;
+    private Button payment_submit;
+
+
+    private Double tmp_should_pay = 0.0;
+    private Double tmp_already_pay = 0.0;
+    private Double tmp_different_pay = 0.0;
 
 
     private String TAG = "PaymentSelectFragment";
@@ -109,12 +113,6 @@ public class PaymentSelectFragment extends BaseFragment implements View.OnClickL
         getfunctions();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        ToastUtil.show(getActivity(), "sku=>fragment=>onDestroy");
-    }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -129,17 +127,10 @@ public class PaymentSelectFragment extends BaseFragment implements View.OnClickL
                 onepayment.setCadType(NeedPayMent.get(i).getCadType());
                 onepayment.setPayMentId(NeedPayMent.get(i).getPayMentId());
                 onepayment.setPayModeId(NeedPayMent.get(i).getPayModeId());
-
-//                onepayment.addOnPropertyChangedCallback(new android.databinding.Observable.OnPropertyChangedCallback() {
-//                    @Override
-//                    public void onPropertyChanged(android.databinding.Observable sender, int propertyId) {
-//                        Log.i(TAG, "onPropertyChanged: 回来了");
-//                    }
-//                });
                 payMentList.add(onepayment);
             }
             adapter.notifyDataSetChanged();
-
+            getlasttransctaion();
         }
     }
 
@@ -165,29 +156,38 @@ public class PaymentSelectFragment extends BaseFragment implements View.OnClickL
         paymentRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new MPAPaymentListAdapter(getActivity(), payMentList);
         total_payment = view.findViewById(R.id.detail_layout_payment_total);
-        should_payment= view.findViewById(R.id.detail_layout_need_pay);
+        should_payment = view.findViewById(R.id.detail_layout_need_pay);
+        payment_submit = view.findViewById(R.id.sku_detail_layout_submit_btn);
+
+        different_payment=view.findViewById(R.id.detail_layout_different_pay);
+
+        payment_submit.setOnClickListener(this);
         paymentRecyclerView.setAdapter(adapter);
 
-
-//        adapter.setOnItemClickListener(this);
-//        adapter.setOnItemChildClickListener(this);
-//        adapter.openLoadAnimation();
-//        getfunctions();
-
+//        getlasttransctaion();
     }
 
 
     private void getlasttransctaion() {
-        double tmp_shouldpay = 0.0;
         try {
             ShouldPay = MobilePointApplication.loginInfo.getCurrentTranscation();
             if (ShouldPay != null && ShouldPay.size() != 0) {
 
-                for (int i = 0; i <ShouldPay.size() ; i++) {
-                    tmp_shouldpay += ShouldPay.get(i).getSaleAmt();
+                for (int i = 0; i < ShouldPay.size(); i++) {
+                    tmp_should_pay += ShouldPay.get(i).getSaleAmt();
                 }
             }
-            should_payment.setText(""+tmp_shouldpay);
+            should_payment.setText("" + tmp_should_pay);
+
+            AlreadyPayMent = MobilePointApplication.loginInfo.getCurrentPayment();
+
+            if (AlreadyPayMent != null && AlreadyPayMent.size() != 0) {
+                payMentList.clear();
+                payMentList.addAll(AlreadyPayMent);
+                adapter.notifyDataSetChanged();
+                ReflushTotal();
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -196,20 +196,16 @@ public class PaymentSelectFragment extends BaseFragment implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.sku_titleBar_scan_img:
-                ToastUtil.show(getActivity(), "san sku");
-                Intent intent = new Intent(getActivity(), CaptureActivity.class);
-                startActivityForResult(intent, SystemSettingConstant.SCAN_QR_REQUEST);
-                break;
-            case R.id.sku_good_bt1:
-                ToastUtil.show(getActivity(), "sku_good_bt1 sku");
-                break;
-            case R.id.sku_detail_layout_selected_btn:
-                Intent callintent = new Intent();
-                callintent.putExtra(SKU_SELECT_RESULT_EXTRA_CODE, (Serializable) payMentList);
-                getActivity().setResult(SKU_SELECT_RESULT_CODE, callintent);
-                getActivity().finish();
-
+            case R.id.sku_detail_layout_submit_btn:
+                if (tmp_should_pay >= tmp_already_pay) {
+                    Intent callintent = new Intent();
+                    MPALoginInfo.getInstance().setCurrentPayMent(payMentList);
+                    callintent.putExtra(AppConstant.PAYMMENT_SELECT_RESULT_EXTRA_CODE, (Serializable) payMentList);
+                    getActivity().setResult(AppConstant.PAYMMENT_NEED_PAY_CODE, callintent);
+                    getActivity().finish();
+                } else {
+                    ToastUtil.show(getActivity(), "实际收款大于应收金额");
+                }
                 break;
         }
     }
@@ -239,15 +235,15 @@ public class PaymentSelectFragment extends BaseFragment implements View.OnClickL
     }
 
 
-    public void ReflushTotal() {
-        double tmp_total_amt = 0.00;
+    private void ReflushTotal() {
+
+        tmp_already_pay=0.00;
         for (int i = 0; i < payMentList.size(); i++) {
-            tmp_total_amt += payMentList.get(i).getPayMoney();
+            tmp_already_pay += payMentList.get(i).getPayMoney();
         }
-
-        total_payment.setText("" + tmp_total_amt);
-
+        total_payment.setText("" + tmp_already_pay);
+        tmp_different_pay=tmp_should_pay-tmp_already_pay;
+        different_payment.setText(""+tmp_different_pay);
     }
-
 }
 

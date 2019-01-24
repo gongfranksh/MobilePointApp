@@ -4,11 +4,13 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.Observable;
 import android.databinding.ViewDataBinding;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +29,7 @@ import personal.wl.mobilepointapp.R;
 import personal.wl.mobilepointapp.entity.pos.PayMent;
 
 import personal.wl.mobilepointapp.utils.MPAGenericTextWatch;
+import personal.wl.mobilepointapp.utils.MPAJudgeNumberWatcher;
 import personal.wl.mobilepointapp.utils.ToastUtil;
 
 public class MPAPaymentListAdapter extends RecyclerView.Adapter<MPAPaymentListAdapter.PaymentViewHolder>
@@ -81,7 +84,12 @@ public class MPAPaymentListAdapter extends RecyclerView.Adapter<MPAPaymentListAd
         public PaymentViewHolder(View view) {
             super(view);
             et_paymoney = view.findViewById(R.id.item_payment_amount);
-            et_paymoney.addTextChangedListener(new MPAGenericTextWatch(et_paymoney));
+            et_paymoney.addTextChangedListener(new MPAJudgeNumberWatcher(et_paymoney));
+
+            et_paymoney.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                et_paymoney.setTextDirection(View.TEXT_DIRECTION_FIRST_STRONG_RTL);
+            }
 
         }
 
