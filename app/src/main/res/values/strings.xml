@@ -170,4 +170,6 @@
     <string name="input_payment_hit_string">请输入金额</string>
     <string name="sales_order_need_payment">应付金额</string>
     <string name="pay_different_pay_string">相差金额</string>
+    <string name="input_operator_hint_string">请输入需要查找的员工</string>
+    <string name="not_find_operator_hint_string">没有找到操作员</string>
 </resources>

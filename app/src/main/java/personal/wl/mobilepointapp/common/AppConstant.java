@@ -59,18 +59,20 @@ public class AppConstant {
     public static final String Method_QUERY_PRODUCT_BY_BARCODE = "get_product_by_barcode";
     public static final String Method_GET_FUNCTION_MENU_ALL = "get_functionmenu_all";
     public static final String Method_GET_BRANCH_PAYMENNT_ = "Get_Branch_PayMent";
+    public static final String Method_GET_BRANCH_EMPLOYEE_ = "Get_Branch_Employee_all";
 
     public static final String PARA_GET_FUNCTION_MENU_ALL = "branchcode";
 
     public static final String PARA_BRANCHCODE = "branchcode";
     public static final String PARA_BARCODE = "barcode";
     public static final String PARA_PRONAME = "proname";
-
+    public static final String PARA_DOMAIN_ACCOUNT = "domainaccount";
 
 
     public static final int SKU_SELECT_RESULT_CODE = 8112;
     public static final int PAYMMENT_SELECT_RESULT_CODE = 8122;
     public static final int PAYMMENT_NEED_PAY_CODE = 8132;
+    public static final int OPERATOR_NEED_CODE = 8142;
 
 
     public static final String SKU_SELECT_RESULT_EXTRA_CODE = "skuselected";

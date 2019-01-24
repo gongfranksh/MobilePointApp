@@ -14,18 +14,16 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import personal.wl.mobilepointapp.R;
-import personal.wl.mobilepointapp.auth.ldap.User;
 import personal.wl.mobilepointapp.common.AppConstant;
 import personal.wl.mobilepointapp.common.MobilePointApplication;
 import personal.wl.mobilepointapp.entity.pos.PayMent;
 import personal.wl.mobilepointapp.entity.pos.Product;
 import personal.wl.mobilepointapp.entity.pos.SaleDaily;
-import personal.wl.mobilepointapp.preference.SystemSettingConstant;
+import personal.wl.mobilepointapp.ui.activity.SalesOrder.BranchEmployeeSelectActivity;
 import personal.wl.mobilepointapp.ui.activity.SalesOrder.PaymentSelectActivity;
 import personal.wl.mobilepointapp.ui.activity.SalesOrder.SkuSelectActivity;
 import personal.wl.mobilepointapp.ui.adapter.MPASaleOrderListAdapter;
@@ -33,8 +31,6 @@ import personal.wl.mobilepointapp.ui.base.BaseFragment;
 import personal.wl.mobilepointapp.utils.ToastUtil;
 
 import static personal.wl.mobilepointapp.common.AppConstant.PAYMMENT_NEED_PAY_CODE;
-import static personal.wl.mobilepointapp.common.AppConstant.PAYMMENT_SELECT_RESULT_CODE;
-import static personal.wl.mobilepointapp.common.AppConstant.SKU_SELECT_RESULT_CODE;
 import static personal.wl.mobilepointapp.common.AppConstant.SKU_SELECT_RESULT_EXTRA_CODE;
 
 
@@ -44,6 +40,8 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
     private ImageView skuscan;
     private ImageView memscan;
     private ImageView payment_img;
+    private ImageView operator_img;
+
     private RecyclerView productorderlistecyclerView;
     private Intent intent;
 
@@ -105,6 +103,8 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
         skuscan = view.findViewById(R.id.sales_order_img_sku);
         memscan = view.findViewById(R.id.sales_order_img_memeber);
         payment_img = view.findViewById(R.id.sales_order_img_payments);
+        operator_img = view.findViewById(R.id.sales_order_img_operator);
+
 
         sales_detail_layout_buy_total_amount = view.findViewById(R.id.detail_layout_buy_amount);
         sales_detail_layout_buy_total_qty = view.findViewById(R.id.detail_layout_buy_qty);
@@ -121,6 +121,7 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
         skuscan.setOnClickListener(this);
         memscan.setOnClickListener(this);
         payment_img.setOnClickListener(this);
+        operator_img.setOnClickListener(this);
 
         getlasttransctaion();
         return view;
@@ -140,7 +141,14 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
                 ToastUtil.show(getActivity(), "PayMent ");
                 intent = new Intent(getActivity(), PaymentSelectActivity.class);
                 startActivityForResult(intent, PAYMMENT_NEED_PAY_CODE);
+                break;
 
+            case R.id.sales_order_img_operator:
+                ToastUtil.show(getActivity(), "Operator ");
+                intent = new Intent(getActivity(), BranchEmployeeSelectActivity.class);
+                startActivityForResult(intent, AppConstant.OPERATOR_NEED_CODE);
+
+                break;
             case R.id.sales_order_img_memeber:
                 ToastUtil.show(getActivity(), "san member");
                 break;
@@ -173,17 +181,17 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
 
 
         try {
-            AlreadyPaylist=MobilePointApplication.loginInfo.getCurrentPayment();
+            AlreadyPaylist = MobilePointApplication.loginInfo.getCurrentPayment();
 
-            if (AlreadyPaylist!=null && AlreadyPaylist.size()!=0){
+            if (AlreadyPaylist != null && AlreadyPaylist.size() != 0) {
 
                 double tmp_alreadpay = 0.00;
-                for (int i = 0; i < AlreadyPaylist.size() ; i++) {
+                for (int i = 0; i < AlreadyPaylist.size(); i++) {
 
-                    tmp_alreadpay +=AlreadyPaylist.get(i).getPayMoney();
+                    tmp_alreadpay += AlreadyPaylist.get(i).getPayMoney();
                 }
 
-                sales_total_payment.setText(""+tmp_alreadpay);
+                sales_total_payment.setText("" + tmp_alreadpay);
             }
         } catch (JSONException e) {
             e.printStackTrace();

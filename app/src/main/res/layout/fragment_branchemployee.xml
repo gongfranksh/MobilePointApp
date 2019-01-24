@@ -1,0 +1,37 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/city_item_bg" >
+
+    <EditText
+        android:id="@+id/et_operator_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:drawableLeft="@drawable/wb_search_icon"
+        android:drawablePadding="5dp"
+        android:hint="@string/input_operator_hint_string"
+        android:background="@drawable/edittext_selector"/>
+
+    <RelativeLayout
+        android:id="@+id/operator_fra_content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_operator_search">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/operator_rv_city_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/operator_sidebar"/>
+        <personal.wl.mobilepointapp.ui.widget.SidebarView
+            android:id="@+id/operator_sidebar"
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="7dp" />
+    </RelativeLayout>
+
+</RelativeLayout>

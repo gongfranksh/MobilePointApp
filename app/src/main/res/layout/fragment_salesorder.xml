@@ -297,12 +297,12 @@
                         android:text="@string/sale_order_saler_man_string" />
 
                     <TextView
-                        android:id="@+id/sales_order_saler_man"
+                        android:id="@+id/sales_order_operator"
                         style="@style/more_common_desc_textView_img_style"
                         android:text="peter" />
 
                     <ImageView
-                        android:id="@+id/sales_order_img_saleer_man"
+                        android:id="@+id/sales_order_img_operator"
                         style="@style/me_common_item_arrow_right_black_style" />
 
                 </RelativeLayout>
