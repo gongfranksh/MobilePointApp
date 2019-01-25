@@ -25,6 +25,35 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_toLeftOf="@+id/operator_sidebar"/>
+
+
+        <TextView
+            android:id="@+id/operator_tv_show"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            android:background="@android:color/darker_gray"
+            android:gravity="center"
+            android:textColor="#ffffffff"
+            android:textSize="30dp"
+            android:visibility="gone" />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/operator_rv_search_result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/operator_sidebar"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/operator_tv_no_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/not_find_city"
+            android:visibility="gone"/>
+
         <personal.wl.mobilepointapp.ui.widget.SidebarView
             android:id="@+id/operator_sidebar"
             android:layout_width="25dp"

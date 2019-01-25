@@ -6,6 +6,7 @@ import android.databinding.ViewDataBinding;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +58,9 @@ public class MPAOperatorListAdapter extends RecyclerView.Adapter<MPAOperatorList
 
             }
         }
+
+        Log.i("dd", "MPAOperatorListAdapter: "+sections.toString());
+
     }
 
     @NonNull
@@ -77,12 +81,15 @@ public class MPAOperatorListAdapter extends RecyclerView.Adapter<MPAOperatorList
         String currentStr = getAlpha(branchEmployeeList.get(i).getPinyin());
         String previewStr = i-1 >= 0 ?
                 getAlpha(branchEmployeeList.get(i-1).getPinyin()) : "";
-//        if (!previewStr.equals(currentStr)) {
-//            operatorViewHolder.alphaLayout.setVisibility(View.VISIBLE);
-//            operatorViewHolder.tvAlpha.setText(currentStr);
-//        } else {
-//            operatorViewHolder.alphaLayout.setVisibility(View.GONE);
-//        }
+
+
+
+        if (!previewStr.equals(currentStr)) {
+            operatorViewHolder.alphaLayout.setVisibility(View.VISIBLE);
+            operatorViewHolder.tvAlpha.setText(currentStr);
+        } else {
+            operatorViewHolder.alphaLayout.setVisibility(View.GONE);
+        }
     }
 
 
@@ -99,15 +106,13 @@ public class MPAOperatorListAdapter extends RecyclerView.Adapter<MPAOperatorList
     public  class OperatorViewHolder extends RecyclerView.ViewHolder {
 
         private ViewDataBinding binding;
-        private EditText et_paymoney;
-
         public LinearLayout alphaLayout;
         public TextView tvAlpha;
 
         public OperatorViewHolder(View view) {
             super(view);
             alphaLayout=view.findViewById(R.id.item_all_operator_alpha_layout);
-            tvAlpha = (TextView) itemView.findViewById(R.id.item_all_city_tv_alpha);
+            tvAlpha =  view.findViewById(R.id.item_all_operator_tv_alpha);
         }
 
         public ViewDataBinding getBinding() {

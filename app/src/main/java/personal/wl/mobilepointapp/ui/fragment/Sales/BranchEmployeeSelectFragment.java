@@ -33,12 +33,13 @@ import personal.wl.mobilepointapp.webservice.WebServicePara;
  * Created by weiliang on 2019/1/29.
  */
 
-public class BranchEmployeeSelectFragment extends BaseFragment implements WebServiceInterface {
+public class BranchEmployeeSelectFragment extends BaseFragment implements WebServiceInterface,SidebarView.OnSlidingListener {
 
     private static final String TAG = BranchEmployeeSelectFragment.class.getSimpleName();
 
     private SidebarView mSidebar;
     private EditText mEtSearch;
+    private TextView mTvShow;
     private RecyclerView mRvOperatorList;
     private RecyclerView mRvSearchResult;
     private TextView mTvNoResult;
@@ -77,10 +78,16 @@ public class BranchEmployeeSelectFragment extends BaseFragment implements WebSer
     }
 
     private void initView(View view) {
+        mTvShow = view.findViewById(R.id.operator_tv_show);
         mRvOperatorList = view.findViewById(R.id.operator_rv_city_list);
-        mRvOperatorList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mpaOperatorListAdapter = new MPAOperatorListAdapter(getActivity(), branchEmployeeList);
-        mRvOperatorList.setAdapter(mpaOperatorListAdapter);
+        mSidebar=view.findViewById(R.id.operator_sidebar);
+        mLinearLayoutManager = new LinearLayoutManager(getActivity());
+
+        mRvOperatorList.setLayoutManager(mLinearLayoutManager);
+
+        mSidebar.setShowText(mTvShow);
+        mSidebar.setOnSlidingListener(this);
+
     }
 
 
@@ -114,12 +121,61 @@ public class BranchEmployeeSelectFragment extends BaseFragment implements WebSer
                 tmp_operator.setPinyin(MPAStringUtils.getPingYin(rec.getString("empname")));
                 branchEmployeeList.add(tmp_operator);
             }
+
+            mpaOperatorListAdapter = new MPAOperatorListAdapter(getActivity(), branchEmployeeList);
+            mRvOperatorList.setAdapter(mpaOperatorListAdapter);
             mpaOperatorListAdapter.notifyDataSetChanged();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
 
 
+        }
+
+    }
+
+    @Override
+    public void onSliding(String selectedStr) {
+
+        mTvShow.setText(selectedStr);
+        if(mpaOperatorListAdapter.alphaIndexer.get(selectedStr)!=null){
+            int position = mpaOperatorListAdapter.alphaIndexer.get(selectedStr);
+            move(position);
+        }
+
+    }
+    /**
+     * 滑动到指定位置
+     *
+     * @param n
+     */
+    private void move(int n) {
+        mIndex = n;
+        mRvOperatorList.stopScroll();
+        moveToPosition(n);
+    }
+
+
+    /**
+     * RecycleView滑动到指定位置
+     *
+     * @param n
+     */
+    private void moveToPosition(int n) {
+
+        int firstItem = mLinearLayoutManager.findFirstVisibleItemPosition();
+        int lastItem = mLinearLayoutManager.findLastVisibleItemPosition();
+        if (n <= firstItem) {
+            //当要置顶的项在当前显示的第一个项的前面时
+            mRvOperatorList.scrollToPosition(n);
+        } else if (n <= lastItem) {
+            //当要置顶的项已经在屏幕上显示时
+            int top = mRvOperatorList.getChildAt(n - firstItem).getTop();
+            mRvOperatorList.scrollBy(0, top);
+        } else {
+            //当要置顶的项在当前显示的最后一项的后面时
+            mRvOperatorList.scrollToPosition(n);
+            isMove = true;
         }
 
     }
