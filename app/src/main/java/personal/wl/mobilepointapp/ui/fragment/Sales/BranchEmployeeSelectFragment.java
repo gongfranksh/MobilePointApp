@@ -1,30 +1,42 @@
 package personal.wl.mobilepointapp.ui.fragment.Sales;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import personal.wl.mobilepointapp.R;
 import personal.wl.mobilepointapp.common.AppConstant;
 import personal.wl.mobilepointapp.dao.CityDbHelper;
 import personal.wl.mobilepointapp.entity.pos.BranchEmployee;
+import personal.wl.mobilepointapp.listener.OnItemClickListener;
+import personal.wl.mobilepointapp.preference.CurrentUser.MPALoginInfo;
 import personal.wl.mobilepointapp.ui.adapter.MPAOperatorListAdapter;
+import personal.wl.mobilepointapp.ui.adapter.MPAOperatorResultAdapter;
 import personal.wl.mobilepointapp.ui.base.BaseFragment;
 import personal.wl.mobilepointapp.ui.widget.SidebarView;
 import personal.wl.mobilepointapp.utils.MPAStringUtils;
+import personal.wl.mobilepointapp.utils.ToastUtil;
 import personal.wl.mobilepointapp.webservice.CallWebservices;
 import personal.wl.mobilepointapp.webservice.WebServiceInterface;
 import personal.wl.mobilepointapp.webservice.WebServicePara;
@@ -33,7 +45,7 @@ import personal.wl.mobilepointapp.webservice.WebServicePara;
  * Created by weiliang on 2019/1/29.
  */
 
-public class BranchEmployeeSelectFragment extends BaseFragment implements WebServiceInterface,SidebarView.OnSlidingListener {
+public class BranchEmployeeSelectFragment extends BaseFragment implements WebServiceInterface, SidebarView.OnSlidingListener, TextWatcher, OnItemClickListener {
 
     private static final String TAG = BranchEmployeeSelectFragment.class.getSimpleName();
 
@@ -45,14 +57,25 @@ public class BranchEmployeeSelectFragment extends BaseFragment implements WebSer
     private TextView mTvNoResult;
     private RelativeLayout mContentLayout;
     private LinearLayoutManager mLinearLayoutManager;
-    private List<BranchEmployee> branchEmployeeList= new ArrayList<>();
+
+    private List<BranchEmployee> branchEmployeeList = new ArrayList<>();
+    private List<BranchEmployee> searchBranchEmployeeData = new ArrayList<>();
+    private List<BranchEmployee> allBranchEmployeeData = new ArrayList<>();
+    ;//搜索结果
+
 
     private MPAOperatorListAdapter mpaOperatorListAdapter;
+    private MPAOperatorListAdapter mpaOperatorListAdapter2;
+
+    private MPAOperatorResultAdapter mpaOperatorResultAdapter;
 
 
     private CallWebservices callWebservices;
     private WebServicePara parain;
     private List<WebServicePara> paraList = new ArrayList<>();
+
+
+    private Button bt_test;
 
 
     private CityDbHelper mCityDbHelper;
@@ -72,6 +95,7 @@ public class BranchEmployeeSelectFragment extends BaseFragment implements WebSer
     public void onResume() {
         super.onResume();
     }
+
     private void initData() {
         getfunctions();
 
@@ -79,17 +103,79 @@ public class BranchEmployeeSelectFragment extends BaseFragment implements WebSer
 
     private void initView(View view) {
         mTvShow = view.findViewById(R.id.operator_tv_show);
-        mRvOperatorList = view.findViewById(R.id.operator_rv_city_list);
-        mSidebar=view.findViewById(R.id.operator_sidebar);
-        mLinearLayoutManager = new LinearLayoutManager(getActivity());
 
+        mEtSearch = view.findViewById(R.id.et_operator_search);
+        mRvOperatorList = view.findViewById(R.id.operator_rv_list);
+        mSidebar = view.findViewById(R.id.operator_sidebar);
+        mRvSearchResult = view.findViewById(R.id.operator_rv_search_result);
+        mTvNoResult = view.findViewById(R.id.operator_tv_no_result);
+        mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRvOperatorList.setLayoutManager(mLinearLayoutManager);
+        mContentLayout = view.findViewById(R.id.operator_fra_content_layout);
+//        ini_search();
+
+//        mpaOperatorResultAdapter = new MPAOperatorResultAdapter(getActivity(), searchBranchEmployeeData);
+
+//        mRvSearchResult.setAdapter(mpaOperatorResultAdapter);
+
+
+        bt_test = view.findViewById(R.id.op_test);
+
+        bt_test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                searchBranchEmployeeData.clear();
+                searchBranchEmployeeData.addAll(branchEmployeeList);
+                mRvOperatorList.setVisibility(View.GONE);
+                mRvSearchResult.setVisibility(View.VISIBLE);
+
+                mpaOperatorListAdapter.notifyDataSetChanged();
+                mpaOperatorResultAdapter.notifyDataSetChanged();
+
+
+                //                mSidebar.setVisibility(View.GONE);
+//                mRvOperatorList.setVisibility(View.GONE);
+//                ini_search();
+
+//                branchEmployeeList.clear();
+//                branchEmployeeList.addAll(searchBranchEmployeeData);
+//                mpaOperatorListAdapter.notifyDataSetChanged();
+
+
+//                if (searchBranchEmployeeData.size() <= 0) {
+//                    mRvSearchResult.setVisibility(View.GONE);
+//                    mTvNoResult.setVisibility(View.VISIBLE);
+//                } else {
+//                    //用于解决The specified child already has a parent. You must call removeView() on the child's parent first.
+//                    mContentLayout.removeView(mRvSearchResult);
+////                        mContentLayout.addView(mRvSearchResult);
+//                    mRvSearchResult.setVisibility(View.VISIBLE);
+//                    mTvNoResult.setVisibility(View.GONE);
+//                    mpaOperatorResultAdapter.notifyDataSetChanged();
+//                }
+            }
+        });
+
 
         mSidebar.setShowText(mTvShow);
         mSidebar.setOnSlidingListener(this);
+        mEtSearch.addTextChangedListener(this);
 
     }
 
+
+    private void ini_search() {
+
+        BranchEmployee tmp_op = new BranchEmployee();
+        tmp_op.setEmpName("张三");
+        tmp_op.setPinyin("zhangsan");
+
+        searchBranchEmployeeData.add(tmp_op);
+
+
+    }
 
     public void getfunctions() {
 
@@ -120,11 +206,22 @@ public class BranchEmployeeSelectFragment extends BaseFragment implements WebSer
                 tmp_operator.setPassword(rec.getString("password"));
                 tmp_operator.setPinyin(MPAStringUtils.getPingYin(rec.getString("empname")));
                 branchEmployeeList.add(tmp_operator);
+                searchBranchEmployeeData.add(tmp_operator);
+                allBranchEmployeeData.add(tmp_operator);
             }
 
             mpaOperatorListAdapter = new MPAOperatorListAdapter(getActivity(), branchEmployeeList);
             mRvOperatorList.setAdapter(mpaOperatorListAdapter);
+            mpaOperatorListAdapter.setmClickListener(this);
             mpaOperatorListAdapter.notifyDataSetChanged();
+
+//            mpaOperatorListAdapter2 = new MPAOperatorListAdapter(getActivity(), searchBranchEmployeeData);
+            mpaOperatorResultAdapter = new MPAOperatorResultAdapter(getActivity(), searchBranchEmployeeData);
+
+//            mpaOperatorResultAdapter = new MPAOperatorResultAdapter(getActivity(),branchEmployeeList);
+            mRvSearchResult.setAdapter(mpaOperatorResultAdapter);
+            mpaOperatorResultAdapter.notifyDataSetChanged();
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -138,12 +235,13 @@ public class BranchEmployeeSelectFragment extends BaseFragment implements WebSer
     public void onSliding(String selectedStr) {
 
         mTvShow.setText(selectedStr);
-        if(mpaOperatorListAdapter.alphaIndexer.get(selectedStr)!=null){
+        if (mpaOperatorListAdapter.alphaIndexer.get(selectedStr) != null) {
             int position = mpaOperatorListAdapter.alphaIndexer.get(selectedStr);
             move(position);
         }
 
     }
+
     /**
      * 滑动到指定位置
      *
@@ -179,5 +277,120 @@ public class BranchEmployeeSelectFragment extends BaseFragment implements WebSer
         }
 
     }
+
+    Comparator<BranchEmployee> mComparator = new Comparator<BranchEmployee>() {
+        @Override
+        public int compare(BranchEmployee o1, BranchEmployee o2) {
+            String str1 = o1.getPinyin().substring(0, 1);
+            String str2 = o2.getPinyin().substring(0, 1);
+            return str1.compareTo(str2);
+        }
+    };
+
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (s.toString() == null || "".equals(s.toString().trim())) {
+
+            searchResetData(s.toString());
+            branchEmployeeList.clear();
+            branchEmployeeList.addAll(allBranchEmployeeData);
+//            mSidebar.setVisibility(View.VISIBLE);
+            mRvOperatorList.setVisibility(View.VISIBLE);
+//            mRvSearchResult.setVisibility(View.GONE);
+            mTvNoResult.setVisibility(View.GONE);
+        } else {
+            mSidebar.setVisibility(View.GONE);
+            mRvOperatorList.setVisibility(View.GONE);
+            searchResetData(s.toString());
+//            getResultCityList(s.toString());
+            if (searchBranchEmployeeData.size() <= 0) {
+                mRvSearchResult.setVisibility(View.GONE);
+                mTvNoResult.setVisibility(View.VISIBLE);
+            } else {
+                //用于解决The specified child already has a parent. You must call removeView() on the child's parent first.
+                mContentLayout.removeView(mRvSearchResult);
+//                        mContentLayout.addView(mRvSearchResult);
+//                mRvSearchResult.setVisibility(View.VISIBLE);
+                mTvNoResult.setVisibility(View.GONE);
+                mRvOperatorList.setVisibility(View.VISIBLE);
+                branchEmployeeList.clear();
+                branchEmployeeList.addAll(searchBranchEmployeeData);
+                mpaOperatorListAdapter.notifyDataSetChanged();
+
+            }
+        }
+
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
+
+    /**
+     * 查询结果列表
+     *
+     * @param keyword
+     */
+    private void getResultCityList(String keyword) {
+
+
+        Collections.sort(searchBranchEmployeeData, mComparator);
+    }
+
+    /**
+     * 搜索数据
+     *
+     * @param s 搜索字符
+     */
+    public void searchResetData(String s) {
+        searchBranchEmployeeData.clear();
+        //如果为null，直接使用全部数据
+        if (s.equals("")) {
+            searchBranchEmployeeData.addAll(branchEmployeeList);
+        } else {
+            //否则，匹配相应的数据
+            for (int i = 0; i < allBranchEmployeeData.size(); i++) {
+                if (allBranchEmployeeData.get(i).getEmpName().indexOf(s) >= 0) {//这里可拓展自己想要的，甚至可以拆分搜索汉字来匹配
+                    searchBranchEmployeeData.add(allBranchEmployeeData.get(i));
+                }
+            }
+        }
+
+        //刷新数据
+//        mpaOperatorListAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemClick(View view, int postion) {
+
+        String tmp_name = branchEmployeeList.get(postion).getEmpName();
+//        ToastUtil.show(getActivity(), "" + tmp_name);
+        returnOperator(branchEmployeeList.get(postion));
+
+    }
+
+    @Override
+    public void onItemLongClick(View view, int postion) {
+
+    }
+
+
+    private void returnOperator(BranchEmployee operator) {
+        Intent callintent = new Intent();
+//        MPALoginInfo.getInstance().setCurrentPayMent(operator);
+        callintent.putExtra(AppConstant.OPERATOR_SELECT_RESULT_EXTRA_CODE, (Serializable) operator);
+        getActivity().setResult(AppConstant.OPERATOR_NEED_CODE, callintent);
+        getActivity().finish();
+
+    }
+
 }
 

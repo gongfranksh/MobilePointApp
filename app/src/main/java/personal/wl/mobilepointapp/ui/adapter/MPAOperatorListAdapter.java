@@ -22,6 +22,7 @@ import personal.wl.mobilepointapp.BR;
 import personal.wl.mobilepointapp.R;
 import personal.wl.mobilepointapp.entity.pos.BranchEmployee;
 import personal.wl.mobilepointapp.entity.pos.PayMent;
+import personal.wl.mobilepointapp.listener.OnItemClickListener;
 import personal.wl.mobilepointapp.utils.MPAJudgeNumberWatcher;
 import personal.wl.mobilepointapp.utils.MPAStringUtils;
 
@@ -37,6 +38,11 @@ public class MPAOperatorListAdapter extends RecyclerView.Adapter<MPAOperatorList
     public HashMap<String,Integer> alphaIndexer;
     private String[] sections;
 
+    public void setmClickListener(OnItemClickListener mClickListener) {
+        this.mClickListener = mClickListener;
+    }
+
+    private OnItemClickListener mClickListener;
 
     public MPAOperatorListAdapter(Context context, List<BranchEmployee> data) {
 
@@ -68,7 +74,7 @@ public class MPAOperatorListAdapter extends RecyclerView.Adapter<MPAOperatorList
     public OperatorViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         ViewDataBinding binding = DataBindingUtil.inflate(LayoutInflater
                 .from(viewGroup.getContext()), R.layout.item_databinding_all_operator, viewGroup, false);
-        OperatorViewHolder holder = new OperatorViewHolder(binding.getRoot());
+        OperatorViewHolder holder = new OperatorViewHolder(binding.getRoot(),mClickListener);
         holder.setBinding(binding);
         return holder;
     }
@@ -103,16 +109,20 @@ public class MPAOperatorListAdapter extends RecyclerView.Adapter<MPAOperatorList
     }
 
 
-    public  class OperatorViewHolder extends RecyclerView.ViewHolder {
+    public  class OperatorViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener {
 
         private ViewDataBinding binding;
         public LinearLayout alphaLayout;
         public TextView tvAlpha;
+        private OnItemClickListener mClickListener;
 
-        public OperatorViewHolder(View view) {
+        public OperatorViewHolder(View view,OnItemClickListener listener) {
             super(view);
             alphaLayout=view.findViewById(R.id.item_all_operator_alpha_layout);
             tvAlpha =  view.findViewById(R.id.item_all_operator_tv_alpha);
+            mClickListener=listener;
+            view.setOnClickListener(this);
+
         }
 
         public ViewDataBinding getBinding() {
@@ -125,6 +135,11 @@ public class MPAOperatorListAdapter extends RecyclerView.Adapter<MPAOperatorList
         }
 
 
+
+        @Override
+        public void onClick(View v) {
+            mClickListener.onItemClick(v,getPosition());
+        }
     }
 
 }

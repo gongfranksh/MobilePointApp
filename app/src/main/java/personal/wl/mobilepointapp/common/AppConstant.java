@@ -77,6 +77,7 @@ public class AppConstant {
 
     public static final String SKU_SELECT_RESULT_EXTRA_CODE = "skuselected";
     public static final String PAYMMENT_SELECT_RESULT_EXTRA_CODE = "PAYMMENTS";
+    public static final String OPERATOR_SELECT_RESULT_EXTRA_CODE = "OPERATOR";
 
     public static final String PAYMMENT_NEED_PAY_EXTRA_CODE = "PAYMMENTS_AMAOUNT";
 

@@ -20,6 +20,7 @@ import java.util.List;
 import personal.wl.mobilepointapp.R;
 import personal.wl.mobilepointapp.common.AppConstant;
 import personal.wl.mobilepointapp.common.MobilePointApplication;
+import personal.wl.mobilepointapp.entity.pos.BranchEmployee;
 import personal.wl.mobilepointapp.entity.pos.PayMent;
 import personal.wl.mobilepointapp.entity.pos.Product;
 import personal.wl.mobilepointapp.entity.pos.SaleDaily;
@@ -53,8 +54,12 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
     private List<PayMent> AlreadyPaylist = new ArrayList<>();
 
 
+    private BranchEmployee curr_operator;
+
+
     private TextView sales_total_amount;
     private TextView sales_total_payment;
+    private TextView sales_operator;
 
     private TextView sales_detail_layout_buy_total_amount;
     private TextView sales_detail_layout_buy_total_qty;
@@ -90,6 +95,16 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
                     sales_total_payment.setText("" + tmp_total_payment);
                 }
                 break;
+            case AppConstant.OPERATOR_NEED_CODE:
+                if (data != null) {
+                    curr_operator = (BranchEmployee) data.getSerializableExtra(AppConstant.OPERATOR_SELECT_RESULT_EXTRA_CODE);
+
+                    sales_operator.setText(curr_operator.getEmpName());
+                }
+                break;
+
+
+
             default:
                 break;
         }
@@ -104,6 +119,7 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
         memscan = view.findViewById(R.id.sales_order_img_memeber);
         payment_img = view.findViewById(R.id.sales_order_img_payments);
         operator_img = view.findViewById(R.id.sales_order_img_operator);
+        sales_operator=view.findViewById(R.id.sales_order_operator);
 
 
         sales_detail_layout_buy_total_amount = view.findViewById(R.id.detail_layout_buy_amount);
