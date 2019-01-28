@@ -9,12 +9,14 @@
         android:id="@+id/test_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:background="@color/app_yellow"
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/et_member_search"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="10"
             android:layout_margin="10dp"
             android:background="@drawable/edittext_selector"
             android:drawableLeft="@drawable/wb_search_icon"
@@ -23,6 +25,14 @@
             android:padding="10dp" />
 
 
+        <ImageView
+            android:id="@+id/member_titleBar_scan_img"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center"
+            android:layout_weight="1"
+            android:src="@mipmap/nav_icon_scan_nor"
+            android:visibility="visible" />
     </LinearLayout>
 
     <RelativeLayout

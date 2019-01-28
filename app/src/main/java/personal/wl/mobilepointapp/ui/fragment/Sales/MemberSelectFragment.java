@@ -12,8 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
+
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -31,12 +36,14 @@ import personal.wl.mobilepointapp.entity.pos.BranchEmployee;
 import personal.wl.mobilepointapp.entity.pos.Member;
 import personal.wl.mobilepointapp.listener.OnItemClickListener;
 import personal.wl.mobilepointapp.preference.CurrentUser.MPALoginInfo;
+import personal.wl.mobilepointapp.preference.SystemSettingConstant;
 import personal.wl.mobilepointapp.ui.adapter.MPAMemberListAdapter;
 import personal.wl.mobilepointapp.ui.adapter.MPAOperatorListAdapter;
 import personal.wl.mobilepointapp.ui.adapter.MPAOperatorResultAdapter;
 import personal.wl.mobilepointapp.ui.base.BaseFragment;
 import personal.wl.mobilepointapp.ui.widget.SidebarView;
 import personal.wl.mobilepointapp.utils.MPAStringUtils;
+import personal.wl.mobilepointapp.utils.ToastUtil;
 import personal.wl.mobilepointapp.webservice.CallWebservices;
 import personal.wl.mobilepointapp.webservice.WebServiceInterface;
 import personal.wl.mobilepointapp.webservice.WebServicePara;
@@ -45,7 +52,7 @@ import personal.wl.mobilepointapp.webservice.WebServicePara;
  * Created by weiliang on 2019/1/29.
  */
 
-public class MemberSelectFragment extends BaseFragment implements WebServiceInterface, TextWatcher, OnItemClickListener {
+public class MemberSelectFragment extends BaseFragment implements WebServiceInterface, TextWatcher, View.OnClickListener, OnItemClickListener {
 
     private static final String TAG = MemberSelectFragment.class.getSimpleName();
 
@@ -53,6 +60,8 @@ public class MemberSelectFragment extends BaseFragment implements WebServiceInte
     private TextView mTvShow;
     private RecyclerView mRvMemberList;
 
+
+    private ImageView mem_scan_img;
     private TextView mTvNoResult;
     private RelativeLayout mContentLayout;
     private LinearLayoutManager mLinearLayoutManager;
@@ -68,6 +77,26 @@ public class MemberSelectFragment extends BaseFragment implements WebServiceInte
     private WebServicePara parain;
     private List<WebServicePara> paraList = new ArrayList<>();
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SystemSettingConstant.SCAN_QR_REQUEST) {
+            if (null != data) {
+                Bundle bundle = data.getExtras();
+                if (bundle == null) {
+                    return;
+                }
+                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+                    String result = bundle.getString(CodeUtils.RESULT_STRING);
+                    ToastUtil.show(getActivity(), "解析结果:" + result);
+                    getfunctions(result);
+                }
+            }
+        }
+    }
 
     @Nullable
     @Override
@@ -88,14 +117,14 @@ public class MemberSelectFragment extends BaseFragment implements WebServiceInte
         mEtSearch = view.findViewById(R.id.et_member_search);
         mRvMemberList = view.findViewById(R.id.member_rv_list);
 
-
+        mem_scan_img = view.findViewById(R.id.member_titleBar_scan_img);
         mTvNoResult = view.findViewById(R.id.member_tv_no_result);
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRvMemberList.setLayoutManager(mLinearLayoutManager);
         mContentLayout = view.findViewById(R.id.member_fra_content_layout);
 
 //        mEtSearch.setText("13052043303");
-
+        mem_scan_img.setOnClickListener(this);
         mEtSearch.addTextChangedListener(this);
 
     }
@@ -120,13 +149,13 @@ public class MemberSelectFragment extends BaseFragment implements WebServiceInte
     public void onRecevicedResult(JSONArray jsonArray) {
         try {
 
-            if (jsonArray.length()==0){
+            if (jsonArray.length() == 0) {
                 mRvMemberList.setVisibility(View.GONE);
                 mTvNoResult.setVisibility(View.VISIBLE);
                 return;
             }
 
-
+            memberList.clear();
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject rec = jsonArray.getJSONObject(i);
                 Member tmp_member = new Member();
@@ -182,7 +211,6 @@ public class MemberSelectFragment extends BaseFragment implements WebServiceInte
     public void onItemClick(View view, int postion) {
 
 
-
 //        MPALoginInfo.getInstance().setCurrentOperator(branchEmployeeList.get(postion));
         returnMember(memberList.get(postion));
 
@@ -203,5 +231,19 @@ public class MemberSelectFragment extends BaseFragment implements WebServiceInte
 
     }
 
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.member_titleBar_scan_img:
+                ToastUtil.show(getActivity(), "scan member");
+                Intent intent = new Intent(getActivity(), CaptureActivity.class);
+                startActivityForResult(intent, SystemSettingConstant.SCAN_QR_REQUEST);
+                break;
+            default:
+                break;
+        }
+
+    }
 }
 
