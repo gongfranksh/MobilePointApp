@@ -21,10 +21,12 @@ import personal.wl.mobilepointapp.R;
 import personal.wl.mobilepointapp.common.AppConstant;
 import personal.wl.mobilepointapp.common.MobilePointApplication;
 import personal.wl.mobilepointapp.entity.pos.BranchEmployee;
+import personal.wl.mobilepointapp.entity.pos.Member;
 import personal.wl.mobilepointapp.entity.pos.PayMent;
 import personal.wl.mobilepointapp.entity.pos.Product;
 import personal.wl.mobilepointapp.entity.pos.SaleDaily;
 import personal.wl.mobilepointapp.ui.activity.SalesOrder.BranchEmployeeSelectActivity;
+import personal.wl.mobilepointapp.ui.activity.SalesOrder.MemberSelectActivity;
 import personal.wl.mobilepointapp.ui.activity.SalesOrder.PaymentSelectActivity;
 import personal.wl.mobilepointapp.ui.activity.SalesOrder.SkuSelectActivity;
 import personal.wl.mobilepointapp.ui.adapter.MPASaleOrderListAdapter;
@@ -55,11 +57,13 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
 
 
     private BranchEmployee curr_operator;
+    private Member member;
 
 
     private TextView sales_total_amount;
     private TextView sales_total_payment;
     private TextView sales_operator;
+    private TextView sales_member;
 
     private TextView sales_detail_layout_buy_total_amount;
     private TextView sales_detail_layout_buy_total_qty;
@@ -98,11 +102,16 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
             case AppConstant.OPERATOR_NEED_CODE:
                 if (data != null) {
                     curr_operator = (BranchEmployee) data.getSerializableExtra(AppConstant.OPERATOR_SELECT_RESULT_EXTRA_CODE);
-
                     sales_operator.setText(curr_operator.getEmpName());
                 }
                 break;
-
+            case AppConstant.MEMBER_NEED_CODE:
+                if (data != null) {
+                    member = (Member) data.getSerializableExtra(AppConstant.MEMBER_SELECT_RESULT_EXTRA_CODE);
+                    if (member != null) {
+                        sales_member.setText(member.getMobile());
+                    }
+                }
 
             default:
                 break;
@@ -119,6 +128,7 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
         payment_img = view.findViewById(R.id.sales_order_img_payments);
         operator_img = view.findViewById(R.id.sales_order_img_operator);
         sales_operator = view.findViewById(R.id.sales_order_operator);
+        sales_member = view.findViewById(R.id.sales_order_member_value);
 
 
         sales_detail_layout_buy_total_amount = view.findViewById(R.id.detail_layout_buy_amount);
@@ -165,6 +175,8 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
 
                 break;
             case R.id.sales_order_img_memeber:
+                intent = new Intent(getActivity(), MemberSelectActivity.class);
+                startActivityForResult(intent, AppConstant.MEMBER_NEED_CODE);
                 ToastUtil.show(getActivity(), "san member");
                 break;
         }

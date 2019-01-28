@@ -112,68 +112,11 @@ public class BranchEmployeeSelectFragment extends BaseFragment implements WebSer
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRvOperatorList.setLayoutManager(mLinearLayoutManager);
         mContentLayout = view.findViewById(R.id.operator_fra_content_layout);
-//        ini_search();
-
-//        mpaOperatorResultAdapter = new MPAOperatorResultAdapter(getActivity(), searchBranchEmployeeData);
-
-//        mRvSearchResult.setAdapter(mpaOperatorResultAdapter);
-
-
-        bt_test = view.findViewById(R.id.op_test);
-
-        bt_test.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                searchBranchEmployeeData.clear();
-                searchBranchEmployeeData.addAll(branchEmployeeList);
-                mRvOperatorList.setVisibility(View.GONE);
-                mRvSearchResult.setVisibility(View.VISIBLE);
-
-                mpaOperatorListAdapter.notifyDataSetChanged();
-                mpaOperatorResultAdapter.notifyDataSetChanged();
-
-
-                //                mSidebar.setVisibility(View.GONE);
-//                mRvOperatorList.setVisibility(View.GONE);
-//                ini_search();
-
-//                branchEmployeeList.clear();
-//                branchEmployeeList.addAll(searchBranchEmployeeData);
-//                mpaOperatorListAdapter.notifyDataSetChanged();
-
-
-//                if (searchBranchEmployeeData.size() <= 0) {
-//                    mRvSearchResult.setVisibility(View.GONE);
-//                    mTvNoResult.setVisibility(View.VISIBLE);
-//                } else {
-//                    //用于解决The specified child already has a parent. You must call removeView() on the child's parent first.
-//                    mContentLayout.removeView(mRvSearchResult);
-////                        mContentLayout.addView(mRvSearchResult);
-//                    mRvSearchResult.setVisibility(View.VISIBLE);
-//                    mTvNoResult.setVisibility(View.GONE);
-//                    mpaOperatorResultAdapter.notifyDataSetChanged();
-//                }
-            }
-        });
 
 
         mSidebar.setShowText(mTvShow);
         mSidebar.setOnSlidingListener(this);
         mEtSearch.addTextChangedListener(this);
-
-    }
-
-
-    private void ini_search() {
-
-        BranchEmployee tmp_op = new BranchEmployee();
-        tmp_op.setEmpName("张三");
-        tmp_op.setPinyin("zhangsan");
-
-        searchBranchEmployeeData.add(tmp_op);
-
 
     }
 
@@ -215,10 +158,8 @@ public class BranchEmployeeSelectFragment extends BaseFragment implements WebSer
             mpaOperatorListAdapter.setmClickListener(this);
             mpaOperatorListAdapter.notifyDataSetChanged();
 
-//            mpaOperatorListAdapter2 = new MPAOperatorListAdapter(getActivity(), searchBranchEmployeeData);
             mpaOperatorResultAdapter = new MPAOperatorResultAdapter(getActivity(), searchBranchEmployeeData);
 
-//            mpaOperatorResultAdapter = new MPAOperatorResultAdapter(getActivity(),branchEmployeeList);
             mRvSearchResult.setAdapter(mpaOperatorResultAdapter);
             mpaOperatorResultAdapter.notifyDataSetChanged();
 
@@ -374,7 +315,7 @@ public class BranchEmployeeSelectFragment extends BaseFragment implements WebSer
         String tmp_name = branchEmployeeList.get(postion).getEmpName();
 //        ToastUtil.show(getActivity(), "" + tmp_name);
 
-        MPALoginInfo.getInstance().setCurrentOperator(branchEmployeeList.get(postion));
+
         returnOperator(branchEmployeeList.get(postion));
 
     }
@@ -387,7 +328,7 @@ public class BranchEmployeeSelectFragment extends BaseFragment implements WebSer
 
     private void returnOperator(BranchEmployee operator) {
         Intent callintent = new Intent();
-//        MPALoginInfo.getInstance().setCurrentPayMent(operator);
+        MPALoginInfo.getInstance().setCurrentOperator(operator);
         callintent.putExtra(AppConstant.OPERATOR_SELECT_RESULT_EXTRA_CODE, (Serializable) operator);
         getActivity().setResult(AppConstant.OPERATOR_NEED_CODE, callintent);
         getActivity().finish();

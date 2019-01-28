@@ -201,7 +201,7 @@
                     <TextView
                         android:id="@+id/sales_order_member_value"
                         style="@style/more_common_desc_textView_img_style"
-                        android:text="13916338863" />
+                        android:text="99999999" />
 
                     <ImageView
                         android:id="@+id/sales_order_img_memeber"

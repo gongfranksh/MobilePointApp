@@ -131,6 +131,7 @@
         <activity android:name=".ui.activity.SalesOrder.PaymentSelectActivity">
         </activity>
         <activity android:name=".ui.activity.SalesOrder.BranchEmployeeSelectActivity"/>
+        <activity android:name=".ui.activity.SalesOrder.MemberSelectActivity"/>
 
 
 
