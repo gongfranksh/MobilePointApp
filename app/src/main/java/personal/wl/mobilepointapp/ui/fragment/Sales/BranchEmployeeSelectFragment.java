@@ -373,6 +373,8 @@ public class BranchEmployeeSelectFragment extends BaseFragment implements WebSer
 
         String tmp_name = branchEmployeeList.get(postion).getEmpName();
 //        ToastUtil.show(getActivity(), "" + tmp_name);
+
+        MPALoginInfo.getInstance().setCurrentOperator(branchEmployeeList.get(postion));
         returnOperator(branchEmployeeList.get(postion));
 
     }

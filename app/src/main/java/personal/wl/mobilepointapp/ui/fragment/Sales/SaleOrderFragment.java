@@ -104,7 +104,6 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
                 break;
 
 
-
             default:
                 break;
         }
@@ -119,7 +118,7 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
         memscan = view.findViewById(R.id.sales_order_img_memeber);
         payment_img = view.findViewById(R.id.sales_order_img_payments);
         operator_img = view.findViewById(R.id.sales_order_img_operator);
-        sales_operator=view.findViewById(R.id.sales_order_operator);
+        sales_operator = view.findViewById(R.id.sales_order_operator);
 
 
         sales_detail_layout_buy_total_amount = view.findViewById(R.id.detail_layout_buy_amount);
@@ -213,7 +212,14 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
             e.printStackTrace();
         }
 
-
+        try {
+            curr_operator = MobilePointApplication.loginInfo.getCurrentOperator();
+            if (curr_operator != null) {
+                sales_operator.setText(curr_operator.getEmpName());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void ReflashValue() {
