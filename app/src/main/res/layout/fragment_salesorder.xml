@@ -56,79 +56,7 @@
 
     <View style="@style/around_view_style" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/around_supplier_list_ll_height"
-        android:background="@android:color/white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/around_supplier_list_product"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/around_supplier_list_tv_product"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/around_supplier_list_all"
-                android:textSize="@dimen/textSize_14" />
-
-            <ImageView
-                android:layout_width="@dimen/around_supplier_list_image_width"
-                android:layout_height="@dimen/around_supplier_list_image_height"
-                android:src="@mipmap/icon_arrow_down" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/around_supplier_list_sort"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/around_supplier_list_tv_sort"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/around_supplier_list_sort"
-                android:textSize="@dimen/textSize_14" />
-
-            <ImageView
-                android:layout_width="@dimen/around_supplier_list_image_width"
-                android:layout_height="@dimen/around_supplier_list_image_height"
-                android:src="@mipmap/icon_arrow_down" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/around_supplier_list_activity"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/around_supplier_list_tv_activity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/around_supplier_list_activity"
-                android:textSize="@dimen/textSize_14" />
-
-            <ImageView
-                android:layout_width="@dimen/around_supplier_list_image_width"
-                android:layout_height="@dimen/around_supplier_list_image_height"
-                android:src="@mipmap/icon_arrow_down" />
-        </LinearLayout>
-    </LinearLayout>
 
 
     <RelativeLayout
@@ -171,22 +99,6 @@
                     <ImageView
                         android:id="@+id/sales_order_img_branchselected"
                         style="@style/me_common_item_arrow_right_black_style" />
-
-                </RelativeLayout>
-
-                <View style="@style/me_horizontal_view_style" />
-
-                <RelativeLayout style="@style/me_common_item_relativeLayout_style">
-
-                    <TextView
-                        style="@style/more_common_item_textView_style"
-                        android:text="@string/saleorder_date_string" />
-
-                    <TextView
-                        android:id="@+id/sales_order_saledate_value"
-                        style="@style/more_common_desc_textView_img_style"
-                        android:text="2009-12-10" />
-
 
                 </RelativeLayout>
 
