@@ -236,7 +236,6 @@ public class MemberSelectFragment extends BaseFragment implements WebServiceInte
 
         switch (v.getId()) {
             case R.id.member_titleBar_scan_img:
-                ToastUtil.show(getActivity(), "scan member");
                 Intent intent = new Intent(getActivity(), CaptureActivity.class);
                 startActivityForResult(intent, SystemSettingConstant.SCAN_QR_REQUEST);
                 break;
