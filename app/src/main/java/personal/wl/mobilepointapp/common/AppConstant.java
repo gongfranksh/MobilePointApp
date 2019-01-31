@@ -53,8 +53,15 @@ public class AppConstant {
     public static final String PAY_PLUGIN_NAME = "bp.db";
 
 
-    public static final String WSDL_URI = "http://192.168.81.136:8000/?wsdl";
+    public static final String WSDL_URI = "http://192.168.81.136:5000/poswebservices?wsdl";
+//    public static final String WSDL_URI = "http://192.168.81.136:8000/?wsdl";
+
     public static final String WSDL_NAMESPACE = "http://shangyi.weiliang.webservice";
+    public static final String WSDL_USERNAME = "myusername";
+    public static final String WSDL_PASSWORD = "mypassword";
+
+
+
 
     public static final String Method_QUERY_PRODUCT_BY_BARCODE = "get_product_by_barcode";
     public static final String Method_GET_FUNCTION_MENU_ALL = "get_functionmenu_all";
