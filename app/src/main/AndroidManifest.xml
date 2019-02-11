@@ -132,7 +132,7 @@
         </activity>
         <activity android:name=".ui.activity.SalesOrder.BranchEmployeeSelectActivity"/>
         <activity android:name=".ui.activity.SalesOrder.MemberSelectActivity"/>
-
+        <activity android:name=".ui.activity.SalesOrder.BranchSelectActivity"/>
 
 
         <!-- 百度地图 开始 -->

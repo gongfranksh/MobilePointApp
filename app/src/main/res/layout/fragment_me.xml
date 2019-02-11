@@ -185,6 +185,27 @@
                 </RelativeLayout>
             </LinearLayout>
 
+            <RelativeLayout
+                android:id="@+id/me_item_branch_layout"
+                style="@style/me_common_item_relativeLayout_style"
+                android:layout_marginTop="@dimen/me_item_common_layout_marginTop">
+                <ImageView
+                    android:id="@+id/me_item_branch_iv_icon"
+                    style="@style/me_common_item_icon_imageView_style"
+                    android:src="@drawable/ic_location_branch_black_24dp"/>
+                <TextView
+                    style="@style/me_common_item_title_textView_style"
+                    android:layout_toRightOf="@+id/me_item_branch_iv_icon"
+                    android:text="@string/me_item_branch_selected"/>
+                <TextView
+                    android:id="@+id/me_item_current_branch"
+                    style="@style/more_common_desc_textView_img_style"
+                    android:text="上海店" />
+                <ImageView
+                    android:id="@+id/me_item_branch_iv_arrow_right"
+                    style="@style/me_common_item_arrow_right_imageView_style"/>
+            </RelativeLayout>
+
 
             <RelativeLayout
                 android:id="@+id/me_item_qr_layout"

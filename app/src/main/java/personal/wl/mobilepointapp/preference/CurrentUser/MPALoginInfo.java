@@ -17,6 +17,7 @@ import java.util.List;
 
 import personal.wl.mobilepointapp.auth.ldap.User;
 import personal.wl.mobilepointapp.common.AppConstant;
+import personal.wl.mobilepointapp.entity.pos.Branch;
 import personal.wl.mobilepointapp.entity.pos.BranchEmployee;
 import personal.wl.mobilepointapp.entity.pos.PayMent;
 import personal.wl.mobilepointapp.entity.pos.SaleDaily;
@@ -100,10 +101,22 @@ public class MPALoginInfo {
     }
 
 
+    public void setCurrentBranch(Branch branch){
+        sPre.edit().putString(AppConstant.CURRENT_BRANCH,gon.toJson(branch)).commit();
+    }
+
+    public Branch getCurrentBranch(){
+        String strbranch = sPre.getString(AppConstant.CURRENT_BRANCH, null);
+        Branch branch = gon.fromJson(strbranch, Branch.class);
+        return branch;
+    }
+
     public void setCurrentOperator(BranchEmployee operator){
 
         sPre.edit().putString(AppConstant.CURRENT_OPERATOR,gon.toJson(operator)).commit();
     }
+
+
 
 
     public BranchEmployee getCurrentOperator(){

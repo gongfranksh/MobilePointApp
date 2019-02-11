@@ -296,7 +296,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/sku_detail_layout_selected_btn"
+                android:id="@+id/sale_order_submit_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@color/app_yellow"

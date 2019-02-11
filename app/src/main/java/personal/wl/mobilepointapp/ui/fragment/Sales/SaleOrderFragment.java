@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import java.util.List;
 import personal.wl.mobilepointapp.R;
 import personal.wl.mobilepointapp.common.AppConstant;
 import personal.wl.mobilepointapp.common.MobilePointApplication;
+import personal.wl.mobilepointapp.entity.pos.Branch;
 import personal.wl.mobilepointapp.entity.pos.BranchEmployee;
 import personal.wl.mobilepointapp.entity.pos.Member;
 import personal.wl.mobilepointapp.entity.pos.PayMent;
@@ -56,6 +58,9 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
     private List<PayMent> AlreadyPaylist = new ArrayList<>();
 
 
+    private Branch current_branch;
+
+
     private BranchEmployee curr_operator;
     private Member member;
 
@@ -65,8 +70,13 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
     private TextView sales_operator;
     private TextView sales_member;
 
+    private TextView sales_branch;
+
     private TextView sales_detail_layout_buy_total_amount;
     private TextView sales_detail_layout_buy_total_qty;
+
+
+    private Button sale_order_submit;
 
 
     @Override
@@ -129,7 +139,9 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
         operator_img = view.findViewById(R.id.sales_order_img_operator);
         sales_operator = view.findViewById(R.id.sales_order_operator);
         sales_member = view.findViewById(R.id.sales_order_member_value);
+        sale_order_submit = view.findViewById(R.id.sale_order_submit_btn);
 
+        sales_branch = view.findViewById(R.id.sales_order_branch_selected);
 
         sales_detail_layout_buy_total_amount = view.findViewById(R.id.detail_layout_buy_amount);
         sales_detail_layout_buy_total_qty = view.findViewById(R.id.detail_layout_buy_qty);
@@ -147,6 +159,7 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
         memscan.setOnClickListener(this);
         payment_img.setOnClickListener(this);
         operator_img.setOnClickListener(this);
+        sale_order_submit.setOnClickListener(this);
 
         getlasttransctaion();
         return view;
@@ -179,6 +192,11 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
                 startActivityForResult(intent, AppConstant.MEMBER_NEED_CODE);
                 ToastUtil.show(getActivity(), "san member");
                 break;
+
+            case  R.id.sale_order_submit_btn:
+                ToastUtil.show(getActivity(), "sale order submit");
+                saleordersubmit();
+                break;
         }
 
 
@@ -191,6 +209,7 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void getlasttransctaion() {
+
         double tmp_shouldpay = 0.0;
         try {
             ShouldPay = MobilePointApplication.loginInfo.getCurrentTranscation();
@@ -232,6 +251,17 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        try {
+            current_branch = MobilePointApplication.loginInfo.getCurrentBranch();
+            if (current_branch != null) {
+                sales_branch.setText(current_branch.getBraname());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     public void ReflashValue() {
@@ -243,5 +273,11 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
         sales_total_amount.setText("" + tmp_total_amount);
         sales_detail_layout_buy_total_amount.setText("" + tmp_total_amount);
         sales_detail_layout_buy_total_qty.setText("" + tmp_qty);
+    }
+
+    private void saleordersubmit(){
+
+
+
     }
 }

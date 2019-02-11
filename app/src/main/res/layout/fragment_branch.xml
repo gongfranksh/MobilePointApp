@@ -1,0 +1,86 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/city_item_bg">
+
+
+    <LinearLayout
+        android:id="@+id/test_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/et_branch_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/edittext_selector"
+            android:drawableLeft="@drawable/wb_search_icon"
+            android:drawablePadding="5dp"
+            android:hint="@string/branch_hint_query"
+            android:padding="10dp" />
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/branch_fra_content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@+id/test_layout">
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/branch_rv_list"
+                android:layout_width="match_parent"
+
+                android:layout_toLeftOf="@+id/branch_sidebar"
+                android:layout_height="match_parent"
+                 />
+
+
+        <TextView
+            android:id="@+id/branch_tv_show"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            android:background="@android:color/darker_gray"
+            android:gravity="center"
+            android:textColor="#ffffffff"
+            android:textSize="30dp"
+            android:visibility="gone" />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/branch_rv_search_result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/branch_sidebar"
+            android:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/branch_tv_no_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/not_find_city"
+            android:visibility="gone" />
+
+        <personal.wl.mobilepointapp.ui.widget.SidebarView
+            android:id="@+id/branch_sidebar"
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="7dp"
+            android:layout_marginRight="2dp" />
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

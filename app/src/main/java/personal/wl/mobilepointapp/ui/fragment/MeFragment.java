@@ -23,6 +23,8 @@ import java.io.Serializable;
 import personal.wl.mobilepointapp.R;
 import personal.wl.mobilepointapp.auth.ldap.LdapSearchAsyn;
 import personal.wl.mobilepointapp.auth.ldap.LdapSearchListener;
+import personal.wl.mobilepointapp.common.AppConstant;
+import personal.wl.mobilepointapp.entity.pos.Branch;
 import personal.wl.mobilepointapp.model.User;
 import personal.wl.mobilepointapp.preference.CurrentUser.MPALoginInfo;
 import personal.wl.mobilepointapp.ui.activity.CartActivity;
@@ -32,6 +34,7 @@ import personal.wl.mobilepointapp.ui.activity.HistoryActivity;
 import personal.wl.mobilepointapp.ui.activity.LoginActivity;
 import personal.wl.mobilepointapp.ui.activity.LotteryActivity;
 import personal.wl.mobilepointapp.ui.activity.PaidActivity;
+import personal.wl.mobilepointapp.ui.activity.SalesOrder.BranchSelectActivity;
 import personal.wl.mobilepointapp.ui.activity.TreasureActivity;
 import personal.wl.mobilepointapp.ui.activity.UnpaidActivity;
 import personal.wl.mobilepointapp.ui.activity.UserProfileActivity;
@@ -78,18 +81,19 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     private LinearLayout mLoginProfileLayout;
     private personal.wl.mobilepointapp.auth.ldap.User user;
 
+    private TextView currentbranch;
+
+
+    private ImageView iv_branch;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_me, null);
-
-
-
         initView(view);
         initUserLayout();
         return view;
     }
-
 
 
     private void initUserLayout() {
@@ -102,14 +106,16 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
             mNologinLayout.setVisibility(View.GONE);
 
 
-
             mLoginTvUsername.setText(user.getUsername());
 
-                mLoginIvHead.setImageResource(R.mipmap.user_head);
+
+            mLoginIvHead.setImageResource(R.mipmap.user_head);
 //            if (user.getHeadIcon() == null) {
 //            } else {
 //                mLoginIvHead.setImageURI(Uri.parse(user.getHeadIcon().getFileUrl()));
 //            }
+
+            currentbranch.setText(MPALoginInfo.getInstance().getCurrentBranch().getBraname());
         } else {
             mLoginLayout.setVisibility(View.GONE);
             mNologinLayout.setVisibility(View.VISIBLE);
@@ -139,12 +145,14 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         mItemTreasureTvCount = (TextView) view.findViewById(R.id.me_item_treasure_tv_count);
         mItemTreasureLayout = (RelativeLayout) view.findViewById(R.id.me_item_treasure_layout);
         mUserOrderLayout = (LinearLayout) view.findViewById(R.id.me_user_order_layout);
-
+        currentbranch = view.findViewById(R.id.me_item_current_branch);
 
         mItemRecommendTvNew = (TextView) view.findViewById(R.id.me_item_recommend_tv_new);
         mItemRecommendLayout = (RelativeLayout) view.findViewById(R.id.me_item_recommend_layout);
         mItemQrLayout = (RelativeLayout) view.findViewById(R.id.me_item_qr_layout);
         mLoginProfileLayout = (LinearLayout) view.findViewById(R.id.me_login_profile_layout);
+
+        iv_branch = view.findViewById(R.id.me_item_branch_iv_arrow_right);
 
         mLoginIvHead.setOnClickListener(this);
         mLoginIvArrowRight.setOnClickListener(this);
@@ -156,8 +164,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         mItemPaidOrderLayout.setOnClickListener(this);
 
 
-
-
+        iv_branch.setOnClickListener(this);
         mItemQrLayout.setOnClickListener(this);
         mLoginProfileLayout.setOnClickListener(this);
     }
@@ -190,7 +197,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 }
                 break;
             case R.id.me_user_tv_favorite:
-                if (user!= null) {
+                if (user != null) {
                     openActivity(CollectActivity.class);
                 } else {
                     ToastUtil.show(getActivity(), R.string.me_nologin_not_login);
@@ -218,17 +225,22 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 }
                 break;
 
-
-
             case R.id.me_item_qr_layout:
                 Intent qrIntent = new Intent(getActivity(), CaptureActivity.class);
-                getActivity().startActivityForResult(qrIntent,SCAN_QR_REQUEST);
+                getActivity().startActivityForResult(qrIntent, SCAN_QR_REQUEST);
                 break;
+
+            case R.id.me_item_branch_iv_arrow_right:
+                Intent branchIntent = new Intent(getActivity(), BranchSelectActivity.class);
+                startActivityForResult(branchIntent, AppConstant.BRANCH_SELECT_CODE);
+                break;
+
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == LOGIN_REQUEST_CODE && resultCode == LoginActivity.LOGIN_RESULT_CODE) {
 //            Log.i("MeFragment", "onActivityResult: "+user.getDisplayName());
             initUserLayout();
@@ -237,7 +249,16 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         } else if (requestCode == SCAN_QR_REQUEST) {
 
         }
-        super.onActivityResult(requestCode, resultCode, data);
+        else  if(requestCode==AppConstant.BRANCH_SELECT_CODE){
+            Branch branch = (Branch) data.getSerializableExtra(AppConstant.BRANCH_SELECT_RESULT_EXTRA_CODE);
+
+            if (branch!=null){
+                currentbranch.setText(branch.getBraname());
+
+            }
+
+        }
+
     }
 
 

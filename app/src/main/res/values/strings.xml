@@ -174,4 +174,6 @@
     <string name="not_find_operator_hint_string">没有找到操作员</string>
     <string name="input_member_search_hint_string">请输入手机号码</string>
     <string name="no_find_member">没有找到会员</string>
+    <string name="me_item_branch_selected">当前门店</string>
+    <string name="branch_hint_query">请输入门店</string>
 </resources>
