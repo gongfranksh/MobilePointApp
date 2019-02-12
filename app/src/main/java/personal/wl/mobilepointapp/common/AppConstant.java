@@ -69,6 +69,8 @@ public class AppConstant {
     public static final String Method_GET_BRANCH_EMPLOYEE_ = "Get_Branch_Employee_all";
     public static final String Method_GET_BRANCH = "get_branch_result";
     public static final String Method_GET_MEMBER_BY_MOBILE_ = "Get_memeber_by_mobile";
+    public static final String Method_SUBMIT_POS_ORDER = "Pos_Submit_Order";
+    public static final String Method_POS_MACHINE = "get_branch_pos_machine_all";
 
     public static final String PARA_GET_FUNCTION_MENU_ALL = "branchcode";
 
@@ -77,6 +79,7 @@ public class AppConstant {
     public static final String PARA_PRONAME = "proname";
     public static final String PARA_DOMAIN_ACCOUNT = "domainaccount";
     public static final String PARA_MOBILE = "mobile";
+    public static final String PARA_TRANSCATION = "transcation";
 
 
     public static final int SKU_SELECT_RESULT_CODE = 8112;
@@ -85,6 +88,7 @@ public class AppConstant {
     public static final int OPERATOR_NEED_CODE = 8142;
     public static final int MEMBER_NEED_CODE = 8152;
     public static final int BRANCH_SELECT_CODE = 8162;
+    public static final int POSMACHINE_SELECT_CODE = 8172;
 
 
 
@@ -103,6 +107,7 @@ public class AppConstant {
     public static final String CURRENT_SALEORDERS="current_saleorders";
     public static final String CURRENT_OPERATOR="current_opertator";
     public static final String CURRENT_BRANCH="current_branch";
+    public static final String CURRENT_MEMBER="current_member";
 
 
 

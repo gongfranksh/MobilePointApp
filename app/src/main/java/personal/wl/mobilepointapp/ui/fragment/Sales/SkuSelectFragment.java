@@ -185,13 +185,10 @@ public class SkuSelectFragment extends BaseFragment implements View.OnClickListe
                 ToastUtil.show(getActivity(), "sku_good_bt1 sku");
                 break;
             case R.id.sku_detail_layout_selected_btn:
-
-
                 Intent callintent = new Intent();
                 callintent.putExtra(SKU_SELECT_RESULT_EXTRA_CODE, (Serializable) data);
                 getActivity().setResult(SKU_SELECT_RESULT_CODE, callintent);
                 getActivity().finish();
-
                 break;
         }
     }

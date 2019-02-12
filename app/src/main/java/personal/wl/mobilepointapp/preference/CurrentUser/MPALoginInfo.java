@@ -19,6 +19,7 @@ import personal.wl.mobilepointapp.auth.ldap.User;
 import personal.wl.mobilepointapp.common.AppConstant;
 import personal.wl.mobilepointapp.entity.pos.Branch;
 import personal.wl.mobilepointapp.entity.pos.BranchEmployee;
+import personal.wl.mobilepointapp.entity.pos.Member;
 import personal.wl.mobilepointapp.entity.pos.PayMent;
 import personal.wl.mobilepointapp.entity.pos.SaleDaily;
 import personal.wl.mobilepointapp.utils.MPADateUtils;
@@ -27,6 +28,7 @@ import static personal.wl.mobilepointapp.common.AppConstant.CURRENT_TRANSACATION
 import static personal.wl.mobilepointapp.preference.SystemSettingConstant.CURRENT_ACCOUNT;
 import static personal.wl.mobilepointapp.preference.SystemSettingConstant.CURRENT_LOGIN;
 import static personal.wl.mobilepointapp.preference.SystemSettingConstant.CURRENT_LOGIN_DATE;
+import static personal.wl.mobilepointapp.preference.SystemSettingConstant.CURRENT_NEED_TRANS;
 import static personal.wl.mobilepointapp.preference.SystemSettingConstant.DEFAULT_CURRENT_ACCOUNT;
 
 public class MPALoginInfo {
@@ -60,6 +62,11 @@ public class MPALoginInfo {
     public void setUser(User user) {
         sPre.edit().putString(CURRENT_ACCOUNT, gon.toJson(user)).commit();
         sPre.edit().putString(CURRENT_LOGIN_DATE, MPADateUtils.DateToStr(new Date(System.currentTimeMillis()))).commit();
+
+    }
+
+    public void setLastTranscation(String needTrans) {
+        sPre.edit().putString(CURRENT_NEED_TRANS, needTrans).commit();
 
     }
 
@@ -100,26 +107,36 @@ public class MPALoginInfo {
 
     }
 
-
-    public void setCurrentBranch(Branch branch){
-        sPre.edit().putString(AppConstant.CURRENT_BRANCH,gon.toJson(branch)).commit();
+    public void setCurrentBranch(Branch branch) {
+        sPre.edit().putString(AppConstant.CURRENT_BRANCH, gon.toJson(branch)).commit();
     }
 
-    public Branch getCurrentBranch(){
+    public Branch getCurrentBranch() {
         String strbranch = sPre.getString(AppConstant.CURRENT_BRANCH, null);
         Branch branch = gon.fromJson(strbranch, Branch.class);
         return branch;
     }
 
-    public void setCurrentOperator(BranchEmployee operator){
+    public void setCurrentMember(Member member){
+        sPre.edit().putString(AppConstant.CURRENT_MEMBER, gon.toJson(member)).commit();
+    }
 
-        sPre.edit().putString(AppConstant.CURRENT_OPERATOR,gon.toJson(operator)).commit();
+    public Member getCurrentMember() {
+        String strbranch = sPre.getString(AppConstant.CURRENT_MEMBER, null);
+        Member member = gon.fromJson(strbranch, Member.class);
+        return member;
     }
 
 
 
 
-    public BranchEmployee getCurrentOperator(){
+
+    public void setCurrentOperator(BranchEmployee operator) {
+
+        sPre.edit().putString(AppConstant.CURRENT_OPERATOR, gon.toJson(operator)).commit();
+    }
+
+    public BranchEmployee getCurrentOperator() {
         String stroperator = sPre.getString(AppConstant.CURRENT_OPERATOR, null);
         BranchEmployee operator = gon.fromJson(stroperator, BranchEmployee.class);
         return operator;

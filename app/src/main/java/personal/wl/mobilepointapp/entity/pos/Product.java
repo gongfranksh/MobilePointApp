@@ -362,6 +362,12 @@ public class Product implements Serializable {
         tmp_product.setSpec(rec.getString("Spec"));
         tmp_product.setBarcode(rec.getString("Barcode"));
         tmp_product.setProid(rec.getString("ProId"));
+        tmp_product.setClassId(rec.getString("ClassId"));
+        tmp_product.setInTax(rec.getDouble("InTax"));
+        tmp_product.setSupId(rec.getString("SupId"));
+        tmp_product.setBrandId(rec.getString("BrandId"));
+        tmp_product.setVipdiscount(rec.getDouble("VipDisCount"));
+        tmp_product.setPosdiscount(rec.getDouble("posdiscount"));
         tmp_product.setSaleQty(1.00);
         return tmp_product;
     }

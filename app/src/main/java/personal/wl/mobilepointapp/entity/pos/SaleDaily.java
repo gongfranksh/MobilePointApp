@@ -76,6 +76,8 @@ public class SaleDaily implements Serializable {
         saleDaily.setBarCode(product.getBarcode());
         saleDaily.setProName(product.getProName());
         saleDaily.setNormalPrice(product.getNormalPrice());
+        saleDaily.setClassId(product.getClassId());
+        saleDaily.setSaleTax(product.getInTax());
         saleDaily.setSaleQty(product.getSaleQty());
         saleDaily.setSaleAmt(product.getSaleQty() * product.getNormalPrice());
         return saleDaily;

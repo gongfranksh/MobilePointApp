@@ -35,6 +35,7 @@ import personal.wl.mobilepointapp.ui.activity.LoginActivity;
 import personal.wl.mobilepointapp.ui.activity.LotteryActivity;
 import personal.wl.mobilepointapp.ui.activity.PaidActivity;
 import personal.wl.mobilepointapp.ui.activity.SalesOrder.BranchSelectActivity;
+import personal.wl.mobilepointapp.ui.activity.SalesOrder.PosMachineSelectActivity;
 import personal.wl.mobilepointapp.ui.activity.TreasureActivity;
 import personal.wl.mobilepointapp.ui.activity.UnpaidActivity;
 import personal.wl.mobilepointapp.ui.activity.UserProfileActivity;
@@ -82,9 +83,11 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     private personal.wl.mobilepointapp.auth.ldap.User user;
 
     private TextView currentbranch;
+    private TextView currentPosmachine;
 
 
     private ImageView iv_branch;
+    private ImageView iv_posmachine;
 
     @Nullable
     @Override
@@ -114,8 +117,9 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 //            } else {
 //                mLoginIvHead.setImageURI(Uri.parse(user.getHeadIcon().getFileUrl()));
 //            }
-
-            currentbranch.setText(MPALoginInfo.getInstance().getCurrentBranch().getBraname());
+            if (MPALoginInfo.getInstance().getCurrentBranch() != null) {
+                currentbranch.setText(MPALoginInfo.getInstance().getCurrentBranch().getBraname());
+            }
         } else {
             mLoginLayout.setVisibility(View.GONE);
             mNologinLayout.setVisibility(View.VISIBLE);
@@ -146,6 +150,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         mItemTreasureLayout = (RelativeLayout) view.findViewById(R.id.me_item_treasure_layout);
         mUserOrderLayout = (LinearLayout) view.findViewById(R.id.me_user_order_layout);
         currentbranch = view.findViewById(R.id.me_item_current_branch);
+        currentPosmachine = view.findViewById(R.id.me_item_current_posmachine);
 
         mItemRecommendTvNew = (TextView) view.findViewById(R.id.me_item_recommend_tv_new);
         mItemRecommendLayout = (RelativeLayout) view.findViewById(R.id.me_item_recommend_layout);
@@ -153,6 +158,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         mLoginProfileLayout = (LinearLayout) view.findViewById(R.id.me_login_profile_layout);
 
         iv_branch = view.findViewById(R.id.me_item_branch_iv_arrow_right);
+        iv_posmachine = view.findViewById(R.id.me_item_posmachine_iv_arrow_right);
 
         mLoginIvHead.setOnClickListener(this);
         mLoginIvArrowRight.setOnClickListener(this);
@@ -162,6 +168,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         mUserTvHistory.setOnClickListener(this);
         mItemUnpaidLayout.setOnClickListener(this);
         mItemPaidOrderLayout.setOnClickListener(this);
+        iv_posmachine.setOnClickListener(this);
 
 
         iv_branch.setOnClickListener(this);
@@ -234,7 +241,10 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 Intent branchIntent = new Intent(getActivity(), BranchSelectActivity.class);
                 startActivityForResult(branchIntent, AppConstant.BRANCH_SELECT_CODE);
                 break;
-
+            case R.id.me_item_posmachine_iv_arrow_right:
+                Intent posmachineIntent = new Intent(getActivity(), PosMachineSelectActivity.class);
+                startActivityForResult(posmachineIntent, AppConstant.POSMACHINE_SELECT_CODE);
+                break;
         }
     }
 
@@ -248,11 +258,10 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
             initUserLayout();
         } else if (requestCode == SCAN_QR_REQUEST) {
 
-        }
-        else  if(requestCode==AppConstant.BRANCH_SELECT_CODE){
+        } else if (requestCode == AppConstant.BRANCH_SELECT_CODE) {
             Branch branch = (Branch) data.getSerializableExtra(AppConstant.BRANCH_SELECT_RESULT_EXTRA_CODE);
 
-            if (branch!=null){
+            if (branch != null) {
                 currentbranch.setText(branch.getBraname());
 
             }

@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +33,7 @@ import personal.wl.mobilepointapp.entity.pos.Member;
 import personal.wl.mobilepointapp.entity.pos.PayMent;
 import personal.wl.mobilepointapp.entity.pos.Product;
 import personal.wl.mobilepointapp.entity.pos.SaleDaily;
+import personal.wl.mobilepointapp.preference.CurrentUser.MPALoginInfo;
 import personal.wl.mobilepointapp.ui.activity.SalesOrder.BranchEmployeeSelectActivity;
 import personal.wl.mobilepointapp.ui.activity.SalesOrder.MemberSelectActivity;
 import personal.wl.mobilepointapp.ui.activity.SalesOrder.PaymentSelectActivity;
@@ -34,12 +41,15 @@ import personal.wl.mobilepointapp.ui.activity.SalesOrder.SkuSelectActivity;
 import personal.wl.mobilepointapp.ui.adapter.MPASaleOrderListAdapter;
 import personal.wl.mobilepointapp.ui.base.BaseFragment;
 import personal.wl.mobilepointapp.utils.ToastUtil;
+import personal.wl.mobilepointapp.webservice.CallWebservices;
+import personal.wl.mobilepointapp.webservice.WebServiceInterface;
+import personal.wl.mobilepointapp.webservice.WebServicePara;
 
 import static personal.wl.mobilepointapp.common.AppConstant.PAYMMENT_NEED_PAY_CODE;
 import static personal.wl.mobilepointapp.common.AppConstant.SKU_SELECT_RESULT_EXTRA_CODE;
 
 
-public class SaleOrderFragment extends BaseFragment implements View.OnClickListener {
+public class SaleOrderFragment extends BaseFragment implements WebServiceInterface,View.OnClickListener {
 
     private static List<SaleDaily> ShouldPay = new ArrayList<>();
     private ImageView skuscan;
@@ -79,6 +89,11 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
     private Button sale_order_submit;
 
 
+    private CallWebservices callWebservices;
+    private WebServicePara parain;
+    private List<WebServicePara> paraList = new ArrayList<>();
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -92,6 +107,7 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
                         onesales = onesales.getSaleDailyFromProduct(NeedProduct.get(i));
                         saleDailyList.add(onesales);
                     }
+                    MPALoginInfo.getInstance().setCurrentTranscation(saleDailyList);
                     mpaSaleOrderListAdapter.notifyDataSetChanged();
                     ReflashValue();
                 }
@@ -119,7 +135,8 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
                 if (data != null) {
                     member = (Member) data.getSerializableExtra(AppConstant.MEMBER_SELECT_RESULT_EXTRA_CODE);
                     if (member != null) {
-                        sales_member.setText(member.getMobile());
+                        sales_member.setText(member.getCardid());
+                        MPALoginInfo.getInstance().setCurrentMember(member);
                     }
                 }
 
@@ -262,6 +279,18 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
         }
 
 
+        try {
+            member = MobilePointApplication.loginInfo.getCurrentMember();
+            if (member != null) {
+
+                sales_member.setText(member.getCardid());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
     }
 
     public void ReflashValue() {
@@ -276,7 +305,39 @@ public class SaleOrderFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void saleordersubmit(){
+        Gson gson = new Gson();
+        String str_curr_branch = gson.toJson(current_branch);
+        JsonObject json_curr_branch = new JsonObject();
 
+
+        String str_curr_operator = gson.toJson(curr_operator);
+        String str_list_saledaily = gson.toJson(saleDailyList);
+        String str_list_payment = gson.toJson(AlreadyPaylist);
+        String str_member=gson.toJson(member);
+        JsonObject sales = new JsonObject();
+        sales.addProperty("branch",str_curr_branch);
+        sales.addProperty("operator",str_curr_operator);
+        sales.addProperty("saledaily",str_list_saledaily);
+        sales.addProperty("payment",str_list_payment);
+        sales.addProperty("member",str_member);
+        MPALoginInfo.getInstance().setLastTranscation(sales.toString());
+
+        parain = new WebServicePara();
+        paraList = new ArrayList<>();
+        callWebservices = null;
+
+        parain.setPara_name(AppConstant.PARA_TRANSCATION);
+        parain.setPara_value(sales.toString());
+        paraList.add(parain);
+        parain = new WebServicePara();
+
+        callWebservices = new CallWebservices(this, AppConstant.Method_SUBMIT_POS_ORDER, paraList);
+        callWebservices.execute();
+    }
+
+    @Override
+    public void onRecevicedResult(JSONArray jsonArray) {
+//        Log.i("saleorder", "onRecevicedResult: " + jsonArray.toString());
 
 
     }

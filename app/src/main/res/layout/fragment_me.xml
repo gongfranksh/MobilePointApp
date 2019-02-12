@@ -205,7 +205,28 @@
                     android:id="@+id/me_item_branch_iv_arrow_right"
                     style="@style/me_common_item_arrow_right_imageView_style"/>
             </RelativeLayout>
+            <View
+                style="@style/me_horizontal_view_style"/>
 
+            <RelativeLayout
+                android:id="@+id/me_item_posmachine_layout"
+                style="@style/me_common_item_relativeLayout_style">
+                <ImageView
+                    android:id="@+id/me_item_posmachine_iv_icon"
+                    style="@style/me_common_item_icon_imageView_style"
+                    android:src="@drawable/ic_laptop_windows_black_24dp"/>
+                <TextView
+                    style="@style/me_common_item_title_textView_style"
+                    android:layout_toRightOf="@+id/me_item_posmachine_iv_icon"
+                    android:text="@string/item_posmachine_selected"/>
+                <TextView
+                    android:id="@+id/me_item_current_posmachine"
+                    style="@style/more_common_desc_textView_img_style"
+                    android:text="999" />
+                <ImageView
+                    android:id="@+id/me_item_posmachine_iv_arrow_right"
+                    style="@style/me_common_item_arrow_right_imageView_style"/>
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/me_item_qr_layout"
