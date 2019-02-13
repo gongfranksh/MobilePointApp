@@ -23,7 +23,6 @@ public class PayMent extends BaseObservable implements Serializable {
     private String PayMentName;
     private String PayModeId;
     private String CadType;
-
 //    @Bindable
     public Double getPayMoney() {
         return PayMoney;

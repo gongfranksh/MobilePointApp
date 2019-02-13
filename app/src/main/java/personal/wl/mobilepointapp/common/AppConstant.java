@@ -96,6 +96,7 @@ public class AppConstant {
     public static final String PAYMMENT_SELECT_RESULT_EXTRA_CODE = "PAYMMENTS";
     public static final String OPERATOR_SELECT_RESULT_EXTRA_CODE = "OPERATOR";
     public static final String BRANCH_SELECT_RESULT_EXTRA_CODE = "BRANCH";
+    public static final String POSMACHINE_SELECT_RESULT_EXTRA_CODE = "POSMACHINE";
     public static final String MEMBER_SELECT_RESULT_EXTRA_CODE = "MEMBER";
 
     public static final String PAYMMENT_NEED_PAY_EXTRA_CODE = "PAYMMENTS_AMAOUNT";
@@ -108,6 +109,7 @@ public class AppConstant {
     public static final String CURRENT_OPERATOR="current_opertator";
     public static final String CURRENT_BRANCH="current_branch";
     public static final String CURRENT_MEMBER="current_member";
+    public static final String CURRENT_POSMACHINE="current_posmachine";
 
 
 

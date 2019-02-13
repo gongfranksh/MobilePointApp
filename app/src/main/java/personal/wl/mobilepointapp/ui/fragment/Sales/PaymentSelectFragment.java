@@ -37,6 +37,7 @@ import personal.wl.mobilepointapp.common.MobilePointApplication;
 import personal.wl.mobilepointapp.entity.pos.PayMent;
 import personal.wl.mobilepointapp.entity.pos.Product;
 import personal.wl.mobilepointapp.entity.pos.SaleDaily;
+import personal.wl.mobilepointapp.entity.pos.SalePayMode;
 import personal.wl.mobilepointapp.preference.CurrentUser.MPALoginInfo;
 import personal.wl.mobilepointapp.preference.SystemSettingConstant;
 import personal.wl.mobilepointapp.ui.adapter.MPAPaymentListAdapter;
@@ -72,9 +73,12 @@ public class PaymentSelectFragment extends BaseFragment implements View.OnClickL
     private int mNextRequestPage = 1;
     private MPAPaymentListAdapter adapter;
     private List<PayMent> payMentList = new ArrayList<>();
+    private List<SalePayMode> payModeslist = new ArrayList<>();
 
     private WebServicePara parain;
     private List<WebServicePara> paraList = new ArrayList<>();
+
+
     private CallWebservices callWebservices;
     private TextView total_payment;
     private TextView should_payment;
@@ -221,7 +225,7 @@ public class PaymentSelectFragment extends BaseFragment implements View.OnClickL
                 tmp_payment.setPayMentName(rec.getString("PayMentName"));
                 tmp_payment.setPayMoney(0.00);
                 tmp_payment.setPayMentId(rec.getLong("id"));
-                tmp_payment.setPayModeId("111");
+                tmp_payment.setPayModeId(rec.getString("paymodeid"));
                 tmp_payment.setCadType("none");
 
                 payMentList.add(tmp_payment);

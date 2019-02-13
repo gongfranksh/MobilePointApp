@@ -21,6 +21,7 @@ import personal.wl.mobilepointapp.entity.pos.Branch;
 import personal.wl.mobilepointapp.entity.pos.BranchEmployee;
 import personal.wl.mobilepointapp.entity.pos.Member;
 import personal.wl.mobilepointapp.entity.pos.PayMent;
+import personal.wl.mobilepointapp.entity.pos.PosMachine;
 import personal.wl.mobilepointapp.entity.pos.SaleDaily;
 import personal.wl.mobilepointapp.utils.MPADateUtils;
 
@@ -81,7 +82,9 @@ public class MPALoginInfo {
         List<SaleDaily> result_saledaily = new ArrayList<>();
         String strlistsaledaliy = sPre.getString(CURRENT_TRANSACATIONS, null);
 
-        if (strlistsaledaliy != null && strlistsaledaliy.length() != 0) {
+        if (strlistsaledaliy != null && strlistsaledaliy.length() != 0
+                && !strlistsaledaliy.equals("null")
+                ) {
 
             try {
                 saledailyarray_json = new JSONArray(strlistsaledaliy);
@@ -107,6 +110,14 @@ public class MPALoginInfo {
 
     }
 
+    public  void ClearCurrentTranscationCache(){
+        this.setCurrentMember(null);
+        this.setCurrentOperator(null);
+        this.setCurrentPayMent(null);
+        this.setCurrentTranscation(null);
+        this.setLastTranscation(null);
+    }
+
     public void setCurrentBranch(Branch branch) {
         sPre.edit().putString(AppConstant.CURRENT_BRANCH, gon.toJson(branch)).commit();
     }
@@ -120,6 +131,20 @@ public class MPALoginInfo {
     public void setCurrentMember(Member member){
         sPre.edit().putString(AppConstant.CURRENT_MEMBER, gon.toJson(member)).commit();
     }
+
+
+
+    public void setCurrentPosMachine(PosMachine posMachine){
+        sPre.edit().putString(AppConstant.CURRENT_POSMACHINE, gon.toJson(posMachine)).commit();
+    }
+
+    public PosMachine getCurrentPosMachine() {
+        String strposmachine = sPre.getString(AppConstant.CURRENT_POSMACHINE, null);
+        PosMachine posMachine = gon.fromJson(strposmachine, PosMachine.class);
+        return posMachine;
+    }
+
+
 
     public Member getCurrentMember() {
         String strbranch = sPre.getString(AppConstant.CURRENT_MEMBER, null);
@@ -152,7 +177,7 @@ public class MPALoginInfo {
         List<PayMent> result_Paments = new ArrayList<>();
         String strlistpayment = sPre.getString(AppConstant.CURRENT_PAYMENT, null);
 
-        if (strlistpayment != null && strlistpayment.length() != 0) {
+        if (strlistpayment != null && strlistpayment.length() != 0 && !strlistpayment.equals("null")) {
             try {
                 paymentarray_json = new JSONArray(strlistpayment);
             } catch (JSONException e) {

@@ -19,6 +19,7 @@ import personal.wl.mobilepointapp.R;
 import personal.wl.mobilepointapp.common.MobilePointApplication;
 import personal.wl.mobilepointapp.ui.base.BaseFragment;
 import personal.wl.mobilepointapp.utils.DataClearUtil;
+import personal.wl.mobilepointapp.utils.MPADeviceUtils;
 import personal.wl.mobilepointapp.utils.ToastUtil;
 
 /**
@@ -37,12 +38,21 @@ public class MoreFragment extends BaseFragment implements View.OnClickListener {
     private RelativeLayout mItemCheckUpdateLayout;
     private RelativeLayout mItemAboutLayout;
 
+    private TextView tvdevice;
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_more, null);
         initView(view);
+        initData();
         return view;
+    }
+
+    private void initData() {
+
+        tvdevice.setText(MPADeviceUtils.getUniqueId(getActivity()));
     }
 
     private void initView(View view) {
@@ -57,6 +67,7 @@ public class MoreFragment extends BaseFragment implements View.OnClickListener {
         mItemTvCurrentVersion = (TextView) view.findViewById(R.id.more_item_tv_current_version);
         mItemCheckUpdateLayout = (RelativeLayout) view.findViewById(R.id.more_item_check_update_layout);
         mItemAboutLayout = (RelativeLayout) view.findViewById(R.id.more_item_about_layout);
+        tvdevice=view.findViewById(R.id.more_item_tv_current_deviceid);
 
         mBtnNoticeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

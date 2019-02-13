@@ -96,10 +96,20 @@
                         android:text="上海店" />
 
 
-                    <ImageView
-                        android:id="@+id/sales_order_img_branchselected"
-                        style="@style/me_common_item_arrow_right_black_style" />
+                </RelativeLayout>
 
+
+                <View style="@style/me_horizontal_view_style" />
+
+                <RelativeLayout style="@style/me_common_item_relativeLayout_style">
+
+                    <TextView
+                        style="@style/more_common_item_textView_style"
+                        android:text="@string/item_posmachine_selected" />
+                    <TextView
+                        android:id="@+id/sales_order_posmachine_selected"
+                        style="@style/more_common_desc_textView_img_style"
+                        android:text="" />
                 </RelativeLayout>
 
                 <View style="@style/me_horizontal_view_style" />

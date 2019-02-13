@@ -177,4 +177,5 @@
     <string name="me_item_branch_selected">当前门店</string>
     <string name="branch_hint_query">请输入门店</string>
     <string name="item_posmachine_selected">当前机台号</string>
+    <string name="string_device_id">设备编号:</string>
 </resources>

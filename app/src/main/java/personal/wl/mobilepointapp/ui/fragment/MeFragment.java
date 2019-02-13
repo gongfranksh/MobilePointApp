@@ -25,6 +25,7 @@ import personal.wl.mobilepointapp.auth.ldap.LdapSearchAsyn;
 import personal.wl.mobilepointapp.auth.ldap.LdapSearchListener;
 import personal.wl.mobilepointapp.common.AppConstant;
 import personal.wl.mobilepointapp.entity.pos.Branch;
+import personal.wl.mobilepointapp.entity.pos.PosMachine;
 import personal.wl.mobilepointapp.model.User;
 import personal.wl.mobilepointapp.preference.CurrentUser.MPALoginInfo;
 import personal.wl.mobilepointapp.ui.activity.CartActivity;
@@ -120,6 +121,13 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
             if (MPALoginInfo.getInstance().getCurrentBranch() != null) {
                 currentbranch.setText(MPALoginInfo.getInstance().getCurrentBranch().getBraname());
             }
+
+            if (MPALoginInfo.getInstance().getCurrentPosMachine() != null) {
+                currentPosmachine.setText(MPALoginInfo.getInstance().getCurrentPosMachine().getPosno());
+
+            }
+
+
         } else {
             mLoginLayout.setVisibility(View.GONE);
             mNologinLayout.setVisibility(View.VISIBLE);
@@ -251,6 +259,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
+
+
         if (requestCode == LOGIN_REQUEST_CODE && resultCode == LoginActivity.LOGIN_RESULT_CODE) {
 //            Log.i("MeFragment", "onActivityResult: "+user.getDisplayName());
             initUserLayout();
@@ -260,12 +270,14 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 
         } else if (requestCode == AppConstant.BRANCH_SELECT_CODE) {
             Branch branch = (Branch) data.getSerializableExtra(AppConstant.BRANCH_SELECT_RESULT_EXTRA_CODE);
-
             if (branch != null) {
                 currentbranch.setText(branch.getBraname());
 
             }
 
+        } else if (requestCode == AppConstant.POSMACHINE_SELECT_CODE) {
+            PosMachine posMachine = (PosMachine) data.getSerializableExtra(AppConstant.POSMACHINE_SELECT_RESULT_EXTRA_CODE);
+            currentPosmachine.setText(posMachine.getPosno());
         }
 
     }

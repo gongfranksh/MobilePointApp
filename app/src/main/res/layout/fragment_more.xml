@@ -117,6 +117,21 @@
                 <View
                     style="@style/me_horizontal_view_style"/>
                 <RelativeLayout
+                    android:id="@+id/more_item_deviced_layout"
+                    style="@style/me_common_item_relativeLayout_style">
+                    <TextView
+                        style="@style/more_common_item_textView_style"
+                        android:text="@string/string_device_id"/>
+                    <TextView
+                        android:id="@+id/more_item_tv_current_deviceid"
+                        style="@style/more_common_desc_textView_style"
+                        android:text=""/>
+                </RelativeLayout>
+
+
+                <View
+                    style="@style/me_horizontal_view_style"/>
+                <RelativeLayout
                     android:id="@+id/more_item_about_layout"
                     style="@style/me_common_item_relativeLayout_style">
                     <TextView

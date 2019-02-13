@@ -15,24 +15,30 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import personal.wl.mobilepointapp.R;
 import personal.wl.mobilepointapp.common.AppConstant;
 import personal.wl.mobilepointapp.common.MobilePointApplication;
+import personal.wl.mobilepointapp.common.PosPayMentConstant;
 import personal.wl.mobilepointapp.entity.pos.Branch;
 import personal.wl.mobilepointapp.entity.pos.BranchEmployee;
 import personal.wl.mobilepointapp.entity.pos.Member;
 import personal.wl.mobilepointapp.entity.pos.PayMent;
+import personal.wl.mobilepointapp.entity.pos.PosMachine;
 import personal.wl.mobilepointapp.entity.pos.Product;
 import personal.wl.mobilepointapp.entity.pos.SaleDaily;
+import personal.wl.mobilepointapp.entity.pos.SalePayMode;
 import personal.wl.mobilepointapp.preference.CurrentUser.MPALoginInfo;
 import personal.wl.mobilepointapp.ui.activity.SalesOrder.BranchEmployeeSelectActivity;
 import personal.wl.mobilepointapp.ui.activity.SalesOrder.MemberSelectActivity;
@@ -40,6 +46,7 @@ import personal.wl.mobilepointapp.ui.activity.SalesOrder.PaymentSelectActivity;
 import personal.wl.mobilepointapp.ui.activity.SalesOrder.SkuSelectActivity;
 import personal.wl.mobilepointapp.ui.adapter.MPASaleOrderListAdapter;
 import personal.wl.mobilepointapp.ui.base.BaseFragment;
+import personal.wl.mobilepointapp.utils.MPADeviceUtils;
 import personal.wl.mobilepointapp.utils.ToastUtil;
 import personal.wl.mobilepointapp.webservice.CallWebservices;
 import personal.wl.mobilepointapp.webservice.WebServiceInterface;
@@ -49,7 +56,7 @@ import static personal.wl.mobilepointapp.common.AppConstant.PAYMMENT_NEED_PAY_CO
 import static personal.wl.mobilepointapp.common.AppConstant.SKU_SELECT_RESULT_EXTRA_CODE;
 
 
-public class SaleOrderFragment extends BaseFragment implements WebServiceInterface,View.OnClickListener {
+public class SaleOrderFragment extends BaseFragment implements WebServiceInterface, View.OnClickListener {
 
     private static List<SaleDaily> ShouldPay = new ArrayList<>();
     private ImageView skuscan;
@@ -67,11 +74,12 @@ public class SaleOrderFragment extends BaseFragment implements WebServiceInterfa
     private List<Product> NeedProduct = new ArrayList<>();
     private List<PayMent> AlreadyPaylist = new ArrayList<>();
 
+    private List<SalePayMode> payModeList;
+
 
     private Branch current_branch;
-
-
     private BranchEmployee curr_operator;
+    private PosMachine curr_posmachine;
     private Member member;
 
 
@@ -79,6 +87,7 @@ public class SaleOrderFragment extends BaseFragment implements WebServiceInterfa
     private TextView sales_total_payment;
     private TextView sales_operator;
     private TextView sales_member;
+    private TextView sales_posmachine;
 
     private TextView sales_branch;
 
@@ -87,7 +96,7 @@ public class SaleOrderFragment extends BaseFragment implements WebServiceInterfa
 
 
     private Button sale_order_submit;
-
+    private double tmp_alreadpay = 0.00;
 
     private CallWebservices callWebservices;
     private WebServicePara parain;
@@ -159,6 +168,7 @@ public class SaleOrderFragment extends BaseFragment implements WebServiceInterfa
         sale_order_submit = view.findViewById(R.id.sale_order_submit_btn);
 
         sales_branch = view.findViewById(R.id.sales_order_branch_selected);
+        sales_posmachine = view.findViewById(R.id.sales_order_posmachine_selected);
 
         sales_detail_layout_buy_total_amount = view.findViewById(R.id.detail_layout_buy_amount);
         sales_detail_layout_buy_total_qty = view.findViewById(R.id.detail_layout_buy_qty);
@@ -210,7 +220,7 @@ public class SaleOrderFragment extends BaseFragment implements WebServiceInterfa
                 ToastUtil.show(getActivity(), "san member");
                 break;
 
-            case  R.id.sale_order_submit_btn:
+            case R.id.sale_order_submit_btn:
                 ToastUtil.show(getActivity(), "sale order submit");
                 saleordersubmit();
                 break;
@@ -248,7 +258,7 @@ public class SaleOrderFragment extends BaseFragment implements WebServiceInterfa
 
             if (AlreadyPaylist != null && AlreadyPaylist.size() != 0) {
 
-                double tmp_alreadpay = 0.00;
+
                 for (int i = 0; i < AlreadyPaylist.size(); i++) {
 
                     tmp_alreadpay += AlreadyPaylist.get(i).getPayMoney();
@@ -268,6 +278,16 @@ public class SaleOrderFragment extends BaseFragment implements WebServiceInterfa
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        try {
+            curr_posmachine = MobilePointApplication.loginInfo.getCurrentPosMachine();
+            if (curr_posmachine != null) {
+                sales_posmachine.setText(curr_posmachine.getPosno());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         try {
             current_branch = MobilePointApplication.loginInfo.getCurrentBranch();
@@ -290,7 +310,6 @@ public class SaleOrderFragment extends BaseFragment implements WebServiceInterfa
         }
 
 
-
     }
 
     public void ReflashValue() {
@@ -304,41 +323,258 @@ public class SaleOrderFragment extends BaseFragment implements WebServiceInterfa
         sales_detail_layout_buy_total_qty.setText("" + tmp_qty);
     }
 
-    private void saleordersubmit(){
-        Gson gson = new Gson();
+    private void saleordersubmit() {
+        //合并成为交易资料
+        String tmp_transid = MPADeviceUtils.GetTransInnerID();
+        String tmp_deviceid = MPADeviceUtils.getUniqueId(getActivity());
+
+        payModeList = new ArrayList<>();
+
+        double c1 = 0.00, c2 = 0.00, c3 = 0.00, c4 = 0.00, c5 = 0.00, c6 = 0.00, c7 = 0.00, c8 = 0.00;
+        for (int i = 0; i < AlreadyPaylist.size(); i++) {
+            if (AlreadyPaylist.get(i).getPayMoney() != 0) {
+                SalePayMode salePayMode = new SalePayMode();
+                salePayMode.setBraid(current_branch.getBraid());
+                salePayMode.setSaleDate(new Date(System.currentTimeMillis()));
+                salePayMode.setPayModeId(AlreadyPaylist.get(i).getPayModeId());
+                salePayMode.setOrderInnerId(tmp_transid);
+                salePayMode.setDeviceId(tmp_deviceid);
+                salePayMode.setSalerId(curr_operator.getEmpid());
+                salePayMode.setPayMoney(AlreadyPaylist.get(i).getPayMoney());
+                payModeList.add(salePayMode);
+
+                switch ((int) AlreadyPaylist.get(i).getPayMentId().longValue()) {
+                    case PosPayMentConstant.PAYMENT_CASH_CODE:
+                        c1 = AlreadyPaylist.get(i).getPayMoney();
+                        break;
+                    case PosPayMentConstant.PAYMENT_BANK_CODE:
+                        c2 = AlreadyPaylist.get(i).getPayMoney();
+                        break;
+                    case PosPayMentConstant.PAYMENT_GIFT_CODE:
+                        c4 = AlreadyPaylist.get(i).getPayMoney();
+                        break;
+                    case PosPayMentConstant.PAYMENT_COUPON_CODE:
+                        c6 = AlreadyPaylist.get(i).getPayMoney();
+                        break;
+                    case PosPayMentConstant.PAYMENT_WEIXIN_CODE:
+                        c7 = AlreadyPaylist.get(i).getPayMoney();
+                        break;
+                    case PosPayMentConstant.PAYMENT_ALIPAY_CODE:
+                        c8 = AlreadyPaylist.get(i).getPayMoney();
+                        break;
+                }
+
+            }
+        }
+
+        for (int i = 0; i < saleDailyList.size(); i++) {
+            Double tmp_amt = 0.00;
+            saleDailyList.get(i).setBraid(current_branch.getBraid());
+            saleDailyList.get(i).setPosNo(curr_posmachine.getPosno());
+            saleDailyList.get(i).setSaleMan(curr_operator.getEmpid());
+            saleDailyList.get(i).setSalerId(curr_operator.getEmpid());
+            if (member != null) {
+                saleDailyList.get(i).setMemCardNo(member.getCardid());
+            }
+            saleDailyList.get(i).setOrderInnerId(tmp_transid);
+            saleDailyList.get(i).setDeviceId(tmp_deviceid);
+
+            saleDailyList.get(i).setCash1(0.00);
+            saleDailyList.get(i).setCash2(0.00);
+            saleDailyList.get(i).setCash3(0.00);
+            saleDailyList.get(i).setCash4(0.00);
+            saleDailyList.get(i).setCash5(0.00);
+            saleDailyList.get(i).setCash6(0.00);
+            saleDailyList.get(i).setCash7(0.00);
+            saleDailyList.get(i).setCash8(0.00);
+
+            if (tmp_alreadpay != 0.00) {
+                double rate = saleDailyList.get(i).getSaleAmt() / tmp_alreadpay;
+                DecimalFormat df = new DecimalFormat("######0.00");
+                if (c1 != 0.00) {
+                    if (i != saleDailyList.size() - 1) {
+                        saleDailyList.get(i).setCash1(c1 * rate);
+                    } else {
+                        tmp_amt = 0.00;
+                        for (int j = 0; j < saleDailyList.size(); j++) {
+                            if (saleDailyList.get(j).getCash1() != null) {
+                                tmp_amt += saleDailyList.get(j).getCash1();
+                            }
+                        }
+                        saleDailyList.get(i).setCash1(c1 - tmp_amt);
+                    }
+                }
+
+                if (c2 != 0.00) {
+                    if (i != saleDailyList.size() - 1) {
+                        saleDailyList.get(i).setCash2(c2 * rate);
+                    } else {
+                        tmp_amt = 0.00;
+                        for (int j = 0; j < saleDailyList.size(); j++) {
+                            if (saleDailyList.get(j).getCash2() != null) {
+                                tmp_amt += saleDailyList.get(j).getCash2();
+                            }
+                        }
+
+                        saleDailyList.get(i).setCash2(c2 - tmp_amt);
+                    }
+                }
+
+
+                if (c3 != 0.00) {
+                    if (i != saleDailyList.size() - 1) {
+                        saleDailyList.get(i).setCash3(c3 * rate);
+                    } else {
+                        tmp_amt = 0.00;
+                        for (int j = 0; j < saleDailyList.size(); j++) {
+                            if (saleDailyList.get(j).getCash3() != null) {
+                                tmp_amt += saleDailyList.get(j).getCash3();
+                            }
+                        }
+                        saleDailyList.get(i).setCash3(c3 - tmp_amt);
+                    }
+                }
+                if (c4 != 0.00) {
+                    if (i != saleDailyList.size() - 1) {
+                        saleDailyList.get(i).setCash4(c4 * rate);
+                    } else {
+                        tmp_amt = 0.00;
+                        for (int j = 0; j < saleDailyList.size(); j++) {
+                            if (saleDailyList.get(j).getCash4() != null) {
+                                tmp_amt += saleDailyList.get(j).getCash4();
+                            }
+                        }
+                        saleDailyList.get(i).setCash4(c4 - tmp_amt);
+                    }
+                }
+                if (c5 != 0.00) {
+                    if (i != saleDailyList.size() - 1) {
+                        saleDailyList.get(i).setCash5(c5 * rate);
+                    } else {
+                        tmp_amt = 0.00;
+                        for (int j = 0; j < saleDailyList.size(); j++) {
+                            if (saleDailyList.get(j).getCash5() != null) {
+                                tmp_amt += saleDailyList.get(j).getCash5();
+                            }
+                        }
+                        saleDailyList.get(i).setCash5(c5 - tmp_amt);
+                    }
+                }
+                if (c6 != 0.00) {
+                    if (i != saleDailyList.size() - 1) {
+                        saleDailyList.get(i).setCash6(c6 * rate);
+                    } else {
+                        tmp_amt = 0.00;
+                        for (int j = 0; j < saleDailyList.size(); j++) {
+                            if (saleDailyList.get(j).getCash6() != null) {
+                                tmp_amt += saleDailyList.get(j).getCash6();
+                            }
+                        }
+                        saleDailyList.get(i).setCash6(c6 - tmp_amt);
+                    }
+                }
+                if (c7 != 0.00) {
+                    if (i != saleDailyList.size() - 1) {
+                        saleDailyList.get(i).setCash7(c7 * rate);
+                    } else {
+                        tmp_amt = 0.00;
+                        for (int j = 0; j < saleDailyList.size(); j++) {
+                            if (saleDailyList.get(j).getCash7() != null) {
+                                tmp_amt += saleDailyList.get(j).getCash7();
+                            }
+                        }
+                        saleDailyList.get(i).setCash7(c7 - tmp_amt);
+                    }
+                }
+
+                if (c8 != 0.00) {
+                    if (i != saleDailyList.size() - 1) {
+                        saleDailyList.get(i).setCash8(c8 * rate);
+                    } else {
+                        tmp_amt = 0.00;
+                        for (int j = 0; j < saleDailyList.size(); j++) {
+                            if (saleDailyList.get(j).getCash8() != null) {
+                                tmp_amt += saleDailyList.get(j).getCash8();
+                            }
+                        }
+                        saleDailyList.get(i).setCash8(c8 - tmp_amt);
+                    }
+                }
+
+
+            }
+
+
+        }
+
+
+        //组装本次交易数据
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm:ss").create();
         String str_curr_branch = gson.toJson(current_branch);
         JsonObject json_curr_branch = new JsonObject();
-
-
         String str_curr_operator = gson.toJson(curr_operator);
         String str_list_saledaily = gson.toJson(saleDailyList);
-        String str_list_payment = gson.toJson(AlreadyPaylist);
-        String str_member=gson.toJson(member);
+        String str_list_payment = gson.toJson(payModeList);
+        String str_member = gson.toJson(member);
+        String str_posmachine = gson.toJson(curr_posmachine);
         JsonObject sales = new JsonObject();
-        sales.addProperty("branch",str_curr_branch);
-        sales.addProperty("operator",str_curr_operator);
-        sales.addProperty("saledaily",str_list_saledaily);
-        sales.addProperty("payment",str_list_payment);
-        sales.addProperty("member",str_member);
-        MPALoginInfo.getInstance().setLastTranscation(sales.toString());
+        sales.addProperty("branch", str_curr_branch);
+        sales.addProperty("operator", str_curr_operator);
+        sales.addProperty("saledaily", str_list_saledaily);
+        sales.addProperty("payment", str_list_payment);
+        sales.addProperty("posmachine", str_posmachine);
+        sales.addProperty("member", str_member);
 
+
+        //提报本机设备ID
+        sales.addProperty("device_uuid", tmp_deviceid);
+        //提报本次交易ID
+        sales.addProperty("trans_uuid", tmp_transid);
+
+        //缓存到本地
+        MPALoginInfo.getInstance().setLastTranscation(sales.toString());
+        //准备提交中间层
         parain = new WebServicePara();
         paraList = new ArrayList<>();
         callWebservices = null;
-
         parain.setPara_name(AppConstant.PARA_TRANSCATION);
         parain.setPara_value(sales.toString());
         paraList.add(parain);
         parain = new WebServicePara();
-
         callWebservices = new CallWebservices(this, AppConstant.Method_SUBMIT_POS_ORDER, paraList);
         callWebservices.execute();
     }
 
     @Override
     public void onRecevicedResult(JSONArray jsonArray) {
-//        Log.i("saleorder", "onRecevicedResult: " + jsonArray.toString());
+
+        if (jsonArray != null) {
+            try {
+                JSONObject result = jsonArray.getJSONObject(0);
+                String str_result = result.getString("pos_order_submit_state");
+                if (str_result.equals("ok")) {
+                    ToastUtil.show(getActivity(), "ok");
+                    MPALoginInfo.getInstance().ClearCurrentTranscationCache();
+                    flushtranscation();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        Log.i("saleorder", "onRecevicedResult: " + jsonArray.toString());
 
 
+    }
+
+
+    public void flushtranscation() {
+
+        saleDailyList.clear();
+        payModeList.clear();
+        mpaSaleOrderListAdapter.notifyDataSetChanged();
+        sales_operator.setText("");
+        sales_total_payment.setText("0.0");
+
+        ReflashValue();
     }
 }

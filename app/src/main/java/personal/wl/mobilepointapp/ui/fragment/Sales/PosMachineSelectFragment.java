@@ -312,9 +312,9 @@ public class PosMachineSelectFragment extends BaseFragment implements WebService
 
     private void returnPosMachine(PosMachine pos) {
         Intent callintent = new Intent();
-//        MPALoginInfo.getInstance().setCurrentBranch(branch);
-        callintent.putExtra(AppConstant.BRANCH_SELECT_RESULT_EXTRA_CODE, (Serializable) pos);
-        getActivity().setResult(AppConstant.BRANCH_SELECT_CODE, callintent);
+        MPALoginInfo.getInstance().setCurrentPosMachine(pos);
+        callintent.putExtra(AppConstant.POSMACHINE_SELECT_RESULT_EXTRA_CODE, (Serializable) pos);
+        getActivity().setResult(AppConstant.POSMACHINE_SELECT_CODE, callintent);
         getActivity().finish();
 
     }
