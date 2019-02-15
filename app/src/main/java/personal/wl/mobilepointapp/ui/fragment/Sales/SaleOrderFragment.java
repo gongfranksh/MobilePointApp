@@ -103,6 +103,9 @@ public class SaleOrderFragment extends BaseFragment implements WebServiceInterfa
     private List<WebServicePara> paraList = new ArrayList<>();
 
 
+    private String saleid_return = null;
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -553,7 +556,9 @@ public class SaleOrderFragment extends BaseFragment implements WebServiceInterfa
                 JSONObject result = jsonArray.getJSONObject(0);
                 String str_result = result.getString("pos_order_submit_state");
                 if (str_result.equals("ok")) {
-                    ToastUtil.show(getActivity(), "ok");
+                    saleid_return = result.getString("pos_order_return_saleid");
+                    ToastUtil.show(getActivity(), "交易号：" + saleid_return);
+                    resetsaleid();
                     MPALoginInfo.getInstance().ClearCurrentTranscationCache();
                     flushtranscation();
                 }
@@ -568,13 +573,26 @@ public class SaleOrderFragment extends BaseFragment implements WebServiceInterfa
 
 
     public void flushtranscation() {
-
         saleDailyList.clear();
         payModeList.clear();
         mpaSaleOrderListAdapter.notifyDataSetChanged();
         sales_operator.setText("");
         sales_total_payment.setText("0.0");
-
         ReflashValue();
+    }
+
+    public void resetsaleid() {
+        //更新数组内的交易流水号码
+        if (saleid_return != null) {
+            for (int i = 0; i < saleDailyList.size(); i++) {
+                saleDailyList.get(i).setSaleId(saleid_return);
+            }
+
+            for (int i = 0; i < payModeList.size(); i++) {
+                payModeList.get(i).setSaleId(saleid_return);
+
+            }
+
+        }
     }
 }
