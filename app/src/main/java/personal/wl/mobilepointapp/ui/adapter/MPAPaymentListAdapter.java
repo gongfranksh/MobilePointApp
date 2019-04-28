@@ -15,8 +15,10 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -83,14 +85,16 @@ public class MPAPaymentListAdapter extends RecyclerView.Adapter<MPAPaymentListAd
 
         public PaymentViewHolder(View view) {
             super(view);
+
             et_paymoney = view.findViewById(R.id.item_payment_amount);
             et_paymoney.addTextChangedListener(new MPAJudgeNumberWatcher(et_paymoney));
+            et_paymoney.setGravity(Gravity.RIGHT );
 
-            et_paymoney.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                et_paymoney.setTextDirection(View.TEXT_DIRECTION_FIRST_STRONG_RTL);
-            }
-
+//            et_paymoney.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+//                et_paymoney.setTextDirection(View.TEXT_DIRECTION_FIRST_STRONG_RTL);
+//            }
+//
         }
 
         public ViewDataBinding getBinding() {

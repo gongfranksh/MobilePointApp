@@ -34,6 +34,7 @@
 
                 style="@style/more_common_amount_number_style"
 
+                android:inputType="numberDecimal"
                 android:text='@={payment.payMoney}' />
         </RelativeLayout>
     </LinearLayout>
