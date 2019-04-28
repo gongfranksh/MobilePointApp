@@ -342,7 +342,12 @@ public class SaleOrderFragment extends BaseFragment implements WebServiceInterfa
                 salePayMode.setPayModeId(AlreadyPaylist.get(i).getPayModeId());
                 salePayMode.setOrderInnerId(tmp_transid);
                 salePayMode.setDeviceId(tmp_deviceid);
-                salePayMode.setSalerId(curr_operator.getEmpid());
+                if (curr_operator != null) {
+                    salePayMode.setSalerId(curr_operator.getEmpid());
+                } else {
+                    break;
+                }
+
                 salePayMode.setPayMoney(AlreadyPaylist.get(i).getPayMoney());
                 payModeList.add(salePayMode);
 
