@@ -134,6 +134,7 @@
         <activity android:name=".ui.activity.SalesOrder.MemberSelectActivity"/>
         <activity android:name=".ui.activity.SalesOrder.BranchSelectActivity"/>
         <activity android:name=".ui.activity.SalesOrder.PosMachineSelectActivity"/>
+        <activity android:name=".ui.activity.SalesOrder.SaleOrderListActivity"/>
 
 
         <!-- 百度地图 开始 -->

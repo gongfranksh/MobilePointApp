@@ -1,0 +1,153 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/city_item_bg">
+
+
+    <LinearLayout
+        android:id="@+id/test_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/et_saleorder_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/edittext_selector"
+            android:drawableLeft="@drawable/wb_search_icon"
+            android:drawablePadding="5dp"
+            android:hint="@string/et_sale_order_search_hint"
+            android:padding="10dp" />
+
+
+    </LinearLayout>
+
+    <View style="@style/around_view_style" />
+
+    <LinearLayout
+        android:id="@+id/sale_order_fiter_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/around_supplier_list_ll_height"
+        android:layout_below="@id/test_layout"
+        android:background="@android:color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/around_sale_order_list_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/around_sale_order_list_date_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/sale_order_filter_by_date"
+                android:textSize="@dimen/textSize_14" />
+
+            <ImageView
+                android:layout_width="@dimen/around_supplier_list_image_width"
+                android:layout_height="@dimen/around_supplier_list_image_height"
+                android:src="@mipmap/icon_arrow_down" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/around_sale_order_list_operator"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/around_sale_order_list_operator_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/sale_order_saler_man_string"
+                android:textSize="@dimen/textSize_14" />
+
+            <ImageView
+                android:layout_width="@dimen/around_supplier_list_image_width"
+                android:layout_height="@dimen/around_supplier_list_image_height"
+                android:src="@mipmap/icon_arrow_down" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/around_sale_order_list_sort_by_amount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/around_sale_order_list_sort_by_amount_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/sale_order_list_sort_by_amount"
+                android:textSize="@dimen/textSize_14" />
+
+            <ImageView
+                android:layout_width="@dimen/around_supplier_list_image_width"
+                android:layout_height="@dimen/around_supplier_list_image_height"
+                android:src="@mipmap/icon_arrow_down" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/saleorder_fra_content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@+id/sale_order_fiter_layout">
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/sale_order_rv_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+        <TextView
+            android:id="@+id/saleorder_tv_show"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            android:background="@android:color/darker_gray"
+            android:gravity="center"
+            android:textColor="#ffffffff"
+            android:textSize="30dp"
+            android:visibility="gone" />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/saleorder_rv_search_result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/saleorder_tv_show"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/saleorder_tv_no_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/saleorder_record_not_found"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

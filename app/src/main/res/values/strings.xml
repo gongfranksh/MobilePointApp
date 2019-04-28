@@ -165,7 +165,7 @@
     <string name="saleorder_sku_unit_label_string">单价:</string>
     <string name="saleorder_totalamount_string">销售金额:</string>
     <string name="saleorder_payment_all">本次收款</string>
-    <string name="sale_order_saler_man_string">销售人员:</string>
+    <string name="sale_order_saler_man_string">销售人员</string>
     <string name="saleorder_branch_string">门店：</string>
     <string name="input_payment_hit_string">请输入金额</string>
     <string name="sales_order_need_payment">应付金额</string>
@@ -178,4 +178,8 @@
     <string name="branch_hint_query">请输入门店</string>
     <string name="item_posmachine_selected">当前机台号</string>
     <string name="string_device_id">设备编号:</string>
+    <string name="saleorder_record_not_found">销售记录没有找到</string>
+    <string name="sale_order_filter_by_date">今天</string>
+    <string name="sale_order_list_sort_by_amount">金额排序</string>
+    <string name="et_sale_order_search_hint">输入单据号进行查询</string>
 </resources>
